@@ -2,6 +2,32 @@
 
 Opracowywanie systemu LMS dla szkół lub uniwersytetów do zarządzania kursami, zadaniami, ocenami i profilami użytkowników.
 
+## Spis treści:
+
+1. [I. Problematyka projektu](#i-problematyka-projektu)
+    1. [Opis projektu](#opis-projektu)
+    2. [Kluczowe cechy](#kluczowe-cechy)
+        1. [Rejestracja użytkownika i uwierzytelnianie](#rejestracja-użytkownika-i-uwierzytelnianie)
+        2. [Zarządzanie kursem](#zarządzanie-kursem)
+        3. [Profile użytkowników](#profile-użytkowników)
+        4. [Rejestracja i rejestracja](#rejestracja-i-rejestracja)
+        5. [Zarządzanie zawartością](#zarządzanie-zawartością)
+        6. [Zadania i oceny](#zadania-i-oceny)
+        7. [Fora dyskusyjne](#fora-dyskusyjne)
+        8. [Ogłoszenia i powiadomienia](#ogłoszenia-i-powiadomienia)
+        9. [Analityka i raportowanie](#analityka-i-raportowanie)
+        10. [Wiadomości i komunikacja](#wiadomości-i-komunikacja)
+    3. [Sugerowane technologie](#sugerowane-technologie)
+    4. [Zadania rozwojowe](#zadania-rozwojowe)
+    5. [Wyzwania](#wyzwania)
+    6. [Zarządzanie projektami](#zarządzanie-projektami)
+2. [II. Plan prac](#ii-plan-prac)
+3. [III. Podział obowiązków i wybór technologii](#iii-Podział-obowiązków-i-wybór-technologii)
+
+---
+
+# I. Problematyka projektu
+
 ## Opis projektu: 
 
 Budowa kompleksowego systemu zarządzania nauczaniem (LMS) dla szkół i uniwersytetów w celu zarządzania kursami, zadaniami, ocenami i profilami użytkowników.
@@ -76,4 +102,26 @@ Budowa kompleksowego systemu zarządzania nauczaniem (LMS) dla szkół i uniwers
 - Organizacja projektu w sprinty z określonymi celami.
 - Prowadzenie regularnych spotkań zespołu w celu omówienia postępów, rozwiązania problemów i zebrania informacji zwrotnych od potencjalnych użytkowników.
 ---
+
 Stworzenie systemu LMS zapewni studentom cenne doświadczenie w tworzeniu złożonego oprogramowania edukacyjnego i umożliwi im wgląd w projektowanie doświadczeń użytkownika, bezpieczeństwo i technologię edukacyjną.
+
+---
+# II. Plan prac
+
+1. Utworzenie specyfikacji wymagań - określenie funkcjonalności aplikacji.
+2. Projekt bazy danych.
+3. Budowa back-end.
+4. Budowa front-end.
+5. Testowanie.
+6. Tworzenie dokumentacji.
+7. Wdrożenie aplikacji na serwer.
+
+---
+
+# III. Podział obowiązków i wybór technologii
+
+1. Front-end (HTML, CSS, JavaScript): Mikołaj Noga, Szymon Stawicki,
+2. Back-end (Java, Spring, Jakarta EE): Adam Waśko, Bartosz Surma,
+3. Utworzenie specyfikacji wymagań, projektowanie bazy danych, testowanie, tworzenie dokumentacji: cały zespół.
+
+---
