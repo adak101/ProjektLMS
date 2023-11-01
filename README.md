@@ -120,7 +120,7 @@ Stworzenie systemu LMS zapewni studentom cenne doświadczenie w tworzeniu złoż
 
 # III. Podział obowiązków i wybór technologii
 
-1. Front-end (HTML, CSS, JavaScript): Mikołaj Noga, Szymon Stawicki,
+1. Front-end (HTML, CSS, JavaScript): Mikołaj Noga, Szymon Świercz,
 2. Back-end (Java, Spring, Jakarta EE): Adam Waśko, Bartosz Surma,
 3. Utworzenie specyfikacji wymagań, projektowanie bazy danych, testowanie, tworzenie dokumentacji: cały zespół.
 
