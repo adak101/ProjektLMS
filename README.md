@@ -1,4 +1,4 @@
-# System zarządzania nauką online (LMS):
+ # System zarządzania nauką online (LMS):
 
 Opracowywanie systemu LMS dla szkół lub uniwersytetów do zarządzania kursami, zadaniami, ocenami i profilami użytkowników.
 
@@ -22,7 +22,8 @@ Opracowywanie systemu LMS dla szkół lub uniwersytetów do zarządzania kursami
     5. [Wyzwania](#wyzwania)
     6. [Zarządzanie projektami](#zarządzanie-projektami)
 2. [II. Plan prac](#ii-plan-prac)
-3. [III. Podział obowiązków i wybór technologii](#iii-Podział-obowiązków-i-wybór-technologii)
+3. [III. Podział obowiązków i wybór technologii](#iii-podział-obowiązków-i-wybór-technologii)
+4. [IV. Sprawozdania](#iv-sprawozdania)
 
 ---
 
@@ -125,3 +126,7 @@ Stworzenie systemu LMS zapewni studentom cenne doświadczenie w tworzeniu złoż
 3. Utworzenie specyfikacji wymagań, projektowanie bazy danych, testowanie, tworzenie dokumentacji: cały zespół.
 
 ---
+
+# IV. Sprawozdania
+
+1. [Październik](https://github.com/amrusb/lms-pz/blob/master/sprawozdania/gr-5-sprawozdanie-pa%C5%BAdziernik.md)
