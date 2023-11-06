@@ -1,14 +1,12 @@
 # Strona Startowa:
 
-## Panel do logowania
+- Panel do logowania
 
 ---
 
-## System z punktu widzenia ucznia:
+# System z punktu widzenia ucznia:
 
-### Strona Główna:
-
-- Skrót wszystkiego
+- Strona główna (skrót wszystkiego)
 - Rejestracja lub dołączanie na podstawie kodu do/na przedmioty
 - Na boku terminy zaliczenia prac
 - Kursy mają osobne strony (na wzór Moodle)
@@ -25,7 +23,7 @@
 
 ---
 
-## System z punktu widzenia nauczyciela:
+# System z punktu widzenia nauczyciela:
 
 - Zarządzanie profilem (edycja danych)
 - System wiadomości oparty na mailu
@@ -44,7 +42,7 @@
 
 ---
 
-## System z punktu widzenia administratora:
+# System z punktu widzenia administratora:
 
 - Zarządzanie profilem (edycja danych)
 - System wiadomości oparty na mailu
