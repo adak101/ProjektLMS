@@ -94,6 +94,11 @@ entity "forum_odp" {
   data_wpis : DATETIME
 }
 
+entity "flagi"{
+  +id_flagi : INT
+  flaga : VARCHAR(14)
+}
+
 entity "powiadomienia" {
   +id_powiadom : INT
   id_odbiorcy : INT
@@ -136,6 +141,7 @@ forum_wpisy }|--|| uzytkownicy : autor
 forum_odp }|--|| forum_wpisy
 forum_odp }|--|| uzytkownicy : autor
 powiadomienia }|--|| uzytkownicy : odbiorca
+flagi ||--|{ powiadomienia
 okresy ||--|{ przedmiot
 przedmiot_status ||--|{ przedmiot
 raport }|--|| uzytkownicy

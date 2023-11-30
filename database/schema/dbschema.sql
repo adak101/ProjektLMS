@@ -137,12 +137,23 @@ CREATE TABLE Forum_odp (
     FOREIGN KEY (id_uzytk) REFERENCES Uzytkownicy(id_uzytk)
 );
 
+CREATE TABLE Flagi(
+    id_flagi INT PRIMARY KEY AUTO_INCREMENT,
+    flaga VARCHAR(14)
+)
+
+INSERT INTO Flagi(kod) VALUES 
+    ('NIEPRZECZYTANA'), ('PRZECZYTANA'), ('ZARCHIWIZOWANA'), ('USUNIĘTA'), ('NOWA'), ('ROBOCZA');
+
 CREATE TABLE Powiadomienia (
     id_powiadom INT PRIMARY KEY AUTO_INCREMENT,
     id_odbiorcy INT,
     data_wstaw DATETIME DEFAULT CURRENT_TIMESTAMP,
     tresc VARCHAR(700),
-    FOREIGN KEY (id_odbiorcy) REFERENCES Uzytkownicy(id_uzytk)
+    id_flagi INT,
+
+    FOREIGN KEY (id_odbiorcy) REFERENCES Uzytkownicy(id_uzytk),
+    FOREIGN KEY (id_flagi) REFERENCES Flagi (id_flagi)
 );
 
 CREATE TABLE Raport (
