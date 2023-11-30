@@ -4,26 +4,28 @@ Opracowywanie systemu LMS dla szkół lub uniwersytetów do zarządzania kursami
 
 ## Spis treści:
 
-1. [I. Problematyka projektu](#i-problematyka-projektu)
-    1. [Opis projektu](#opis-projektu)
-    2. [Kluczowe cechy](#kluczowe-cechy)
-        1. [Rejestracja użytkownika i uwierzytelnianie](#rejestracja-użytkownika-i-uwierzytelnianie)
-        2. [Zarządzanie kursem](#zarządzanie-kursem)
-        3. [Profile użytkowników](#profile-użytkowników)
-        4. [Rejestracja i rejestracja](#rejestracja-i-rejestracja)
-        5. [Zarządzanie zawartością](#zarządzanie-zawartością)
-        6. [Zadania i oceny](#zadania-i-oceny)
-        7. [Fora dyskusyjne](#fora-dyskusyjne)
-        8. [Ogłoszenia i powiadomienia](#ogłoszenia-i-powiadomienia)
-        9. [Analityka i raportowanie](#analityka-i-raportowanie)
-        10. [Wiadomości i komunikacja](#wiadomości-i-komunikacja)
-    3. [Sugerowane technologie](#sugerowane-technologie)
-    4. [Zadania rozwojowe](#zadania-rozwojowe)
-    5. [Wyzwania](#wyzwania)
-    6. [Zarządzanie projektami](#zarządzanie-projektami)
-2. [II. Plan prac](#ii-plan-prac)
-3. [III. Podział obowiązków i wybór technologii](#iii-podział-obowiązków-i-wybór-technologii)
-4. [IV. Sprawozdania](#iv-sprawozdania)
+- [System zarządzania nauką online (LMS):](#system-zarządzania-nauką-online-lms)
+  - [Spis treści:](#spis-treści)
+- [I. Problematyka projektu](#i-problematyka-projektu)
+  - [Opis projektu:](#opis-projektu)
+  - [Kluczowe cechy:](#kluczowe-cechy)
+    - [Rejestracja użytkownika i uwierzytelnianie:](#rejestracja-użytkownika-i-uwierzytelnianie)
+    - [Zarządzanie kursem:](#zarządzanie-kursem)
+    - [Profile użytkowników:](#profile-użytkowników)
+    - [Rejestracja i rejestracja:](#rejestracja-i-rejestracja)
+    - [Zarządzanie zawartością:](#zarządzanie-zawartością)
+    - [Zadania i oceny:](#zadania-i-oceny)
+    - [Fora dyskusyjne:](#fora-dyskusyjne)
+    - [Ogłoszenia i powiadomienia:](#ogłoszenia-i-powiadomienia)
+    - [Analityka i raportowanie:](#analityka-i-raportowanie)
+      - [Wiadomości i komunikacja:](#wiadomości-i-komunikacja)
+  - [Sugerowane technologie](#sugerowane-technologie)
+  - [Zadania rozwojowe:](#zadania-rozwojowe)
+  - [Wyzwania:](#wyzwania)
+  - [Zarządzanie projektami:](#zarządzanie-projektami)
+- [II. Plan prac](#ii-plan-prac)
+- [III. Podział obowiązków i wybór technologii](#iii-podział-obowiązków-i-wybór-technologii)
+- [IV. Sprawozdania](#iv-sprawozdania)
 
 ---
 
@@ -130,3 +132,4 @@ Stworzenie systemu LMS zapewni studentom cenne doświadczenie w tworzeniu złoż
 # IV. Sprawozdania
 
 1. [Październik](https://github.com/amrusb/lms-pz/blob/master/sprawozdania/gr-5-sprawozdanie-pa%C5%BAdziernik.md)
+2. [Listopad](sprawozdania/gr-5-sprawozdanie-listopad.md)
