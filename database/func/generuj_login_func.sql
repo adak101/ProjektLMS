@@ -6,7 +6,7 @@ BEGIN
     DECLARE v_login VARCHAR(80);
     DECLARE v_nr INT;
 
-    SET v_login = CONCAT(LOWER(SUBSTRING(p_imie, 1, 1)), p_nazwisko);
+    SET v_login = CONCAT_WS('.',LOWER(SUBSTRING(p_imie, 1, 1)), LOWER(p_nazwisko));
 
     IF (
         SELECT COUNT(*) 
