@@ -6,6 +6,8 @@ USE lms;
 CREATE TABLE Zdjecia (
     id_zdjecia INT PRIMARY KEY AUTO_INCREMENT,
     zdjecie BLOB,
+    nazwa_pliku VARCHAR(40),
+    ext VARCHAR(5) DEFAULT 'jpg',
     tekst_alt VARCHAR(20),
     data_wstaw DATETIME DEFAULT CURRENT_TIMESTAMP
 );
@@ -75,7 +77,7 @@ CREATE TABLE Uczen_przedmiot (
     id_oceny INT PRIMARY KEY AUTO_INCREMENT,
     id_przedm INT,
     id_ucznia INT,
-    ocena INT NULL,information_schema
+    ocena INT NULL,
     data_wystaw_oc DATETIME NULL,
     FOREIGN KEY (id_przedm) REFERENCES Przedmiot(id_przedm),
     FOREIGN KEY (id_ucznia) REFERENCES Uzytkownicy(id_uzytk)
@@ -139,8 +141,8 @@ CREATE TABLE Forum_odp (
 
 CREATE TABLE Flagi(
     id_flagi INT PRIMARY KEY AUTO_INCREMENT,
-    flaga VARCHAR(14)
-)
+    kod VARCHAR(14)
+);
 
 INSERT INTO Flagi(kod) VALUES 
     ('NIEPRZECZYTANA'), ('PRZECZYTANA'), ('ZARCHIWIZOWANA'), ('USUNIĘTA'), ('NOWA'), ('ROBOCZA');
