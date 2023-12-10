@@ -33,17 +33,13 @@ public class UzytkownicyController implements ControllerInterface<Uzytkownik, Uz
     @GetMapping("/all")
     @Override
     public ResponseEntity<CollectionModel<UzytkownikModel>> get(
-            @RequestParam(required = false) String sort,
-            @RequestParam(required = false) String direction,
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) Integer page
     ) {
         Iterable<Uzytkownik> users;
 
-        if(sort != null || direction != null || size != null || page != null ){
-            String params = sort + ";" +
-                    direction + ";" +
-                    (size == null? "0" : size) + ";" +
+        if(size != null || page != null ){
+            String params =  (size == null? "0" : size) + ";" +
                     (page == null? "0" : page);
             users = dataSet.getAll(params);
         }
@@ -60,7 +56,7 @@ public class UzytkownicyController implements ControllerInterface<Uzytkownik, Uz
 
             CollectionModel<UzytkownikModel> usersModel = CollectionModel.of(userModelsList);
             usersModel.add(WebMvcLinkBuilder
-                    .linkTo(methodOn(UzytkownicyController.class).get(sort, direction,size, page))
+                    .linkTo(methodOn(UzytkownicyController.class).get(size, page))
                     .withRel("uzytkownicy").withTitle("lista_uzytkownikow"));
 
             return new ResponseEntity<>(usersModel, HttpStatus.OK);

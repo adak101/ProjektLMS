@@ -25,15 +25,11 @@ public interface ControllerInterface<T, K> {
     /**
      * Metoda do pobierania zasobów z uwzględnieniem parametrów takich jak sortowanie, rozmiar strony itp.
      *
-     * @param sort      Pole, według którego należy posortować wyniki.
-     * @param direction Kierunek sortowania (ASC lub DESC).
      * @param size      Liczba wyników na stronie.
-     * @param page      Numer strony.
+     * @param page      Numer strony, liczony od 0.
      * @return Odpowiedź HTTP zawierająca kolekcję modelu zasobów.
      */
     public ResponseEntity<CollectionModel<K>> get(
-            @RequestParam(required = false) String sort,
-            @RequestParam(required = false) String direction,
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) Integer page
     );

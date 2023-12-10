@@ -27,7 +27,7 @@ public class ZdjeciaController implements ControllerInterface<Zdjecie, ZdjecieMo
     }
 
     @Override
-    public ResponseEntity<CollectionModel<ZdjecieModel>> get(String sort, String direction, Integer size, Integer page) {
+    public ResponseEntity<CollectionModel<ZdjecieModel>> get(Integer size, Integer page) {
         return null;
     }
 
