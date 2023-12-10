@@ -52,13 +52,9 @@ public class ZdjeciaController implements ControllerInterface<Zdjecie, ZdjecieMo
         return null;
     }
 
-    @Override
-    public Zdjecie put(Zdjecie data) {
-        return null;
-    }
 
     @Override
-    public Zdjecie patch(Integer id, Zdjecie data) {
+    public ResponseEntity<ZdjecieModel> patch(Integer id, Zdjecie data) {
         return null;
     }
 }

@@ -29,6 +29,7 @@ public class UzytkownikRepository extends AbstractCrudRepository<Uzytkownik, Int
     private static final String P_EMAIL = "p_email";
     private static final String P_TELEFON = "p_telefon";
     private static final String P_DATA_URODZ = "p_data_urodz";
+    private static final String P_STATUS = "p_status";
     private static final String P_ID_ZDJECIA = "p_id_zdjecia";
     private static final String P_ID_ROLI = "p_id_roli";
 
@@ -69,7 +70,34 @@ public class UzytkownikRepository extends AbstractCrudRepository<Uzytkownik, Int
 
     @Override
     public Integer update(Uzytkownik data) {
-        return null;
+        Integer idZdjecia = 1;
+
+        if(data.getZdjecie().getIdZdjecia() == null ){
+            idZdjecia = dsZdjecia.save(data.getZdjecie());
+        }
+        else if(!data.getZdjecie().getIdZdjecia().equals(1)){
+            idZdjecia = dsZdjecia.update(data.getZdjecie());
+        }
+
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(super.getJdbc())
+                .withSchemaName(getSCHEMA())
+                .withProcedureName(super.getUpdateProcName());
+        Map<String, Object> inParams = new HashMap<>();
+        inParams.put(super.getPkColumnName(), data.getIdUzytk());
+        inParams.put(P_IMIE, data.getImie());
+        inParams.put(P_NAZWISKO, data.getNazwisko());
+        inParams.put(P_TYT_NAUK, data.getTytNauk());
+        inParams.put(P_HASLO, data.getHaslo());
+        inParams.put(P_EMAIL, data.getEmail());
+        inParams.put(P_TELEFON, data.getTelefon());
+        inParams.put(P_DATA_URODZ, data.getDataUrodz());
+        inParams.put(P_STATUS, Integer.parseInt(data.getStatus().getKod()));
+        inParams.put(P_ID_ZDJECIA, idZdjecia);
+        inParams.put(P_ID_ROLI, data.getRola().getId());
+
+        Map<String, Object> result = jdbcCall.execute(inParams);
+
+        return (Integer) result.get(super.getPkColumnName());
     }
 
     @Override

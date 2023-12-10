@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import pl.samba.lms.uzytkownicy.api.UzytkownikModel;
 
 /**
  * Interfejs kontrolera REST API, obsługującego operacje na zasobach danego typu.
@@ -57,21 +58,13 @@ public interface ControllerInterface<T, K> {
     public ResponseEntity<Object> post(@RequestBody T data);
 
     /**
-     * Metoda do aktualizacji zasobu na podstawie dostarczonych danych.
-     *
-     * @param data Dane zasobu do aktualizacji.
-     * @return Zaktualizowany zasób.
-     */
-    public T put(@RequestBody T data);
-
-    /**
      * Metoda do częściowej aktualizacji zasobu na podstawie identyfikatora i dostarczonych danych.
      *
      * @param id   Identyfikator zasobu do aktualizacji.
      * @param data Dane zasobu do częściowej aktualizacji.
      * @return Zaktualizowany zasób.
      */
-    public T patch(
+    public ResponseEntity<K> patch(
             @PathVariable("id") Integer id,
             @RequestBody T data);
 }
