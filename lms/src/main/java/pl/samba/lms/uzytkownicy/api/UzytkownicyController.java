@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.samba.lms.utils.api.ControllerInterface;
 import pl.samba.lms.uzytkownicy.Uzytkownik;
 import pl.samba.lms.uzytkownicy.database.UzytkownikRepository;
+import pl.samba.lms.zdjecie.Zdjecie;
 
 import java.util.LinkedList;
 import java.util.Optional;
@@ -33,17 +34,13 @@ public class UzytkownicyController implements ControllerInterface<Uzytkownik, Uz
     @GetMapping("/all")
     @Override
     public ResponseEntity<CollectionModel<UzytkownikModel>> get(
-            @RequestParam(required = false) String sort,
-            @RequestParam(required = false) String direction,
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) Integer page
     ) {
         Iterable<Uzytkownik> users;
 
-        if(sort != null || direction != null || size != null || page != null ){
-            String params = sort + ";" +
-                    direction + ";" +
-                    (size == null? "0" : size) + ";" +
+        if(size != null || page != null ){
+            String params =  (size == null? "0" : size) + ";" +
                     (page == null? "0" : page);
             users = dataSet.getAll(params);
         }
@@ -60,7 +57,7 @@ public class UzytkownicyController implements ControllerInterface<Uzytkownik, Uz
 
             CollectionModel<UzytkownikModel> usersModel = CollectionModel.of(userModelsList);
             usersModel.add(WebMvcLinkBuilder
-                    .linkTo(methodOn(UzytkownicyController.class).get(sort, direction,size, page))
+                    .linkTo(methodOn(UzytkownicyController.class).get(size, page))
                     .withRel("uzytkownicy").withTitle("lista_uzytkownikow"));
 
             return new ResponseEntity<>(usersModel, HttpStatus.OK);
@@ -73,8 +70,8 @@ public class UzytkownicyController implements ControllerInterface<Uzytkownik, Uz
     public ResponseEntity<UzytkownikModel> get(@PathVariable("id") Integer id) {
         Optional<Uzytkownik> optUzytkownik = Optional.ofNullable(dataSet.getById(id));
         if(optUzytkownik.isPresent()){
-            UzytkownikModel um = new UzytkownikModelAssembler().toModel(optUzytkownik.get());
-            return new ResponseEntity<>(um, HttpStatus.OK);
+            UzytkownikModel model = new UzytkownikModelAssembler().toModel(optUzytkownik.get());
+            return new ResponseEntity<>(model, HttpStatus.OK);
         }
         else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
@@ -96,17 +93,54 @@ public class UzytkownicyController implements ControllerInterface<Uzytkownik, Uz
                 HttpStatus.CREATED);
     }
 
-    @PutMapping(consumes = "application/json")
-    @Override
-    public Uzytkownik put(@RequestBody Uzytkownik data) {
-        return null;
-    }
 
     @PatchMapping(path="/{id}", consumes = "application/json")
     @Override
-    public Uzytkownik patch(
+    public ResponseEntity<UzytkownikModel> patch(
             @PathVariable("id") Integer id,
-            @RequestBody Uzytkownik data) {
-        return null;
+            @RequestBody Uzytkownik data
+    ){
+        Uzytkownik current = dataSet.getById(id);
+
+        if(data.getImie() != null){
+            current.setImie(data.getImie());
+        }
+        if(data.getNazwisko() != null){
+            current.setNazwisko(data.getNazwisko());
+        }
+        if(data.getTytNauk() != null){
+            current.setTytNauk(data.getTytNauk());
+        }
+        if(data.getHaslo() != null){
+            current.setHaslo(data.getHaslo());
+        }
+        if(data.getEmail() != null){
+            current.setEmail(data.getEmail());
+        }
+        if(data.getTelefon() != null){
+            current.setTelefon(data.getTelefon());
+        }
+        if(data.getDataUrodz() != null){
+            current.setDataUrodz(data.getDataUrodz());
+        }
+        if(data.getStatus() != null){
+            current.setStatus(data.getStatus());
+        }
+        if(data.getZdjecie() != null){
+            Zdjecie nowe = new Zdjecie(
+                    current.getZdjecie().getIdZdjecia(),
+                    data.getZdjecie().getPlik(),
+                    data.getZdjecie().getNazwa(),
+                    data.getZdjecie().getExt(),
+                    data.getZdjecie().getAlt());
+            current.setZdjecie(nowe);
+        }
+        if(data.getRola() != null){
+            current.setRola(data.getRola());
+        }
+
+        id = dataSet.update(current);
+        UzytkownikModel model = new UzytkownikModelAssembler().toModel(dataSet.getById(id));
+        return new ResponseEntity<>(model, HttpStatus.OK);
     }
 }

@@ -20,6 +20,8 @@ public abstract class AbstractCrudRepository<T, K> implements CrudRepositoryInte
 
     @Getter
     private final static String SCHEMA = "lms";
+    private final static String P_PAGE_SIZE = "p_size";
+    private final static String P_PAGE = "p_page";
     @Getter
     private final String tableName;
     @Getter
@@ -57,6 +59,8 @@ public abstract class AbstractCrudRepository<T, K> implements CrudRepositoryInte
                 .withProcedureName(readProcName);
         Map<String, Object> inParams = new HashMap<>();
         inParams.put(pkColumnName, null);
+        inParams.put(P_PAGE_SIZE, null);
+        inParams.put(P_PAGE, null);
 
         Map<String, Object> result = jdbcCall.execute(inParams);
 
@@ -68,8 +72,28 @@ public abstract class AbstractCrudRepository<T, K> implements CrudRepositoryInte
 
     @Override
     public Iterable<T> getAll(String requestParams) {
-        //TODO
-        return null;
+        /*
+         * requestParamsTable
+         * [0] size
+         * [1] page
+         * */
+        String[] requestParamsTable = requestParams.split(";");
+        int size = Integer.parseInt(requestParamsTable[0]);
+        int page = Integer.parseInt(requestParamsTable[1]);
+
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbc)
+                .withSchemaName(getSCHEMA())
+                .withProcedureName(readProcName);
+        Map<String, Object> inParams = new HashMap<>();
+        inParams.put(pkColumnName, null);
+        inParams.put(P_PAGE_SIZE, size);
+        inParams.put(P_PAGE, page);
+
+        Map<String, Object> result = jdbcCall.execute(inParams);
+
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> resultSet = (List<Map<String, Object>>) result.get("#result-set-1");
+        return resultMapper(resultSet);
     }
 
     @Override
@@ -79,6 +103,8 @@ public abstract class AbstractCrudRepository<T, K> implements CrudRepositoryInte
                 .withProcedureName(readProcName);
         Map<String, Object> inParams = new HashMap<>();
         inParams.put(pkColumnName, id);
+        inParams.put(P_PAGE_SIZE, null);
+        inParams.put(P_PAGE, null);
 
         Map<String, Object> result = jdbcCall.execute(inParams);
 

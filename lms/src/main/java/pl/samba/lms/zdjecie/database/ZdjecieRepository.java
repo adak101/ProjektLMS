@@ -31,7 +31,7 @@ public class ZdjecieRepository extends AbstractCrudRepository<Zdjecie, Integer> 
                 .withSchemaName(getSCHEMA())
                 .withProcedureName(super.getInsertProcName());
         Map<String, Object> inParams = new HashMap<>();
-        inParams.put(P_ZDJECIE, data.getZdjecie());
+        inParams.put(P_ZDJECIE, data.getPlik());
         inParams.put(P_ALT, data.getAlt());
         inParams.put(P_EXT, data.getExt());
         inParams.put(P_NAZWA, data.getNazwa());
@@ -42,8 +42,20 @@ public class ZdjecieRepository extends AbstractCrudRepository<Zdjecie, Integer> 
     }
 
     @Override
-    public Integer update(Uzytkownik data) {
-        return null;
+    public Integer update(Zdjecie data) {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(super.getJdbc())
+                .withSchemaName(getSCHEMA())
+                .withProcedureName(super.getUpdateProcName());
+        Map<String, Object> inParams = new HashMap<>();
+        inParams.put(super.getPkColumnName(), data.getIdZdjecia());
+        inParams.put(P_ZDJECIE, data.getPlik());
+        inParams.put(P_ALT, data.getAlt());
+        inParams.put(P_EXT, data.getExt());
+        inParams.put(P_NAZWA, data.getNazwa());
+
+        Map<String, Object> result = jdbcCall.execute(inParams);
+
+        return (Integer) result.get(super.getPkColumnName());
     }
 
     @Override
