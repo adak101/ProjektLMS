@@ -1,4 +1,4 @@
-package pl.samba.lms.zdjecie.api;
+package pl.samba.lms.uzytkownicy.zdjecie.api;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.samba.lms.utils.api.ControllerInterface;
-import pl.samba.lms.zdjecie.Zdjecie;
-import pl.samba.lms.zdjecie.database.ZdjecieRepository;
+import pl.samba.lms.uzytkownicy.zdjecie.Zdjecie;
+import pl.samba.lms.uzytkownicy.zdjecie.database.ZdjecieRepository;
 
 import java.util.Optional;
 

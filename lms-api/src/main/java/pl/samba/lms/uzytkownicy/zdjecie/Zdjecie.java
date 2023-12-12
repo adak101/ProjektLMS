@@ -1,4 +1,4 @@
-package pl.samba.lms.zdjecie;
+package pl.samba.lms.uzytkownicy.zdjecie;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,15 +1,14 @@
-package pl.samba.lms.uzytkownicy.database;
+package pl.samba.lms.uzytkownicy.uzytkownicy.database.database;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 import pl.samba.lms.utils.constants.Status;
-import pl.samba.lms.zdjecie.Zdjecie;
+import pl.samba.lms.uzytkownicy.zdjecie.Zdjecie;
 import pl.samba.lms.utils.database.AbstractCrudRepository;
 import pl.samba.lms.utils.constants.Role;
-import pl.samba.lms.uzytkownicy.Uzytkownik;
-import pl.samba.lms.zdjecie.database.ZdjecieRepository;
+import pl.samba.lms.uzytkownicy.uzytkownicy.Uzytkownik;
+import pl.samba.lms.uzytkownicy.zdjecie.database.ZdjecieRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -7,9 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.samba.lms.utils.api.ControllerInterface;
-import pl.samba.lms.uzytkownicy.Uzytkownik;
-import pl.samba.lms.uzytkownicy.database.UzytkownikRepository;
-import pl.samba.lms.zdjecie.Zdjecie;
+import pl.samba.lms.uzytkownicy.uzytkownicy.Uzytkownik;
+import pl.samba.lms.uzytkownicy.uzytkownicy.database.database.UzytkownikRepository;
+import pl.samba.lms.uzytkownicy.zdjecie.Zdjecie;
 
 import java.util.LinkedList;
 import java.util.Optional;
