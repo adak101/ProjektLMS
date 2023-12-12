@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Zdjecie {
     private final Integer idZdjecia;
-    private final byte[] zdjecie;
+    private final byte[] plik;
     private final String nazwa;
     private final String ext;
     private final String alt;

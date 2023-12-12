@@ -1,7 +1,7 @@
 DELIMITER //
 DROP PROCEDURE IF EXISTS lms.zdjecia_upd;
 CREATE PROCEDURE zdjecia_upd(
-	IN pk_id_zdjecia INT,
+	INOUT pk_id_zdjecia INT,
 	IN p_zdjecie BLOB,
 	IN p_alt VARCHAR(20),
 	IN p_ext VARCHAR(5),

@@ -32,7 +32,7 @@ public interface CrudRepositoryInterface<T, K> {
     /**
      * Pobiera obiekty z repozytorium na podstawie określonych parametrów żądania.
      *
-     * @param requestParams Parametry do filtrowania obiektów.
+     * @param requestParams ciąg parametrow do filtrowania obiektów.
      * @return Kolekcja wszystkich obiektów.
      */
     public Iterable<T> getAll(String requestParams);
@@ -50,7 +50,7 @@ public interface CrudRepositoryInterface<T, K> {
      * @param data Dane do zaktualizowania.
      * @return Unikalny identyfikator skojarzony z zaktualizowanymi danymi.
      */
-    K update(Uzytkownik data);
+    public K update(T data);
     /**
      * Usuwa obiekt z repozytorium na podstawie jego unikalnego identyfikatora.
      *
