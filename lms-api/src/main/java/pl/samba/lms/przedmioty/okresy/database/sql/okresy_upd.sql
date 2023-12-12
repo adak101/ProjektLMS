@@ -10,7 +10,6 @@ BEGIN
 	UPDATE okresy
 	SET kod = p_kod, data_pocz = p_data_pocz, data_konc = p_data_konc
 	WHERE id_okresu = pk_id_okresu;
-	
-	SELECT LAST_INSERT_ID() INTO pk_id_okresu;
+
 END //
 DELIMITER ;

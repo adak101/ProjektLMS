@@ -42,7 +42,7 @@ public class OkresRepository extends AbstractCrudRepository<Okres, Integer> {
     public Integer update(Okres data) {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(super.getJdbc())
                 .withSchemaName(getSCHEMA())
-                .withProcedureName(super.getInsertProcName());
+                .withProcedureName(super.getUpdateProcName());
 
         Map<String, Object> inParams = new HashMap<>();
         inParams.put(super.getPkColumnName(), data.getIdOkresu());
