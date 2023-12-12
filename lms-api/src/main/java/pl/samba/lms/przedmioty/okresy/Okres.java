@@ -1,6 +1,8 @@
 package pl.samba.lms.przedmioty.okresy;
 
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -18,11 +20,12 @@ public class Okres {
     private LocalDateTime dataPoczatku;
     private LocalDateTime dataKonca;
 
+    @JsonCreator
     public Okres(
             Integer idOkresu,
-            String kod,
-            LocalDateTime dataPoczatku,
-            LocalDateTime dataKonca
+            @JsonProperty("kod") String kod,
+            @JsonProperty("dataPoczatku")LocalDateTime dataPoczatku,
+            @JsonProperty("dataKonca")LocalDateTime dataKonca
     ) {
         this.idOkresu = idOkresu;
         this.kod = kod;
