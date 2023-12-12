@@ -89,14 +89,14 @@ public class UzytkownicyController implements ControllerInterface<Uzytkownik, Uz
         return new ResponseEntity<>(
                 EntityModel.of(WebMvcLinkBuilder
                         .linkTo(methodOn(UzytkownicyController.class).get(id))
-                        .withRel("nowy_uzytkownik").withTitle("nowy_uzytkownik")),
+                        .withRel("nowy").withTitle("uzytkownik")),
                 HttpStatus.CREATED);
     }
 
 
     @PatchMapping(path="/{id}", consumes = "application/json")
     @Override
-    public ResponseEntity<UzytkownikModel> patch(
+    public ResponseEntity<Object> patch(
             @PathVariable("id") Integer id,
             @RequestBody Uzytkownik data
     ){
@@ -140,7 +140,10 @@ public class UzytkownicyController implements ControllerInterface<Uzytkownik, Uz
         }
 
         id = dataSet.update(current);
-        UzytkownikModel model = new UzytkownikModelAssembler().toModel(dataSet.getById(id));
-        return new ResponseEntity<>(model, HttpStatus.OK);
+        return new ResponseEntity<>(
+                EntityModel.of(WebMvcLinkBuilder
+                        .linkTo(methodOn(UzytkownicyController.class).get(id))
+                        .withRel("zakutalizowany").withTitle("uzytkownik")),
+                HttpStatus.OK);
     }
 }

@@ -54,7 +54,7 @@ public class ZdjeciaController implements ControllerInterface<Zdjecie, ZdjecieMo
 
 
     @Override
-    public ResponseEntity<ZdjecieModel> patch(Integer id, Zdjecie data) {
+    public ResponseEntity<Object> patch(Integer id, Zdjecie data) {
         return null;
     }
 }

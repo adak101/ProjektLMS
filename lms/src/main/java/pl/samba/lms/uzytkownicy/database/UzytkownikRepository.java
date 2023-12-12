@@ -21,6 +21,17 @@ import java.util.Map;
  */
 @Repository
 public class UzytkownikRepository extends AbstractCrudRepository<Uzytkownik, Integer> {
+    public static final String C_ID_UZYTK = "id_uzytk";
+    public static final String C_IMIE = "imie";
+    public static final String C_NAZWISKO = "nazwisko";
+    public static final String C_TYT_NAUK = "tyt_nauk";
+    public static final String C_LOGIN = "login";
+    public static final String C_HASLO = "haslo";
+    public static final String C_EMAIL = "email";
+    public static final String C_TELEFON = "telefon";
+    public static final String C_DATA_URODZ = "data_urodz";
+    public static final String C_STATUS = "status";
+    public static final String C_ROLA = "rola";
 
     private static final String P_IMIE = "p_imie";
     private static final String P_NAZWISKO = "p_nazwisko";
@@ -35,8 +46,8 @@ public class UzytkownikRepository extends AbstractCrudRepository<Uzytkownik, Int
 
     private final ZdjecieRepository dsZdjecia;
     @Autowired
-    public UzytkownikRepository(JdbcTemplate jdbc, ZdjecieRepository dsZdjecia) {
-        super(jdbc, "uzytkownicy","pk_id_uzytk");
+    public UzytkownikRepository(ZdjecieRepository dsZdjecia) {
+        super("uzytkownicy","pk_id_uzytk");
         this.dsZdjecia = dsZdjecia;
     }
 
@@ -105,25 +116,25 @@ public class UzytkownikRepository extends AbstractCrudRepository<Uzytkownik, Int
         List<Uzytkownik> uzytkownicy = new ArrayList<>();
         for (Map<String, Object> row : resultSet) {
             Zdjecie zdjecie = new Zdjecie(
-                    (Integer) row.get("id_zdjecia"),
-                    (byte[]) row.get("plik"),
-                    (String) row.get("nazwa_pliku"),
-                    (String) row.get("ext"),
-                    (String) row.get("alt"));
+                    (Integer) row.get(ZdjecieRepository.C_ID_ZDJECIA),
+                    (byte[]) row.get(ZdjecieRepository.C_PLIK),
+                    (String) row.get(ZdjecieRepository.C_NAZWA_PLIKU),
+                    (String) row.get(ZdjecieRepository.C_EXT),
+                    (String) row.get(ZdjecieRepository.C_ALT));
 
             Uzytkownik uzytkownik = new Uzytkownik(
-                    (Integer) row.get("id_uzytk"),
-                    (String) row.get("imie"),
-                    (String) row.get("nazwisko"),
-                    (String) row.get("tyt_nauk"),
-                    (String) row.get("login"),
-                    (String) row.get("haslo"),
-                    (String) row.get("email"),
-                    (Integer) row.get("telefon"),
-                    (java.sql.Date) row.get("data_urodz"),
-                    Status.getStatusByKod(row.get("status").toString()),
+                    (Integer) row.get(C_ID_UZYTK),
+                    (String) row.get(C_IMIE),
+                    (String) row.get(C_NAZWISKO),
+                    (String) row.get(C_TYT_NAUK),
+                    (String) row.get(C_LOGIN),
+                    (String) row.get(C_HASLO),
+                    (String) row.get(C_EMAIL),
+                    (Integer) row.get(C_TELEFON),
+                    (java.sql.Date) row.get(C_DATA_URODZ),
+                    Status.getStatusByKod(row.get(C_STATUS).toString()),
                     zdjecie,
-                    Role.valueOf((String) row.get("rola"))
+                    Role.valueOf((String) row.get(C_ROLA))
             );
 
             uzytkownicy.add(uzytkownik);

@@ -1,11 +1,9 @@
 package pl.samba.lms.zdjecie.database;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
+
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 import pl.samba.lms.utils.database.AbstractCrudRepository;
-import pl.samba.lms.uzytkownicy.Uzytkownik;
 import pl.samba.lms.zdjecie.Zdjecie;
 
 import java.util.ArrayList;
@@ -15,14 +13,19 @@ import java.util.Map;
 
 @Repository
 public class ZdjecieRepository extends AbstractCrudRepository<Zdjecie, Integer> {
+    public static final String C_ID_ZDJECIA = "id_zdjecia";
+    public static final String C_PLIK = "plik";
+    public static final String C_NAZWA_PLIKU = "nazwa_pliku";
+    public static final String C_EXT = "ext";
+    public static final String C_ALT = "alt";
 
     private static final String P_ZDJECIE = "p_zdjecie";
     private static final String P_ALT = "p_alt";
     private static final String P_EXT = "p_ext";
     private static final String P_NAZWA = "p_nazwa";
-    @Autowired
-    public ZdjecieRepository(JdbcTemplate jdbc) {
-        super(jdbc, "zdjecia", "pk_id_zdjecia");
+
+    public ZdjecieRepository() {
+        super( "zdjecia", "pk_id_zdjecia");
     }
 
     @Override
@@ -63,11 +66,11 @@ public class ZdjecieRepository extends AbstractCrudRepository<Zdjecie, Integer> 
         List<Zdjecie> zdjecieList = new ArrayList<>();
         for(Map<String, Object> row: resultSet){
             Zdjecie zdjecie = new Zdjecie(
-                    (Integer) row.get("id_zdjecia"),
-                    (byte[]) row.get("plik"),
-                    (String) row.get("nazwa_pliku"),
-                    (String) row.get("ext"),
-                    (String) row.get("alt"));
+                    (Integer) row.get(C_ID_ZDJECIA),
+                    (byte[]) row.get(C_PLIK),
+                    (String) row.get(C_NAZWA_PLIKU),
+                    (String) row.get(C_EXT),
+                    (String) row.get(C_ALT));
 
             zdjecieList.add(zdjecie);
         }

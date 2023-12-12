@@ -64,7 +64,7 @@ public interface ControllerInterface<T, K> {
      * @param data Dane zasobu do częściowej aktualizacji.
      * @return Zaktualizowany zasób.
      */
-    public ResponseEntity<K> patch(
+    public ResponseEntity<Object> patch(
             @PathVariable("id") Integer id,
             @RequestBody T data);
 }

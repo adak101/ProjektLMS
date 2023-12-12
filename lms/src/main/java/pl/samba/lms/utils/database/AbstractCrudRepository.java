@@ -1,6 +1,7 @@
 package pl.samba.lms.utils.database;
 
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 
@@ -36,14 +37,13 @@ public abstract class AbstractCrudRepository<T, K> implements CrudRepositoryInte
     private final String deleteProcName;
 
     @Getter
-    private final JdbcTemplate jdbc;
+    @Autowired
+    private JdbcTemplate jdbc;
 
     public AbstractCrudRepository(
-            JdbcTemplate jdbc,
             String tableName,
             String pkColumnNameName
     ){
-        this.jdbc = jdbc;
         this.tableName = tableName;
         this.pkColumnName = pkColumnNameName;
 
