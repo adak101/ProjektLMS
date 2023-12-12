@@ -1,7 +1,7 @@
 package pl.samba.lms.uzytkownicy.api;
 
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
-import pl.samba.lms.uzytkownicy.Uzytkownik;
+import pl.samba.lms.uzytkownicy.uzytkownicy.Uzytkownik;
 
 public class UzytkownikModelAssembler extends RepresentationModelAssemblerSupport<Uzytkownik, UzytkownikModel> {
     public UzytkownikModelAssembler(){

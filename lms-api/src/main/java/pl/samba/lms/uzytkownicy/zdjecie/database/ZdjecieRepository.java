@@ -1,10 +1,10 @@
-package pl.samba.lms.zdjecie.database;
+package pl.samba.lms.uzytkownicy.zdjecie.database;
 
 
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 import pl.samba.lms.utils.database.AbstractCrudRepository;
-import pl.samba.lms.zdjecie.Zdjecie;
+import pl.samba.lms.uzytkownicy.zdjecie.Zdjecie;
 
 import java.util.ArrayList;
 import java.util.HashMap;

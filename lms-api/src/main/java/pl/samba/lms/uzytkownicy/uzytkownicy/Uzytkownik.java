@@ -1,4 +1,4 @@
-package pl.samba.lms.uzytkownicy;
+package pl.samba.lms.uzytkownicy.uzytkownicy;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import pl.samba.lms.utils.constants.Status;
 import pl.samba.lms.utils.constants.Role;
-import pl.samba.lms.zdjecie.Zdjecie;
+import pl.samba.lms.uzytkownicy.zdjecie.Zdjecie;
 
 import java.util.Date;
 

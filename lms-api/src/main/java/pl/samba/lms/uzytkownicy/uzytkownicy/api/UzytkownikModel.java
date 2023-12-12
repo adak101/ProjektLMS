@@ -6,9 +6,8 @@ import org.springframework.hateoas.server.core.Relation;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import pl.samba.lms.utils.constants.Role;
 import pl.samba.lms.utils.constants.Status;
-import pl.samba.lms.uzytkownicy.Uzytkownik;
-import pl.samba.lms.zdjecie.Zdjecie;
-import pl.samba.lms.zdjecie.api.ZdjeciaController;
+import pl.samba.lms.uzytkownicy.uzytkownicy.Uzytkownik;
+import pl.samba.lms.uzytkownicy.zdjecie.api.ZdjeciaController;
 
 import java.util.Date;
 

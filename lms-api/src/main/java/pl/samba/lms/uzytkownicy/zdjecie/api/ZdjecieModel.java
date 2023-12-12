@@ -1,8 +1,8 @@
-package pl.samba.lms.zdjecie.api;
+package pl.samba.lms.uzytkownicy.zdjecie.api;
 
 import lombok.Getter;
 import org.springframework.hateoas.RepresentationModel;
-import pl.samba.lms.zdjecie.Zdjecie;
+import pl.samba.lms.uzytkownicy.zdjecie.Zdjecie;
 
 @Getter
 public class ZdjecieModel extends RepresentationModel<ZdjecieModel> {

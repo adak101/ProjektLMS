@@ -1,10 +1,7 @@
-package pl.samba.lms.zdjecie.api;
+package pl.samba.lms.uzytkownicy.zdjecie.api;
 
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
-import pl.samba.lms.uzytkownicy.Uzytkownik;
-import pl.samba.lms.uzytkownicy.api.UzytkownicyController;
-import pl.samba.lms.uzytkownicy.api.UzytkownikModel;
-import pl.samba.lms.zdjecie.Zdjecie;
+import pl.samba.lms.uzytkownicy.zdjecie.Zdjecie;
 
 public class ZdjecieModelAssembler extends RepresentationModelAssemblerSupport<Zdjecie, ZdjecieModel> {
     public ZdjecieModelAssembler(){
