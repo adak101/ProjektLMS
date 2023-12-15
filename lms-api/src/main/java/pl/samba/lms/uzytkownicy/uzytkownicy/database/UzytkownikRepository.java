@@ -1,4 +1,4 @@
-package pl.samba.lms.uzytkownicy.uzytkownicy.database.database;
+package pl.samba.lms.uzytkownicy.uzytkownicy.database;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
