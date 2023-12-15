@@ -1,4 +1,4 @@
-package pl.samba.lms.uzytkownicy.api;
+package pl.samba.lms.uzytkownicy.uzytkownicy.api;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.samba.lms.utils.api.ControllerInterface;
 import pl.samba.lms.uzytkownicy.uzytkownicy.Uzytkownik;
+
 import pl.samba.lms.uzytkownicy.uzytkownicy.database.database.UzytkownikRepository;
 import pl.samba.lms.uzytkownicy.zdjecie.Zdjecie;
 
