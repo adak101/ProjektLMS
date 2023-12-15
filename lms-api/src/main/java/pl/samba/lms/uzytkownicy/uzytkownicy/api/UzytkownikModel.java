@@ -1,4 +1,4 @@
-package pl.samba.lms.uzytkownicy.api;
+package pl.samba.lms.uzytkownicy.uzytkownicy.api;
 
 import lombok.Getter;
 import org.springframework.hateoas.RepresentationModel;

@@ -6,7 +6,7 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import pl.samba.lms.przedmioty.okresy.api.OkresyController;
 import pl.samba.lms.przedmioty.przedmioty.Przedmiot;
 import pl.samba.lms.utils.constants.Status;
-import pl.samba.lms.uzytkownicy.api.UzytkownicyController;
+import pl.samba.lms.uzytkownicy.uzytkownicy.api.UzytkownicyController;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
