@@ -72,7 +72,7 @@ public class PrzedmiotyController implements ControllerInterface<Przedmiot, Prze
         }
         else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
-    @GetMapping("/unique")
+    @GetMapping
     public ResponseEntity<PrzedmiotModel> get(@RequestParam(name = "kod") String kod){
         kod = new String(Base64.getDecoder().decode(kod));
         Optional<Przedmiot> optPrzedmiot = Optional.ofNullable(dataSet.getByUnique(kod));
