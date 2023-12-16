@@ -17,6 +17,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilderDslKt.with
 @Getter
 @Relation(value = "uzytkownik", collectionRelation = "uzytkownicy")
 public class UzytkownikModel extends RepresentationModel<UzytkownikModel> {
+    private final Integer id;
     private final String imie;
     private final String nazwisko;
     private final String tytNauk;
@@ -28,6 +29,7 @@ public class UzytkownikModel extends RepresentationModel<UzytkownikModel> {
     private final Role rola;
 
     public UzytkownikModel(Uzytkownik u){
+        this.id = u.getIdUzytk();
         this.imie = u.getImie();
         this.nazwisko = u.getNazwisko();
         this.tytNauk = u.getTytNauk();

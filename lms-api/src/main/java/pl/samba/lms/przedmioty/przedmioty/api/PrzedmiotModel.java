@@ -12,6 +12,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Getter
 public class PrzedmiotModel extends RepresentationModel<PrzedmiotModel> {
+    private final Integer id;
     private final String kod;
     private final String nazwa;
     private final Integer limit;
@@ -21,6 +22,7 @@ public class PrzedmiotModel extends RepresentationModel<PrzedmiotModel> {
     private final Boolean czyRejestrUczn;
 
     public PrzedmiotModel(Przedmiot p){
+        this.id = p.getIdPrzedmiotu();
         this.kod = p.getKod();
         this.nazwa = p.getNazwa();
         this.limit = p.getLimit();
