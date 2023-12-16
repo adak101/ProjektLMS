@@ -6,12 +6,14 @@ import pl.samba.lms.uzytkownicy.zdjecie.Zdjecie;
 
 @Getter
 public class ZdjecieModel extends RepresentationModel<ZdjecieModel> {
+        private final Integer id;
         private final byte[] plik;
         private final String nazwa;
         private final String ext;
         private final String alt;
 
         public ZdjecieModel(Zdjecie z){
+            this.id = z.getIdZdjecia();
             this.plik = z.getPlik();
             this.nazwa = z.getNazwa();
             this.ext =z.getExt();

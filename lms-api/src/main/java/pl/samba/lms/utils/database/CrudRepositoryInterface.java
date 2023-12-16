@@ -33,13 +33,19 @@ public interface CrudRepositoryInterface<T, K> {
      */
     public Iterable<T> getAll(String requestParams);
     /**
-     * Pobiera obiekt z repozytorium na podstawie jego unikalnego identyfikatora.
+     * Pobiera obiekt z repozytorium na podstawie jego numeru id.
      *
-     * @param id Unikalny identyfikator obiektu do pobrania.
+     * @param id Numer id obiektu do pobrania.
      * @return Obiekt skojarzony z danym identyfikatorem.
      */
     public T getById(K id);
-
+    /**
+     * Pobiera obiekt z repozytorium na podstawie jego unikalnego klucza.
+     *
+     * @param unique Unikalny klucz obiektu do pobrania.
+     * @return Obiekt skojarzony z danym identyfikatorem.
+     */
+    public T getByUnique(String unique);
     /**
      * Aktualizuje dostarczone dane w repozytorium.
      *

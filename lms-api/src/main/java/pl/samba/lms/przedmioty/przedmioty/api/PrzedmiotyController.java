@@ -1,5 +1,6 @@
 package pl.samba.lms.przedmioty.przedmioty.api;
 
+import lombok.AllArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -12,6 +13,7 @@ import pl.samba.lms.utils.api.ControllerInterface;
 
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,13 +21,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(path = "/api/przedmiot", produces = "application/json")
+@AllArgsConstructor
 public class PrzedmiotyController implements ControllerInterface<Przedmiot, PrzedmiotModel> {
 
     private final PrzedmiotRepository dataSet;
 
-    public PrzedmiotyController(PrzedmiotRepository dataSet){
-        this.dataSet = dataSet;
-    }
     @Override
     public CollectionModel<Object> getAllEndPoints() {
         return null;
@@ -72,7 +72,16 @@ public class PrzedmiotyController implements ControllerInterface<Przedmiot, Prze
         }
         else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
-
+    @GetMapping
+    public ResponseEntity<PrzedmiotModel> get(@RequestParam(name = "kod") String kod){
+        kod = new String(Base64.getDecoder().decode(kod));
+        Optional<Przedmiot> optPrzedmiot = Optional.ofNullable(dataSet.getByUnique(kod));
+        if(optPrzedmiot.isPresent()){
+            PrzedmiotModel model = new PrzedmiotModelAssembler().toModel(optPrzedmiot.get());
+            return new ResponseEntity<>(model, HttpStatus.OK);
+        }
+        else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
     @Override
     @DeleteMapping("/{id}")
     @ResponseStatus(code=HttpStatus.NO_CONTENT)

@@ -1,5 +1,6 @@
 package pl.samba.lms.uzytkownicy.uzytkownicy.api;
 
+import lombok.AllArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -9,9 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import pl.samba.lms.utils.api.ControllerInterface;
 import pl.samba.lms.uzytkownicy.uzytkownicy.Uzytkownik;
 
-import pl.samba.lms.uzytkownicy.uzytkownicy.database.database.UzytkownikRepository;
+import pl.samba.lms.uzytkownicy.uzytkownicy.database.UzytkownikRepository;
 import pl.samba.lms.uzytkownicy.zdjecie.Zdjecie;
 
+import java.util.Base64;
 import java.util.LinkedList;
 import java.util.Optional;
 
@@ -19,13 +21,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(path = "/api/uzytkownik", produces = "application/json")
+@AllArgsConstructor
 public class UzytkownicyController implements ControllerInterface<Uzytkownik, UzytkownikModel> {
 
     private final UzytkownikRepository dataSet;
 
-    public UzytkownicyController(UzytkownikRepository dataSet){
-        this.dataSet = dataSet;
-    }
     @GetMapping
     @Override
     public CollectionModel<Object> getAllEndPoints() {
@@ -76,7 +76,16 @@ public class UzytkownicyController implements ControllerInterface<Uzytkownik, Uz
         }
         else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
-
+    @GetMapping
+    public ResponseEntity<UzytkownikModel> get(@RequestParam(name = "login") String login){
+        login = new String(Base64.getDecoder().decode(login));
+        Optional<Uzytkownik> optUzytkownik = Optional.ofNullable(dataSet.getByUnique(login));
+        if(optUzytkownik.isPresent()){
+            UzytkownikModel model = new UzytkownikModelAssembler().toModel(optUzytkownik.get());
+            return new ResponseEntity<>(model, HttpStatus.OK);
+        }
+        else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
     @DeleteMapping("/{id}")
     @ResponseStatus(code=HttpStatus.NO_CONTENT)
     @Override
