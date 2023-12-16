@@ -21,12 +21,18 @@ public abstract class AbstractCrudRepository<T, K> implements CrudRepositoryInte
 
     @Getter
     private final static String SCHEMA = "lms";
+    @Getter
     private final static String P_PAGE_SIZE = "p_size";
+    @Getter
     private final static String P_PAGE = "p_page";
+    @Getter
+    private final String P_UNIQUE = "p_unique";
     @Getter
     private final String tableName;
     @Getter
     private final String pkColumnName;
+
+
     @Getter
     private final String readProcName;
     @Getter
@@ -42,10 +48,10 @@ public abstract class AbstractCrudRepository<T, K> implements CrudRepositoryInte
 
     public AbstractCrudRepository(
             String tableName,
-            String pkColumnNameName
+            String pkColumnName
     ){
         this.tableName = tableName;
-        this.pkColumnName = pkColumnNameName;
+        this.pkColumnName = pkColumnName;
 
         readProcName = tableName + "_read";
         insertProcName = tableName + "_ins";
@@ -61,6 +67,7 @@ public abstract class AbstractCrudRepository<T, K> implements CrudRepositoryInte
         inParams.put(pkColumnName, null);
         inParams.put(P_PAGE_SIZE, null);
         inParams.put(P_PAGE, null);
+        inParams.put(P_UNIQUE, null);
 
         Map<String, Object> result = jdbcCall.execute(inParams);
 
@@ -88,6 +95,7 @@ public abstract class AbstractCrudRepository<T, K> implements CrudRepositoryInte
         inParams.put(pkColumnName, null);
         inParams.put(P_PAGE_SIZE, size);
         inParams.put(P_PAGE, page);
+        inParams.put(P_UNIQUE, null);
 
         Map<String, Object> result = jdbcCall.execute(inParams);
 
@@ -105,6 +113,7 @@ public abstract class AbstractCrudRepository<T, K> implements CrudRepositoryInte
         inParams.put(pkColumnName, id);
         inParams.put(P_PAGE_SIZE, null);
         inParams.put(P_PAGE, null);
+        inParams.put(P_UNIQUE, null);
 
         Map<String, Object> result = jdbcCall.execute(inParams);
 
@@ -115,6 +124,24 @@ public abstract class AbstractCrudRepository<T, K> implements CrudRepositoryInte
     }
 
     @Override
+    public T getByUnique(String unique){
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbc)
+                .withSchemaName(getSCHEMA())
+                .withProcedureName(readProcName);
+        Map<String, Object> inParams = new HashMap<>();
+        inParams.put(pkColumnName, null);
+        inParams.put(P_PAGE_SIZE, null);
+        inParams.put(P_PAGE, null);
+        inParams.put(P_UNIQUE, unique);
+
+        Map<String, Object> result = jdbcCall.execute(inParams);
+
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> resultSet = (List<Map<String, Object>>) result.get("#result-set-1");
+
+        return resultMapper(resultSet).iterator().hasNext() ? resultMapper(resultSet).iterator().next() : null ;
+    }
+    @Override
     public boolean delete(K id) {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbc)
                 .withSchemaName(getSCHEMA())
@@ -123,7 +150,7 @@ public abstract class AbstractCrudRepository<T, K> implements CrudRepositoryInte
         inParams.put(pkColumnName, id);
 
         jdbcCall.execute(inParams);
-        return false;
+        return true;
     }
 
 
