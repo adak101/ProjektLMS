@@ -76,7 +76,7 @@ public class UzytkownicyController implements ControllerInterface<Uzytkownik, Uz
         }
         else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
-    @GetMapping("/unique")
+    @GetMapping
     public ResponseEntity<UzytkownikModel> get(@RequestParam(name = "login") String login){
         login = new String(Base64.getDecoder().decode(login));
         Optional<Uzytkownik> optUzytkownik = Optional.ofNullable(dataSet.getByUnique(login));
