@@ -16,13 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface ControllerInterface<T, K> {
 
     /**
-     * Metoda zwracająca wszystkie możliwe punkty końcowe (endpointy) dostępne w danym kontrolerze.
-     *
-     * @return Kolekcja modelu zawierająca informacje o endpointach.
-     */
-    CollectionModel<Object> getAllEndPoints();
-
-    /**
      * Metoda do pobierania zasobów z uwzględnieniem parametrów takich jak sortowanie, rozmiar strony itp.
      *
      * @param size      Liczba wyników na stronie.
