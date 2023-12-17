@@ -6,7 +6,7 @@ CREATE PROCEDURE uzytkownicy_ins(
 	IN p_imie VARCHAR(40),
 	IN p_nazwisko VARCHAR(40),
 	IN p_tyt_nauk VARCHAR(30),
-	IN p_haslo VARCHAR(40),
+	IN p_haslo VARCHAR(60),
 	IN p_email VARCHAR(40),
 	IN p_telefon INT,
 	IN p_data_urodz DATE,
