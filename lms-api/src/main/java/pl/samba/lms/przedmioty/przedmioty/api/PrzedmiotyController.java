@@ -26,10 +26,6 @@ public class PrzedmiotyController implements ControllerInterface<Przedmiot, Prze
 
     private final PrzedmiotRepository dataSet;
 
-    @Override
-    public CollectionModel<Object> getAllEndPoints() {
-        return null;
-    }
 
     @Override
     @GetMapping("/all")

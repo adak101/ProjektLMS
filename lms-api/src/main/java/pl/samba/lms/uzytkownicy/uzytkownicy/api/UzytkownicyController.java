@@ -26,11 +26,6 @@ public class UzytkownicyController implements ControllerInterface<Uzytkownik, Uz
 
     private final UzytkownikRepository dataSet;
 
-    @GetMapping
-    @Override
-    public CollectionModel<Object> getAllEndPoints() {
-        return null;
-    }
 
     @GetMapping("/all")
     @Override
