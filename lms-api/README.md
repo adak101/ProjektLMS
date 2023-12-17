@@ -2,41 +2,71 @@
 
 Dokumentacja do aplikacji rest api projektu LSM.
 
-Stan na dzień 16.12.2023 r.
+Wersja API: `lms-api-0.0.1-SNAPSHOT`
 
 ## Spis treści
 
-1. [Zadeklarowane stałe](#zadeklarowane-stałe)
+1. [Plik konfiguracyjny](#Plik-konfiguracyjny)
+2. [Zadeklarowane stałe](#zadeklarowane-stałe)
     - [Statusy](#statusy)
     - [Role](#role)
     - [Flagi](#flagi)
-2. [Użytkownicy](#użytkownicy)
+3. [Autentykacja użytkownika](#Autentykacja-użytkownika)
+   - [Rejestracja nowego użytkownika](#1-Rejestracja-nowego-użytkownika)
+   - [Logowanie użytkownika](#2-Logowanie-użytkownika)
+4. [Użytkownicy](#użytkownicy)
     - [Pobieranie listy wszystkich użytkowników](#1-pobieranie-listy-wszystkich-użytkowników)
     - [Pobieranie pojedynczego użytkownika](#2-pobieranie-pojedynczego-użytkownika)
     - [Pobieranie pojedynczego użytkownika po loginie](#3-pobieranie-pojedynczego-użytkownika-po-loginie)
     - [Usuwanie użytkownika](#4-usuwanie-użytkownika)
     - [Dodawanie nowego użytkownika](#5-dodawanie-nowego-użytkownika)
     - [Aktualizacja danych użytkownika](#6-aktualizacja-danych-użytkownika)
-3. [Przedmioty](#przedmioty)
+5. [Przedmioty](#przedmioty)
     - [Pobieranie listy wszystkich przedmiotów](#1-pobieranie-listy-wszystkich-przedmiotów)
     - [Pobieranie pojedynczego przedmiotu](#2-pobieranie-pojedynczego-przedmiotu)
     - [Pobieranie pojedynczego przedmiotu po kodzie](#3-pobieranie-pojedynczego-przedmiotu-po-kodzie)
     - [Usuwanie przedmiotu](#4-usuwanie-przedmiotu)
     - [Dodawanie nowego przedmiotu](#5-dodawanie-nowego-przedmiotu)
     - [Aktualizacja danych przedmiotu](#6-aktualizacja-danych-przedmiotu)
-4. [Okresy](#okresy)
+6. [Okresy](#okresy)
     - [Pobieranie listy wszystkich okresów](#1-pobieranie-listy-wszystkich-okresów)
     - [Pobieranie pojedynczego okresu](#2-pobieranie-pojedynczego-okresu)
     - [Usuwanie okresu](#3-usuwanie-okresu)
     - [Dodawanie nowego okresu](#4-dodawanie-nowego-okresu)
     - [Aktualizacja danych okresu](#5-aktualizacja-danych-okresu)
-5. [Rejestracja](#rejestracja)
+7. [Rejestracja](#rejestracja)
     - [Rejestracja ucznia na przedmiot](#1-rejestracja-ucznia-na-przedmiot)
     - [Pobieranie listy lub konkretnego powiązania](#2-pobieranie-listy-lub-konkretnego-powiązania)
     - [Pobieranie powiązania o konkretnym numerze ID](#3-pobieranie-powiązania-o-konkretnym-numerze-id)
     - [Wystawienie oceny uczniowi](#4-wystawienie-oceny-uczniowi)
     - [Wyrejestrowanie ucznia z przedmiotu](#5-wyrejestrowanie-ucznia-z-przedmiotu)
 ---
+
+## Plik konfiguracyjny
+
+**Nazwa pliku:** `application.properties`
+
+```properties
+### KONFIGURACJA SERWERA ###
+# PORT SERWERA - Port, na którym aplikacja nasłuchuje
+server.port=8080
+# ADRES SERWERA - Adres IP, na którym działa serwer
+server.address=127.0.0.1
+
+### KONFIGURACJA BAZY DANYCH ###
+# URL BAZY DANYCH
+spring.datasource.url=jdbc:mysql://<data-base-url>
+# NAZWA UŻYTKOWNIKA BAZODANOWEGO
+spring.datasource.username=<user-name>
+# HASŁO UŻYTKOWNIKA BAZODANOWEGO
+spring.datasource.password=<password>
+
+### KONFIGURACJA BEZPIECZEŃSTWA ###
+spring.security.filter.order=10
+# SEKRET BEZPIECZEŃSTWA - klucz, na podstawie którego generowane są tokeny JWT
+security.auth.secret=~a?%B^"}i[xu}~IhA+BO'nGS8G(o5x
+```
+
 ## Zadeklarowane stałe
 
 ### Statusy
@@ -61,85 +91,26 @@ Stan na dzień 16.12.2023 r.
 5. `NOWA` - Oznacza, że obiekt jest nowy. 
 6. `ROBOCZA`  - Oznacza, że obiekt jest wersją roboczą lub tymczasową.
 
-## Użytkownicy
+## Autentykacja użytkownika
 
 ### Opis
 
-Klasa `UzytkownicyController` odpowiada za obsługę end-pointów związanych z zarządzaniem użytkownikami w systemie. W ramach dokumentacji przedstawione są wszystkie dostępne end-pointy wraz z ich opisem, parametrami i możliwymi odpowiedziami.
+Klasa `AuthController` odpowiada za obsługę end-pointów związanych z rejestracją i logowaniem użytkowników. W ramach dokumentacji przedstawione są wszystkie dostępne end-pointy wraz z ich opisem, parametrami i możliwymi odpowiedziami.
 
 ### End-pointy
-#### 1. Pobieranie listy wszystkich użytkowników
-```
-GET /api/uzytkownik/all
-```
-   - Ścieżka: `/api/uzytkownik/all`
-   - Metoda: `GET`
-   - Parametry:
-     - `size` (opcjonalny): liczba elementów na stronie
-     - `page` (opcjonalny): numer strony (liczony od 0)
-   - Odpowiedź:
-     - `200 OK` - sukces, zwraca listę użytkowników w formacie JSON
-     - `404 Not Found` - brak użytkowników
 
-```text
-GET /api/uzytkownik/all
-```     
-#### 2. Pobieranie pojedynczego użytkownika
+#### 1. Rejestracja nowego użytkownika
 
-   - Ścieżka: `/api/uzytkownik/{id}`
-   - Metoda: `GET`
-   - Parametry:
-     - `id` (ścieżka): identyfikator użytkownika
-   - Odpowiedź:
-     - `200 OK` - sukces, zwraca dane użytkownika w formacie JSON
-     - `404 Not Found` - użytkownik o podanym identyfikatorze nie istnieje
+- **Ścieżka:** `/api/v1/auth/register`
+- **Metoda:** `POST`
+- **Parametry:**
+  - `uzytkownik` (ciało zapytania, wymagane): Obiekt reprezentujący dane użytkownika.
+- **Odpowiedź:**
+  - `201 Created` - sukces, konto zostało utworzone.
+  - `500 Internal Server Error` - błąd utworzenia konta.
 
-```text
-GET /api/uzytkownik/1
-```
-#### 3. Pobieranie pojedynczego użytkownika po loginie
-
-   - Ścieżka: `/api/uzytkownik`
-   - Metoda: `GET`
-   - Parametry:
-     - `login` (parametr zapytania): login użytkownika (zakodowany w Base64)
-   - Odpowiedź:
-     - `200 OK` - sukces, zwraca dane użytkownika w formacie JSON
-     - `404 Not Found` - użytkownik o podanym loginie nie istnieje
-   
-
-```text
-GET /api/uzytkownik/?login=<login_base_64>
-```
-#### 4. Usuwanie użytkownika
-
-   - Ścieżka: `/api/uzytkownik/{id}`
-   - Metoda: `DELETE`
-   - Parametry:
-     - `id` (ścieżka): identyfikator użytkownika
-   - Odpowiedź: 
-     - `204 No Content` - sukces, użytkownik został usunięty 
-     - `404 Not Found` - użytkownik o podanym identyfikatorze nie istnieje
-
-```text
-DELETE /api/uzytkownik/<nr_id>
-```
-#### 5. Dodawanie nowego użytkownika
-
-   - Ścieżka: `/api/uzytkownik`
-   - Metoda: `POST`
-   - Parametry:
-     - Ciało żądania zawiera dane nowego użytkownika w formacie JSON
-   - Odpowiedź:
-     - `201 Created` - sukces, użytkownik został dodany, zwraca link do nowo utworzonego użytkownika
-     - `400 Bad Request` - błąd w danych wejściowych
-   
-> WAŻNE!
-> 
-> Login użytkownika nadawany jest automatycznie w konwencji <pierwsza_litera_imienia>.<nazwisko>[?nr_porządkowy]
-> 
-```text
-POST /api/uzytkownik
+```http
+POST /api/v1/auth/register
 Content-Type: application/json
 ```
 ```json
@@ -160,22 +131,167 @@ Content-Type: application/json
     }
 }
 ```
+
+#### 2. Logowanie użytkownika
+
+- **Ścieżka:** `/api/v1/auth/login`
+- **Metoda:** `POST`
+- **Parametry:**
+  - `request` (ciało zapytania, wymagane): Obiekt zawierający dane logowania (login, hasło).
+- Odpowiedzi:
+    - `200 OK` - sukces, logowanie udane, zwraca token JWT.
+    - `400 Bad Request` - błędny login lub hasło.
+    - `400 Bad Request` - inny błąd podczas logowania.
+
+```http
+POST /api/v1/auth/login
+Content-Type: application/json
+```
+```json
+{
+    "login":"j.doe",
+    "haslo":"haslo"
+}
+```
+**Odpowiedź:**
+```json
+{
+    "login": "j.doe",
+    "token": "<jwt-token>"
+}
+```
+
+Pozostałe zapytania wymagają uwierzytelnienia, dlatego należy dołączać do zapytania:
+```http
+Authorization: Bearer <token>
+```
+
+## Użytkownicy
+
+### Opis
+
+Klasa `UzytkownicyController` odpowiada za obsługę end-pointów związanych z zarządzaniem użytkownikami w systemie. W ramach dokumentacji przedstawione są wszystkie dostępne end-pointy wraz z ich opisem, parametrami i możliwymi odpowiedziami.
+
+### End-pointy
+#### 1. Pobieranie listy wszystkich użytkowników
+
+   - **Ścieżka:** `/api/uzytkownik/all`
+   - **Metoda:** `GET`
+   - **Parametry:**
+     - `size` (opcjonalny): liczba elementów na stronie
+     - `page` (opcjonalny): numer strony (liczony od 0)
+   - **Odpowiedź:**
+     - `200 OK` - sukces, zwraca listę użytkowników w formacie JSON
+     - `404 Not Found` - brak użytkowników
+
+```http
+GET /api/uzytkownik/all
+Authorization: Bearer <token>
+```
+
+#### 2. Pobieranie pojedynczego użytkownika
+
+   - **Ścieżka:** `/api/uzytkownik/{id}`
+   - **Metoda:** `GET`
+   - **Parametry:**
+     - `id` (ścieżka): identyfikator użytkownika
+   - **Odpowiedź:**
+     - `200 OK` - sukces, zwraca dane użytkownika w formacie JSON
+     - `404 Not Found` - użytkownik o podanym identyfikatorze nie istnieje
+
+```http
+GET /api/uzytkownik/1
+Authorization: Bearer <token>
+```
+
+#### 3. Pobieranie pojedynczego użytkownika po loginie
+
+   - **Ścieżka:** `/api/uzytkownik`
+   - **Metoda:** `GET`
+   - **Parametry:**
+     - `login` (parametr zapytania): login użytkownika (zakodowany w Base64)
+   - **Odpowiedź:**
+     - `200 OK` - sukces, zwraca dane użytkownika w formacie JSON
+     - `404 Not Found` - użytkownik o podanym loginie nie istnieje
+   
+
+```http
+GET /api/uzytkownik/?login=<login_base_64>
+Authorization: Bearer <token>
+```
+
+#### 4. Usuwanie użytkownika
+
+   - **Ścieżka:** `/api/uzytkownik/{id}`
+   - **Metoda:** `DELETE`
+   - **Parametry:**
+     - `id` (ścieżka): identyfikator użytkownika
+   - **Odpowiedź:** 
+     - `204 No Content` - sukces, użytkownik został usunięty 
+     - `404 Not Found` - użytkownik o podanym identyfikatorze nie istnieje
+
+```http
+DELETE /api/uzytkownik/<nr_id>
+Authorization: Bearer <token>
+```
+
+#### 5. Dodawanie nowego użytkownika
+
+   - **Ścieżka:** `/api/uzytkownik`
+   - **Metoda:** `POST`
+   - **Parametry:**
+     - Ciało żądania zawiera dane nowego użytkownika w formacie JSON
+   - **Odpowiedź:**
+     - `201 Created` - sukces, użytkownik został dodany, zwraca link do nowo utworzonego użytkownika
+     - `400 Bad Request` - błąd w danych wejściowych
+   
+> **WAŻNE!**
+> 
+> Login użytkownika nadawany jest automatycznie w konwencji <pierwsza_litera_imienia>.<nazwisko>[?nr_porządkowy]
+> 
+> W bazie danych przechowywane jest zaszyfrowane hasło przy użyciu algorytmu `BCrypt`
+```http
+POST /api/uzytkownik
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+```json
+{
+    "imie": "Jan",
+    "nazwisko": "Kowalski",
+    "tytNauk": null,
+    "haslo": "haslo",
+    "email": "john.doe@example.com",
+    "telefon": 123456789,
+    "dataUrodz": "1990-01-01",
+    "status": "AKTYWNY",
+    "rola": "UCZEN",
+    "zdjecie": {
+        "plik": "<plik_binarny_base_64>",
+        "nazwa": "zdjecie",
+        "ext": "png",
+        "alt": "zdjecie-uzytkownika"
+    }
+}
+```
+
 #### 6. Aktualizacja danych użytkownika
 
-   - Ścieżka: `/api/uzytkownik/{id}`
-   - Metoda: `PATCH`
-   - Parametry:
+   - **Ścieżka:** `/api/uzytkownik/{id}`
+   - **Metoda:** `PATCH`
+   - **Parametry:**
      - `id` (ścieżka): identyfikator użytkownika
      - Ciało żądania zawiera dane do aktualizacji w formacie JSON
-   -Odpowiedź:
+   -**Odpowiedź:**
      - `200 OK` - sukces, użytkownik został zaktualizowany, zwraca link do zaktualizowanego użytkownika
      - `400 Bad Request` - błąd w danych wejściowych
      - `404 Not Found` - użytkownik o podanym identyfikatorze nie istnieje
 
 Przykład:
-```text
+```http
 PATCH /api/uzytkownik/1
 Content-Type: application/json
+Authorization: Bearer <token>
 ```
 ```json
 {
@@ -194,68 +310,72 @@ Klasa `PrzedmiotyController` odpowiada za obsługę end-pointów związanych z z
 ### End-pointy
 
 #### 1. Pobieranie listy wszystkich przedmiotów
-- Ścieżka: `/api/przedmiot/all`
-- Metoda: `GET`
-- Parametry:
+- **Ścieżka:** `/api/przedmiot/all`
+- **Metoda:** `GET`
+- **Parametry:**
   - `size` (opcjonalny): liczba elementów na stronie
   - `page` (opcjonalny): numer strony (liczony od 0) (liczony od 0)
-- Odpowiedź:
+- **Odpowiedź:**
   - `200 OK` - sukces, zwraca listę przedmiotów w formacie JSON
   - `404 Not Found` - brak przedmiotów
 
-```text
+```http
 GET /api/przedmiot/all
+Authorization: Bearer <token>
 ```
 
 #### 2. Pobieranie pojedynczego przedmiotu
 
-- Ścieżka: `/api/przedmiot/{id}`
-- Metoda: `GET`
-- Parametry:
+- **Ścieżka:** `/api/przedmiot/{id}`
+- **Metoda:** `GET`
+- **Parametry:**
     - `id` (ścieżka): identyfikator przedmiotu
-- Odpowiedź:
+- **Odpowiedź:**
     - `200 OK` - sukces, zwraca dane przedmiotu w formacie JSON
     - `404 Not Found` - przedmiot o podanym identyfikatorze nie istnieje
 
-```text
+```http
 GET /api/przedmiot/1
+Authorization: Bearer <token>
 ```
 
 #### 3. Pobieranie pojedynczego przedmiotu po kodzie
 
-- Ścieżka: `/api/przedmiot`
-- Metoda: `GET`
-- Parametry:
+- **Ścieżka:** `/api/przedmiot`
+- **Metoda:** `GET`
+- **Parametry:**
     - `kod` (parametr zapytania): kod przedmiotu (zakodowany w Base64)
-- Odpowiedź:
+- **Odpowiedź:**
   - `200 OK` - sukces, zwraca dane przedmiotu w formacie JSON
   - `404 Not Found` - przedmiot o podanym kodzie nie istnieje
 
-```text
+```http
 GET /api/przedmiot/?kod=<kod_base_64>
+Authorization: Bearer <token>
 ```
 
 #### 4. Usuwanie przedmiotu
 
-- Ścieżka: `/api/przedmiot/{id}`
-- Metoda: `DELETE`
-- Parametry:
+- **Ścieżka:** `/api/przedmiot/{id}`
+- **Metoda:** `DELETE`
+- **Parametry:**
    - `id` (ścieżka): identyfikator przedmiotu
-- Odpowiedź:
+- **Odpowiedź:**
    - `204 No Content`- sukces, przedmiot został usunięty
   - `404 Not Found` - przedmiot o podanym identyfikatorze nie istnieje
 
-```text
+```http
 DELETE /api/przedmiot/<nr_id>
+Authorization: Bearer <token>
 ```
 
 #### 5. Dodawanie nowego przedmiotu
 
-- Ścieżka: `/api/przedmiot`
-- Metoda: `POST`
-- Parametry:
+- **Ścieżka:** `/api/przedmiot`
+- **Metoda:** `POST`
+- **Parametry:**
     - Ciało żądania zawiera dane nowego przedmiotu w formacie JSON
-- Odpowiedź:
+- **Odpowiedź:**
   -  `201 Created` - sukces, przedmiot został dodany, zwraca link do nowo utworzonego przedmiotu
   -  `400 Bad Request` - błąd w danych wejściowych
 
@@ -266,9 +386,10 @@ DELETE /api/przedmiot/<nr_id>
 > <3 znaki okresu>/<4 znaki nazwy przedmiotu>/<numer porządkowy>
 
 
-```text
+```http
 POST /api/przedmiot
 Content-Type: application/json
+Authorization: Bearer <token>
 ```
 
 ```json
@@ -286,20 +407,20 @@ Content-Type: application/json
 
 #### 6. Aktualizacja danych przedmiotu
 
-- Ścieżka: `/api/przedmiot/{id}`
-- Metoda: `PATCH`
-- Parametry:
+- **Ścieżka:** `/api/przedmiot/{id}`
+- **Metoda:** `PATCH`
+- **Parametry:**
     - `id` (ścieżka): identyfikator przedmiotu
     - Ciało żądania zawiera dane do aktualizacji w formacie JSON
-- Odpowiedź:
+- **Odpowiedź:**
     - `200 OK` - sukces, przedmiot został zaktualizowany, zwraca link do zaktualizowanego przedmiotu
     - `400 Bad Request` - błąd w danych wejściowych
     - `404 Not Found` - przedmiot o podanym identyfikatorze nie istnieje
 
-```text
-
+```http
 PATCH /api/przedmiot/1
 Content-Type: application/json
+Authorization: Bearer <token>
 ```
 ```json
 {
@@ -316,58 +437,62 @@ Klasa `OkresyController `odpowiada za obsługę end-pointów związanych z zarz�
 ### End-pointy
 
 #### 1. Pobieranie listy wszystkich okresów
-- Ścieżka: `/api/przedmiot/okres/all`
-- Metoda: `GET`
-- Parametry:
+- **Ścieżka:** `/api/przedmiot/okres/all`
+- **Metoda:** `GET`
+- **Parametry:**
   - `size` (opcjonalny): liczba elementów na stronie
   - `page` (opcjonalny): numer strony (liczony od 0)
-- Odpowiedź:
+- **Odpowiedź:**
   - `200 OK` - sukces, zwraca listę okresów w formacie JSON
   - `404 Not Found` - brak okresów
 
-```text
+```http
 GET /api/przedmiot/okres/all
+Authorization: Bearer <token>
 ```
 
 #### 2. Pobieranie pojedynczego okresu
 
-- Ścieżka: `/api/przedmiot/okres/{id}`
-- Metoda: `GET`
-- Parametry:
+- **Ścieżka:** `/api/przedmiot/okres/{id}`
+- **Metoda:** `GET`
+- **Parametry:**
     `id` (ścieżka): identyfikator okresu
-- Odpowiedź:
+- **Odpowiedź:**
     `200 OK` - sukces, zwraca dane okresu w formacie JSON
     `404 Not Found `- okres o podanym identyfikatorze nie istnieje
 
-```text
+```http
 GET /api/przedmiot/okres/1
+Authorization: Bearer <token>
 ```
 #### 3. Usuwanie okresu
 
-- Ścieżka: `/api/przedmiot/okres/{id}`
-- Metoda: `DELETE`
-- Parametry:
+- **Ścieżka:** `/api/przedmiot/okres/{id}`
+- **Metoda:** `DELETE`
+- **Parametry:**
     - `id` (ścieżka): identyfikator okresu
-- Odpowiedź:
+- **Odpowiedź:**
     - `204 No Content` - sukces, okres został usunięty
     - `404 Not Found` - okres o podanym identyfikatorze nie istnieje
 
-```text
+```http
 DELETE /api/przedmiot/okres/<nr_id>
+Authorization: Bearer <token>
 ```
 #### 4. Dodawanie nowego okresu
 
-- Ścieżka: `/api/przedmiot/okres`
-- Metoda: `POST`
-- Parametry:
+- **Ścieżka:** `/api/przedmiot/okres`
+- **Metoda:** `POST`
+- **Parametry:**
     - Ciało żądania zawiera dane nowego okresu w formacie JSON
-- Odpowiedź:
+- **Odpowiedź:**
     - `201 Created` - sukces, okres został dodany, zwraca link do nowo utworzonego okresu
     - `400 Bad Request` - błąd w danych wejściowych
 
-```text
+```http
 POST /api/przedmiot/okres
 Content-Type: application/json
+Authorization: Bearer <token>
 ```
 ```json
 {
@@ -378,19 +503,20 @@ Content-Type: application/json
 ```
 #### 5. Aktualizacja danych okresu
 
-- Ścieżka: `/api/przedmiot/okres/{id}`
-- Metoda: `PATCH`
-- Parametry:
+- **Ścieżka:** `/api/przedmiot/okres/{id}`
+- **Metoda:** `PATCH`
+- **Parametry:**
     - `id` (ścieżka): identyfikator okresu
   - Ciało żądania zawiera dane do aktualizacji w formacie JSON
-- Odpowiedź:
+- **Odpowiedź:**
   - `200 OK `- sukces, okres został zaktualizowany, zwraca link do zaktualizowanego okresu
   - `400 Bad Request` - błąd w danych wejściowych
   - `404 Not Found` - okres o podanym identyfikatorze nie istnieje
 
-```text
+```http
 PATCH /api/przedmiot/okres/1
 Content-Type: application/json
+Authorization: Bearer <token>
 ```
 ```json
 {
@@ -403,22 +529,23 @@ Content-Type: application/json
 
 ### Opis
 
-Klasa UczenPrzedmiotController odpowiada za obsługę end-pointów związanych z rejestracją ucznia na przedmiot w systemie i wystawianiem mu oceny. W ramach dokumentacji przedstawione są wszystkie dostępne end-pointy wraz z ich opisem, parametrami i możliwymi odpowiedziami.
+Klasa `UczenPrzedmiotController` odpowiada za obsługę end-pointów związanych z rejestracją ucznia na przedmiot w systemie i wystawianiem mu oceny. W ramach dokumentacji przedstawione są wszystkie dostępne end-pointy wraz z ich opisem, parametrami i możliwymi odpowiedziami.
 
 ### End-pointy
 
 #### 1. Rejestracja ucznia na przedmiot
-- Ścieżka: `/api/przedmiot/uczen/rejestruj`
-- Metoda: `POST`
-- Parametry:
+- **Ścieżka:** `/api/przedmiot/uczen/rejestruj`
+- **Metoda:** `POST`
+- **Parametry:**
     - `nick` (parametr zapytania, wymagany): nick (login) ucznia w formacie Base64
   - `kod` (parametr zapytania, wymagany): kod przedmiotu w formacie Base64
-- Odpowiedź:
+- **Odpowiedź:**
     - `201 Created` - sukces, uczniowi został przypisany przedmiot
   - `400 Bad Request` - błąd w danych wejściowych
 
-```text
+```http
 POST /api/przedmiot/uczen/rejestruj?nick=<nick_base64>&kod=<kod_base64>
+Authorization: Bearer <token>
 ```
 #### 2. Pobieranie listy lub konkretnego powiązania:
 
@@ -428,62 +555,66 @@ Powiązanie można pobrać po:
 * **nicku i kodzie**, wtedy pobiera konkretny poziazanie ucznia i przedmiotu
 * **bez żadnych parametrów**, wtedy pobiera wszytko
 
-- Ścieżka: `/api/przedmiot/uczen`
-- Metoda: GET
-- Parametry:
+- **Ścieżka:** `/api/przedmiot/uczen`
+- **Metoda:** `GET`
+- **Parametry:**
   - `nick` (parametr zapytania, opcjonalny): nick (login) ucznia w formacie Base64
   - `kod` (parametr zapytania, opcjonalny): kod przedmiotu w formacie Base64
   - `size` (parametr zapytania, opcjonalny): liczba wyników na stronie
   - `page` (parametr zapytania, opcjonalny): numer strony, liczony od 0
-- Odpowiedź:
-  - `200` OK - sukces, zwraca kolekcję modeli powiązań w formacie JSON
-  - `404` Not Found - brak powiązań
+- **Odpowiedź:**
+  - `200 OK` - sukces, zwraca kolekcję modeli powiązań w formacie JSON
+  - `404 Not Found` - brak powiązań
 
-```text
+```http
 GET /api/przedmiot/uczen?nick=<nick_base64>&kod=<kod_base64>&size=<size>&page=<page>
+Authorization: Bearer <token>
 ```
 #### 3. Pobieranie powiązania o konkretnym numerze ID
 
-- Ścieżka: `/api/przedmiot/uczen/{id}`
-- Metoda: `GET`
-- Parametry:
+- **Ścieżka:** `/api/przedmiot/uczen/{id}`
+- **Metoda:** `GET`
+- **Parametry:**
   - `id` (ścieżka): numer ID powiązania
-- Odpowiedź:
+- **Odpowiedź:**
   - `200 OK` - sukces, zwraca model powiązania w formacie JSON
   - `404 Not Found` - brak powiązania o podanym ID
 
-```text
+```http
 GET /api/przedmiot/uczen/{id}
+Authorization: Bearer <token>
 ```
 
 #### 4. Wystawienie oceny uczniowi
 
-- Ścieżka: `/api/przedmiot/uczen/ocena`
-- Metoda: `PATCH`
-- Parametry:
+- **Ścieżka:** `/api/przedmiot/uczen/ocena`
+- **Metoda:** `PATCH`
+- **Parametry:**
     - `ocena` (parametr zapytania, wymagany): ocena do wystawienia
     - `nick` (parametr zapytania, wymagany): nick (login) ucznia w formacie Base64
     - `kod` (parametr zapytania, wymagany): kod przedmiotu w formacie Base64
-- Odpowiedź:
+- **Odpowiedź:**
   - `200 OK` - sukces, ocena została wystawiona
   - `404 Not Found` - brak powiązania o podanym nicku i kodzie
 
-```text
+```http
 PATCH /api/przedmiot/uczen/ocena?ocena=<ocena>&nick=<nick_base64>&kod=<kod_base64>
+Authorization: Bearer <token>
 ```
 
 #### 5. Wyrejestrowanie ucznia z przedmiotu
 
-- Ścieżka: `/api/przedmiot/uczen/wyrejestruj`
-- Metoda: `DELETE`
-- Parametry:
+- **Ścieżka:** `/api/przedmiot/uczen/wyrejestruj`
+- **Metoda:** `DELETE`
+- **Parametry:**
     - `nick` (parametr zapytania, wymagany): nick (login) ucznia w formacie Base64
   - `kod` (parametr zapytania, wymagany): kod przedmiotu w formacie Base64
-- Odpowiedź:
+- **Odpowiedź:**
     - `204 No Content` - sukces, ucznia został wyrejestrowany z przedmiotu
   - `404 Not Found` - brak powiązania o podanym nicku i kodzie
 
-```text
+```http
 DELETE /api/przedmiot/uczen/wyrejestruj?nick=<nick_base64>&kod=<kod_base64>
+Authorization: Bearer <token>
 ```
 
