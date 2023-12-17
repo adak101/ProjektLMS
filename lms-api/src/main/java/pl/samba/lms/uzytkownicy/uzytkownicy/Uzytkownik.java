@@ -28,6 +28,17 @@ public class Uzytkownik {
     private Zdjecie zdjecie;
     private Role rola;
 
+    public static final String IMIE_FIELD = "imie";
+    public static final String NAZWISKO_FIELD = "nazwisko";
+    public static final String TYT_NAUK_FIELD = "tytNauk";
+    public static final String LOGIN_FIELD = "login";
+    public static final String HASLO_FIELD = "haslo";
+    public static final String EMAIL_FIELD = "email";
+    public static final String TELEFON_FIELD = "telefon";
+    public static final String DATA_URODZ_FIELD = "dataUrodz";
+    public static final String STATUS_FIELD = "status";
+    public static final String ZDJECIE_FIELD = "zdjecie";
+    public static final String ROLA_FIELD = "rola";
     public Uzytkownik(
             Integer idUzytk,
             String imie,
@@ -57,16 +68,16 @@ public class Uzytkownik {
     // Konstruktor argumentowy z adnotacją @JsonCreator
     @JsonCreator
     public Uzytkownik(
-                      @JsonProperty("imie") String imie,
-                      @JsonProperty("nazwisko") String nazwisko,
-                      @JsonProperty("tytNauk") String tytNauk,
-                      @JsonProperty("haslo") String haslo,
-                      @JsonProperty("email") String email,
-                      @JsonProperty("telefon") Integer telefon,
-                      @JsonProperty("dataUrodz") Date dataUrodz,
-                      @JsonProperty("status") Status status,
-                      @JsonProperty("zdjecie") Zdjecie zdjecie,
-                      @JsonProperty("rola") Role rola) {
+                      @JsonProperty(IMIE_FIELD) String imie,
+                      @JsonProperty(NAZWISKO_FIELD) String nazwisko,
+                      @JsonProperty(TYT_NAUK_FIELD) String tytNauk,
+                      @JsonProperty(HASLO_FIELD) String haslo,
+                      @JsonProperty(EMAIL_FIELD) String email,
+                      @JsonProperty(TELEFON_FIELD) Integer telefon,
+                      @JsonProperty(DATA_URODZ_FIELD) Date dataUrodz,
+                      @JsonProperty(STATUS_FIELD) Status status,
+                      @JsonProperty(ZDJECIE_FIELD) Zdjecie zdjecie,
+                      @JsonProperty(ROLA_FIELD) Role rola) {
         this.idUzytk = null;
         this.imie = imie;
         this.nazwisko = nazwisko;
