@@ -20,11 +20,6 @@ public class ZdjeciaController implements ControllerInterface<Zdjecie, ZdjecieMo
     public ZdjeciaController(ZdjecieRepository dataSet){
         this.dataSet = dataSet;
     }
-    @GetMapping
-    @Override
-    public CollectionModel<Object> getAllEndPoints() {
-        return null;
-    }
 
     @Override
     public ResponseEntity<CollectionModel<ZdjecieModel>> get(Integer size, Integer page) {

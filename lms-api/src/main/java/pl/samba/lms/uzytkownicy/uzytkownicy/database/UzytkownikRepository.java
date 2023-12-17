@@ -2,6 +2,7 @@ package pl.samba.lms.uzytkownicy.uzytkownicy.database;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import pl.samba.lms.utils.constants.Status;
 import pl.samba.lms.uzytkownicy.zdjecie.Zdjecie;
@@ -59,6 +60,7 @@ public class UzytkownikRepository extends AbstractCrudRepository<Uzytkownik, Int
         }
 
 
+
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(super.getJdbc())
                 .withSchemaName(getSCHEMA())
                 .withProcedureName(super.getInsertProcName());
@@ -66,7 +68,9 @@ public class UzytkownikRepository extends AbstractCrudRepository<Uzytkownik, Int
         inParams.put(P_IMIE, data.getImie());
         inParams.put(P_NAZWISKO, data.getNazwisko());
         inParams.put(P_TYT_NAUK, data.getTytNauk());
-        inParams.put(P_HASLO, data.getHaslo());
+        inParams.put(P_HASLO,
+                new BCryptPasswordEncoder().encode(data.getHaslo())
+        );
         inParams.put(P_EMAIL, data.getEmail());
         inParams.put(P_TELEFON, data.getTelefon());
         inParams.put(P_DATA_URODZ, data.getDataUrodz());

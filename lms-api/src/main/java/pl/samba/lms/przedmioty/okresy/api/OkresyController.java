@@ -25,11 +25,6 @@ public class OkresyController implements ControllerInterface<Okres, OkresModel> 
     public OkresyController(OkresRepository dataSet){
         this.dataSet = dataSet;
     }
-    @Override
-    @GetMapping
-    public CollectionModel<Object> getAllEndPoints() {
-        return null;
-    }
 
     @Override
     @GetMapping("/all")
