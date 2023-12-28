@@ -40,6 +40,13 @@ Wersja API: `lms-api-0.0.1-SNAPSHOT`
     - [Pobieranie powiązania o konkretnym numerze ID](#3-pobieranie-powiązania-o-konkretnym-numerze-id)
     - [Wystawienie oceny uczniowi](#4-wystawienie-oceny-uczniowi)
     - [Wyrejestrowanie ucznia z przedmiotu](#5-wyrejestrowanie-ucznia-z-przedmiotu)
+8. [Zadania](#zadania)
+   - [Rodzaje zadań](#Rodzaje-zadań)
+   - [Pobieranie listy wszystkich zadań](#1-pobieranie-listy-wszystkich-zadań)
+   - [Pobieranie pojedynczego zadania](#2-pobieranie-pojedynczego-zadania)
+   - [Usuwanie zadania](#3-usuwanie-zadania)
+   - [Dodawanie nowego zadania](#4-dodawanie-nowego-zadania)
+   - [Aktualizacja danych zadania](#5-aktualizacja-danych-zadania)
 ---
 
 ## Plik konfiguracyjny
@@ -497,8 +504,8 @@ Authorization: Bearer <token>
 ```json
 {
     "kod": "SEM01",
-    "dataPoczatku": "2023-01-01",
-    "dataKonca": "2023-02-28"
+    "dataPoczatku": "2023-01-01T00:00:00",
+    "dataKonca": "2023-02-28T00:00:00"
 }
 ```
 #### 5. Aktualizacja danych okresu
@@ -520,8 +527,8 @@ Authorization: Bearer <token>
 ```
 ```json
 {
-    "dataPoczatku": "2023-02-01",
-    "dataKonca": "2023-03-31"
+    "dataPoczatku": "2023-02-01T00:00:00",
+    "dataKonca": "2023-03-31T00:00:00"
 }
 ```
 
@@ -618,3 +625,160 @@ DELETE /api/przedmiot/uczen/wyrejestruj?nick=<nick_base64>&kod=<kod_base64>
 Authorization: Bearer <token>
 ```
 
+## Zadania
+
+### Rodzaje zadań
+
+Zadania przekazywane w `tresc` mają format listy obiektów json. To pole jest typu `String`, więc wszystkie `"` muszą być poprzedzone znakiem *escape*: `\ `.Poniżej typy zadań:
+
+#### 1. Zadania otwarte:
+
+```
+{
+  \"typ\":\"OTWARTE\",
+  \"pytanie\":\"Bardzo trudne pytanie wymagające rozbudowanej odpowiedzi\"
+}
+```
+
+#### 2. Zadania zamknięte:
+
+```
+{
+    \"typ\":\"ZAMKNIETE\",
+    \"pytanie\":\"Pytanie testowe z czterema odpowiedziami do wyboru, gdzie dwie są prawdziwe\",
+    \"odpowiedz\":[\"odpowiedź1\",\"odpowiedź2\",\"odpowiedź3\",\"odpowiedź3\"],
+    \"poprawneOdp\":[1,3]
+}
+```
+
+#### 3. Zadania prawda-fałsz:
+
+```text
+{
+    \"typ\":\"PRAWDA_FALSZ\",
+    \"pytanie\":\"Bardzo proste pytanie wymagające odpowiedzi prawda albo fałsz\",
+    \"odpowiedz\":\"true\"
+}
+```
+
+#### 4. Zadania z plikiem:
+
+```text
+{
+\"typ\":\"PLIK\",
+\"pytanie\":\"Pytanie wymagajace wgrania pliku lub jego edycję i ponowne wganie\",
+\"plik\":\"<base64_plik>\"}
+```
+#### Przykład
+
+```
+[
+  {\"typ\":\"OTWARTE\",\"pytanie\":\"Bardzo trudne pytanie wymagające rozbudowanej odpowiedzi\"},
+  {\"typ\":\"PRAWDA_FALSZ\",\"pytanie\":\"Bardzo proste pytanie wymagające odpowiedzi prawda albo fałsz\",\"odpowiedz\":\"true\"},
+  {\"typ\":\"PLIK\",\"pytanie\":\"Pytanie wymagajace wgrania pliku lub jego edycję i ponowne wganie\",\"plik\":\"Ym5Wc2JBPT0=\"},
+  {\"typ\":\"ZAMKNIETE\",\"pytanie\":\"Pytanie testowe z czterema odpowiedziami do wyboru, gdzie dwie są prawdziwe\",\"odpowiedz\":[\"odpowiedź1\",\"odpowiedź2\",\"odpowiedź3\",\"odpowiedź3\"],\"poprawneOdp\":[1,3]}
+]
+```
+
+### Opis
+
+Klasa `ZadaniaController` odpowiada za obsługę end-pointów związanych z zarządzaniem zadaniami przedmiotów w systemie. Poniżej przedstawione są wszystkie dostępne end-pointy wraz z ich opisem, parametrami i możliwymi odpowiedziami.
+
+### End-pointy
+
+#### 1. Pobieranie listy wszystkich zadań
+
+- Ścieżka: `/api/przedmiot/zadanie/all`
+- Metoda: `GET`
+- Parametry:
+  - `kod` (wymagany): Kod przedmiotu zakodowany w base64.
+  - `size` (opcjonalny): Liczba elementów na stronie.
+  - `page` (opcjonalny): Numer strony (liczony od 0).
+- Odpowiedź:
+  - `200 OK` - sukces, zwraca listę zadań w formacie JSON.
+  - `404 Not Found` - brak zadań.
+
+```http
+GET /api/przedmiot/zadanie/all?kod=aGFwcHk=
+Authorization: Bearer <token>
+```
+
+#### 2. Pobieranie pojedynczego zadania
+
+- **Ścieżka**: `/api/przedmiot/zadanie/{id}`
+- **Metoda**: `GET`
+- **Parametry:**
+  - `id` (ścieżka): Identyfikator zadania.
+- **Odpowiedź**:
+  - `200 OK` - sukces, zwraca dane zadania w formacie JSON.
+  - `404 Not Found` - zadanie o podanym identyfikatorze nie istnieje.
+
+```http
+GET /api/przedmiot/zadanie/1
+Authorization: Bearer <token>
+```
+
+#### 3. Usuwanie zadania
+
+- **Ścieżka**: `/api/przedmiot/zadanie/{id}`
+- **Metoda**: `DELETE`
+- **Parametry**:
+  - `id` (ścieżka): Identyfikator zadania.
+- **Odpowiedź**:
+  - `204 No Content` - sukces, zadanie zostało usunięte.
+  - `404 Not Found` - zadanie o podanym identyfikatorze nie istnieje.
+
+```http
+DELETE /api/przedmiot/zadanie/<nr_id>
+Authorization: Bearer <token>
+```
+#### 4. Dodawanie nowego zadania
+
+- **Ścieżka:** `/api/przedmiot/zadanie`
+- **Metoda:** `POST`
+- **Parametry**:
+  - Ciało żądania zawiera dane nowego zadania w formacie JSON.
+- **Odpowiedź**:
+  - `201 Created`- sukces, zadanie zostało dodane, zwraca link do nowo utworzonego zadania.
+  - `400 Bad Request` - błąd w danych wejściowych.
+
+```http
+POST /api/przedmiot/zadanie
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+```json
+{
+  "idPrzedmiotu": 4,
+  "dataWstawienia": "2023-12-28T19:11:04",
+  "dataPoczatku": "2024-02-28T00:00:00",
+  "dataKonca": "2024-02-28T00:00:00",
+  "tresc": "<tresc_json>"
+}
+```
+#### 5. Aktualizacja danych zadania
+
+- **Ścieżka**: `/api/przedmiot/zadanie/{id}`
+- **Metoda**: `PATCH`
+- **Parametry**:
+  - `id` (ścieżka): Identyfikator zadania.
+  - Ciało żądania zawiera dane do aktualizacji w formacie JSON.
+- **Odpowiedź**:
+  - `200 OK` - sukces, zadanie zostało zaktualizowane, zwraca link do zaktualizowanego zadania.
+  - `400 Bad Request` - błąd w danych wejściowych.
+  - `404 Not Found` - zadanie o podanym identyfikatorze nie istnieje.
+
+```http
+PATCH /api/przedmiot/zadanie/1
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+```json
+{
+    "dataPoczatku": "2023-02-01T00:00:00",
+    "dataKonca": "2023-03-31T00:00:00",
+    "tresc": "<tresc_json>"
+}
+```
