@@ -14,6 +14,7 @@ public class ZadanieFactory {
     private static final String ODPOWIEDZ = "odpowiedz";
     private static final String POPRAWNE_ODPOWIEDZI = "poprawneOdp";
     private static final String PLIK = "plik";
+    private static final String PUNKTY = "punkty";
 
     public static List<ZadanieInterface> createZadaniaList(String json){
         List<ZadanieInterface> zadanieList = new ArrayList<>();
@@ -28,7 +29,8 @@ public class ZadanieFactory {
             switch (typ){
                 case OTWARTE -> {
                     zadanie = new ZadanieOtwarte(
-                            (String) jsonObject.get(PYTANIE)
+                            (String) jsonObject.get(PYTANIE),
+                            ((Double) jsonObject.get(PUNKTY)).intValue()
                     );
 
                 }
@@ -39,18 +41,22 @@ public class ZadanieFactory {
                     zadanie = new ZadanieZamkniete(
                             (String) jsonObject.get(PYTANIE),
                             odpowiedzi,
-                            poprawneOdp);
+                            poprawneOdp,
+                            ((Double) jsonObject.get(PUNKTY)).intValue()
+                    );
                 }
                 case PRAWDA_FALSZ -> {
                     zadanie = new ZadaniePrawdaFalsz(
                             (String) jsonObject.get(PYTANIE),
-                            (String) jsonObject.get(ODPOWIEDZ)
+                            (String) jsonObject.get(ODPOWIEDZ),
+                            ((Double) jsonObject.get(PUNKTY)).intValue()
                     );
                 }
                 case PLIK -> {
                     zadanie = new ZadaniePlik(
                             (String) jsonObject.get(PYTANIE),
-                            ((String) jsonObject.get(PLIK)).getBytes(StandardCharsets.UTF_8)
+                            ((String) jsonObject.get(PLIK)).getBytes(StandardCharsets.UTF_8),
+                            ((Double) jsonObject.get(PUNKTY)).intValue()
                     );
                 }
 

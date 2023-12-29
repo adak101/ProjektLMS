@@ -10,13 +10,15 @@ import pl.samba.lms.przedmioty.zadania.RodzajeZadan;
 public class ZadaniePrawdaFalsz implements ZadanieInterface {
     private String pytanie;
     private String odpowiedz;
+    private Integer punkty;
 
     @Override
     public String toString(){
         return  "{" +
                 "\"typ\":\""+ RodzajeZadan.PRAWDA_FALSZ +"\"," +
                 "\"pytanie\":\""+ pytanie+"\"," +
-                "\"odpowiedz\":\""+ odpowiedz+"\"" +
+                "\"odpowiedz\":\""+ odpowiedz+"\"," +
+                "\"punkty\":" + punkty +
                 "}";
     }
 

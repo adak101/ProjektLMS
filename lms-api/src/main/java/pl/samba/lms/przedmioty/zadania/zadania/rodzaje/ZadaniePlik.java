@@ -9,13 +9,15 @@ import java.util.Base64;
 public class ZadaniePlik implements ZadanieInterface {
     private String pytanie;
     private byte[] plik;
+    private Integer punkty;
 
     @Override
     public String toString() {
         return  "{" +
                 "\"typ\":\""+ RodzajeZadan.PLIK +"\"," +
                 "\"pytanie\":\""+ pytanie+"\"," +
-                "\"plik\":\""+ Base64.getEncoder().encodeToString(plik) +"\"" +
+                "\"plik\":\""+ Base64.getEncoder().encodeToString(plik) +"\"," +
+                "\"punkty\":" + punkty +
                 "}";
     }
 }

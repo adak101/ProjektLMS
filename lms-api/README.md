@@ -633,41 +633,46 @@ Zadania przekazywane w `tresc` mają format listy obiektów json. To pole jest t
 
 #### 1. Zadania otwarte:
 
-```
+```json
 {
-  \"typ\":\"OTWARTE\",
-  \"pytanie\":\"Bardzo trudne pytanie wymagające rozbudowanej odpowiedzi\"
+    "typ":"OTWARTE",
+    "pytanie":"Bardzo trudne pytanie wymagające rozbudowanej odpowiedzi",
+    "punkty": 10
 }
 ```
 
 #### 2. Zadania zamknięte:
 
-```
+```json
 {
-    \"typ\":\"ZAMKNIETE\",
-    \"pytanie\":\"Pytanie testowe z czterema odpowiedziami do wyboru, gdzie dwie są prawdziwe\",
-    \"odpowiedz\":[\"odpowiedź1\",\"odpowiedź2\",\"odpowiedź3\",\"odpowiedź3\"],
-    \"poprawneOdp\":[1,3]
+    "typ":"ZAMKNIETE",
+    "pytanie":"Pytanie testowe z czterema odpowiedziami do wyboru, gdzie dwie są prawdziwe",
+    "odpowiedz":["odpowiedź1","odpowiedź2","odpowiedź3","odpowiedź3"],
+    "poprawneOdp":[1,3],
+    "punkty": 2
 }
 ```
 
 #### 3. Zadania prawda-fałsz:
 
-```text
+```json
 {
-    \"typ\":\"PRAWDA_FALSZ\",
-    \"pytanie\":\"Bardzo proste pytanie wymagające odpowiedzi prawda albo fałsz\",
-    \"odpowiedz\":\"true\"
+    "typ":"PRAWDA_FALSZ",
+    "pytanie":"Bardzo proste pytanie wymagające odpowiedzi prawda albo fałsz",
+    "odpowiedz":"true",
+    "punkty": 1
 }
 ```
 
 #### 4. Zadania z plikiem:
 
-```text
+```json
 {
-\"typ\":\"PLIK\",
-\"pytanie\":\"Pytanie wymagajace wgrania pliku lub jego edycję i ponowne wganie\",
-\"plik\":\"<base64_plik>\"}
+    "typ":"PLIK",
+    "pytanie":"Pytanie wymagajace wgrania pliku lub jego edycję i ponowne wganie",
+    "plik":"<base64_plik>",
+    "punkty": 40
+}
 ```
 #### Przykład
 
