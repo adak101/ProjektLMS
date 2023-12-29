@@ -2,8 +2,7 @@ package pl.samba.lms.przedmioty.zadania.zadania.database;
 
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.GetMapping;
-import pl.samba.lms.przedmioty.zadania.zadania.rodzaje.ZadanieFactory;
+import pl.samba.lms.przedmioty.zadania.ZadanieFactory;
 import pl.samba.lms.przedmioty.zadania.zadania.rodzaje.ZadanieInterface;
 import pl.samba.lms.przedmioty.zadania.zadania.Zadanie;
 import pl.samba.lms.utils.database.AbstractCrudRepository;
@@ -131,8 +130,8 @@ public class ZadanieRepository extends AbstractCrudRepository<Zadanie, Integer> 
 
         for (Map<String, Object> row:
              resultSet) {
-            byte[] trescBytes = Base64.getDecoder().decode((byte[]) row.get(C_TRESC));
-
+            byte[] trescBytes =
+            Base64.getDecoder().decode((byte[]) row.get(C_TRESC));
             List<ZadanieInterface> zadaniaList = ZadanieFactory.createZadaniaList(
                     new String(
                             trescBytes,
