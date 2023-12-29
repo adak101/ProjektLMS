@@ -8,12 +8,14 @@ import pl.samba.lms.przedmioty.zadania.RodzajeZadan;
 @AllArgsConstructor
 public class ZadanieOtwarte implements ZadanieInterface {
     private String pytanie;
+    private Integer punkty;
 
     @Override
     public String toString(){
         return  "{" +
                 "\"typ\":\""+ RodzajeZadan.OTWARTE+"\"," +
-                "\"pytanie\":\""+ pytanie+"\"" +
+                "\"pytanie\":\""+ pytanie+"\"," +
+                "\"punkty\":" + punkty +
                 "}";
 
     }
