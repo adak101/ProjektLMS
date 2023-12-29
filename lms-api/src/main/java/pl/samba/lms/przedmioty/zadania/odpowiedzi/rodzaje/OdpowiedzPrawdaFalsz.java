@@ -1,0 +1,23 @@
+package pl.samba.lms.przedmioty.zadania.odpowiedzi.rodzaje;
+
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import pl.samba.lms.przedmioty.zadania.RodzajeZadan;
+
+@AllArgsConstructor
+@Getter
+public class OdpowiedzPrawdaFalsz implements OdpowiedzInterface {
+    private String odpowiedz;
+    private Integer punkty;
+
+    @Override
+    public String toString(){
+        return  "{" +
+                "\"typ\":\""+ RodzajeZadan.PRAWDA_FALSZ +"\"," +
+                "\"odpowiedz\":\""+ odpowiedz+"\"," +
+                "\"punkty\":" + punkty +
+                "}";
+    }
+
+}
