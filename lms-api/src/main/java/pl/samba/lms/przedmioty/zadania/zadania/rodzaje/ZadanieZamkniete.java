@@ -12,6 +12,7 @@ public class ZadanieZamkniete implements ZadanieInterface {
     private String pytanie;
     private List<String> odpowiedzi;
     private List<Double> poprawneOdp;
+    private Integer punkty;
 
     @Override
     public String toString(){
@@ -43,7 +44,8 @@ public class ZadanieZamkniete implements ZadanieInterface {
                 "\"typ\":\""+ RodzajeZadan.ZAMKNIETE+"\"," +
                 "\"pytanie\":\""+ pytanie+"\"," +
                 "\"odpowiedz\":"+ odpowiedziString + "," +
-                "\"poprawneOdp\":"+ poprawneOdpString +
+                "\"poprawneOdp\":"+ poprawneOdpString + "," +
+                "\"punkty\":" + punkty +
                 "}";
     }
 
