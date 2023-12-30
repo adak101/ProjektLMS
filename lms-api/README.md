@@ -47,6 +47,14 @@ Wersja API: `lms-api-0.0.1-SNAPSHOT`
    - [Usuwanie zadania](#3-usuwanie-zadania)
    - [Dodawanie nowego zadania](#4-dodawanie-nowego-zadania)
    - [Aktualizacja danych zadania](#5-aktualizacja-danych-zadania)
+9. [Odpowiedzi](#odpowiedzi)
+   - [Rodzaje odpowiedzi](#rodzaje-odpowiedzi)
+   - [Pobieranie listy wszystkich odpowiedzi](#1-pobieranie-listy-wszystkich-odpowiedzi)
+   - [Pobieranie pojedynczej odpowiedzi](#2-pobieranie-pojedynczej-odpowiedzi)
+   - [Dodawanie nowej odpowiedzi](#3-dodawanie-nowej-odpowiedzi)
+   - [Aktualizacja danych odpowiedzi](#4-aktualizacja-danych-odpowiedzi)
+   - [Usunięcie odpowiedzi](#5-usunięcie-odpowiedzi)
+   - [Wystawienie oceny dla zadnia](#6-wystawianie-oceny)
 ---
 
 ## Plik konfiguracyjny
@@ -785,5 +793,138 @@ Authorization: Bearer <token>
     "dataPoczatku": "2023-02-01T00:00:00",
     "dataKonca": "2023-03-31T00:00:00",
     "tresc": "<tresc_json>"
+}
+```
+
+## Odpowiedzi
+
+### Rodzaje Odpowiedzi
+
+Rodzaje odpowiedzi są analogiczne dla typów zadań. Pola zawierają jedynie odpowiedź oraz punktację. Odpowiedzią dla zadań zamkniętych jest lista numerów odpowiedzi.
+
+### Opis
+
+Klasa `OdpowiedzRepository` odpowiada za interakcję z bazą danych w kontekście odpowiedzi na zadania przedmiotów w systemie. Poniżej przedstawione są wszystkie dostępne metody wraz z ich opisem, parametrami i możliwymi odpowiedziami.
+
+Podczas dodawania nowej odpowiedzi można ustawiać wartości wszystkich pól (`komentarz`, `ocena`, `dataOcenienia`) jednak zakłada się, że wstawianie nowej odpowiedzi wykonywane jest przez ucznia, który nie ocenia.
+
+Podczas wstawiania i uaktualniania odpowiedzi następuje jej sprawdzenie dla zadań typu zamkniętego oraz prawda-fałsz. Ręcznie muszą zostać ocenione zadania otwarte.
+
+### End-pointy
+
+#### 1. Pobieranie listy wszystkich odpowiedzi
+
+- **Ścieżka**: `/api/odpowiedzi/all`
+- **Metoda**: `GET`
+- **Parametry**:
+  - `login` (parametr zapytania, opcjonalny): login ucznia w formacie Base64
+  - `kod` (parametr zapytania, obowiązkowy): kod przedmiotu w formacie Base64
+  - `size` (parametr zapytania, opcjonalny): liczba wyników na stronie
+  - `page` (parametr zapytania, opcjonalny): numer strony, liczony od 0
+- **Odpowiedź**:
+  - `200 OK` - sukces, zwraca listę odpowiedzi w formacie JSON
+  - `404 Not Found` - brak odpowiedzi
+  
+```http
+GET /api/odpowiedzi/all?requestParams=size;page;kod;login
+Authorization: Bearer <token>
+```
+
+#### 2. Pobieranie pojedynczej odpowiedzi
+
+**Ścieżka**: `/api/przedmioty/zadania/odpowiedz/{id}`
+**Metoda**: `GET`
+**Parametry**:
+    - `id` (ścieżka): Identyfikator odpowiedzi.
+**Odpowiedź**:
+  - `200 OK` - sukces, zwraca dane pojedynczej odpowiedzi w formacie JSON
+  - `404 Not Found` - odpowiedź o podanym identyfikatorze nie istnieje
+
+```http
+GET /api/przedmioty/zadania/odpowiedz/1
+Authorization: Bearer <token>
+```
+
+#### 3. Dodawanie nowej odpowiedzi
+
+**Ścieżka**: `/api/przedmioty/zadania/odpowiedz`
+**Metoda**: `POST`
+**Parametry**:
+Ciało żądania zawiera dane nowej odpowiedzi w formacie JSON.
+**Odpowiedź**:
+`201 Created` - sukces, odpowiedź została dodana, zwraca identyfikator nowo utworzonej odpowiedzi
+`400 Bad Request `- błąd w danych wejściowych
+
+```http
+POST /api/przedmioty/zadania/odpowiedz
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+```json
+{
+    "idZadania": 1,
+    "idUcznia": 2,
+    "tresc": "<tresc_json>"
+}
+```
+
+#### 4. Aktualizacja danych odpowiedzi
+
+- **Ścieżka**: `/api/przedmioty/zadania/odpowiedz/{id}`
+- **Metoda**: `PATCH`
+- **Parametry**:
+  - `id` (ścieżka): Identyfikator odpowiedzi.
+  - Ciało żądania zawiera dane do aktualizacji w formacie JSON.
+- **Odpowiedź**:
+  - `200 OK` - sukces, odpowiedź została zaktualizowana
+  - `400 Bad Request` - błąd w danych wejściowych
+  - `404 Not Found` - odpowiedź o podanym identyfikatorze nie istnieje
+
+```http
+PATCH /api/przedmioty/zadania/odpowiedz/1
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+```json
+{
+    "tresc": "<tresc_json>",
+    "komentarz": "Bardzo dobra praca!"
+}
+```
+
+#### 5. Usunięcie odpowiedzi
+- **Ścieżka**: `/api/przedmiot/zadanie/odpowiedz/{id}`
+- **Metoda**: `DELETE`
+- **Parametry**:
+    - `id` (ścieżka): Identyfikator zadania.
+- **Odpowiedź**:
+    - `204 No Content` - sukces, zadanie zostało usunięte.
+    - `404 Not Found` - zadanie o podanym identyfikatorze nie istnieje.
+
+```http
+DELETE /api/przedmiot/zadanie/odpowiedz/<nr_id>
+Authorization: Bearer <token>
+```
+#### 6. Wystawianie oceny
+
+- **Ścieżka**: `/api/przedmioty/zadania/odpowiedz/{id}/ocen`
+- **Metoda**: `PATCH`
+- **Parametry**:
+    - `id` (ścieżka): Identyfikator odpowiedzi.
+    - Ciało żądania zawiera dane do aktualizacji w formacie JSON.
+- **Odpowiedź**:
+    - `200 OK` - sukces, odpowiedź została zaktualizowana
+    - `400 Bad Request` - błąd w danych wejściowych
+
+```http
+PATCH /api/przedmioty/zadania/odpowiedz/1/ocen
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+```json
+{
+    "tresc": "<tresc_json>",
+    "komentarz": "Bardzo dobra praca!",
+    "ocena": 5
 }
 ```
