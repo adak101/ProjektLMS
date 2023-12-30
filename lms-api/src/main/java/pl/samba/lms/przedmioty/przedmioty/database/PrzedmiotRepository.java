@@ -28,11 +28,13 @@ public class PrzedmiotRepository extends AbstractCrudRepository<Przedmiot, Integ
     public static final String P_NAZWA = "p_nazwa";
     public static final String P_ID_PROW = "p_id_prow";
     public static final String P_LIMIT_MIEJSC = "p_limit_miejsc";
+    public static final String P_KOD = "p_kod";
     public static final String P_OPIS = "p_opis";
     public static final String P_WAR_ZALICZ = "p_war_zalicz";
     public static final String P_ID_OKRESU = "p_id_okresu";
     public static final String P_KOD_STATUS = "p_kod_status";
     public static final String P_REJESTR_UCZN = "p_rejestr_uczn";
+
     public PrzedmiotRepository() {
         super("przedmioty", "pk_id_przedm");
     }

@@ -2,7 +2,8 @@ package pl.samba.lms.przedmioty.zadania.zadania.database;
 
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
-import pl.samba.lms.przedmioty.zadania.ZadanieFactory;
+import pl.samba.lms.przedmioty.przedmioty.database.PrzedmiotRepository;
+import pl.samba.lms.przedmioty.zadania.ZadanieUtils;
 import pl.samba.lms.przedmioty.zadania.zadania.rodzaje.ZadanieInterface;
 import pl.samba.lms.przedmioty.zadania.zadania.Zadanie;
 import pl.samba.lms.utils.database.AbstractCrudRepository;
@@ -14,18 +15,18 @@ import java.util.*;
 @Repository
 public class ZadanieRepository extends AbstractCrudRepository<Zadanie, Integer> {
 
-    private static final String C_ID_ZADANIA = "id_zadania";
-    private static final String C_ID_PRZEDM = "id_przedm";
-    private static final String C_DATA_WSTAW = "data_wstaw";
-    private static final String C_DATA_POCZ = "data_pocz";
-    private static final String C_DATA_KONC = "data_konc";
-    private static final String C_TRESC = "tresc";
+   public static final String C_ID_ZADANIA = "id_zadania";
+   public static final String C_ID_PRZEDM = "id_przedm";
+   public static final String C_DATA_WSTAW = "data_wstaw";
+   public static final String C_DATA_POCZ = "data_pocz";
+   public static final String C_DATA_KONC = "data_konc";
+   public static final String C_TRESC = "tresc";
 
-    private static final String P_ID_PRZEDM = "p_id_przedm";
-    private static final String P_DATA_POCZ = "p_data_pocz";
-    private static final String P_DATA_KONC = "p_data_konc";
-    private static final String P_TRESC = "p_tresc";
-    private static final String P_KOD_PRZEDM = "p_kod";
+   public static final String P_ID_PRZEDM = "p_id_przedm";
+   public static final String P_DATA_POCZ = "p_data_pocz";
+   public static final String P_DATA_KONC = "p_data_konc";
+   public static final String P_TRESC = "p_tresc";
+
 
     public ZadanieRepository() {
         super("zadania", "pk_id_zadania");
@@ -52,7 +53,7 @@ public class ZadanieRepository extends AbstractCrudRepository<Zadanie, Integer> 
         inParams.put(super.getPkColumnName(), null);
         inParams.put(getP_PAGE_SIZE(), size);
         inParams.put(getP_PAGE(), page);
-        inParams.put(P_KOD_PRZEDM, kod);
+        inParams.put(PrzedmiotRepository.P_KOD, kod);
 
         Map<String, Object> result = jdbcCall.execute(inParams);
 
@@ -70,7 +71,7 @@ public class ZadanieRepository extends AbstractCrudRepository<Zadanie, Integer> 
         inParams.put(super.getPkColumnName(), id);
         inParams.put(getP_PAGE_SIZE(), null);
         inParams.put(getP_PAGE(), null);
-        inParams.put(P_KOD_PRZEDM, null);
+        inParams.put(PrzedmiotRepository.P_KOD, null);
 
         Map<String, Object> result = jdbcCall.execute(inParams);
 
@@ -132,7 +133,7 @@ public class ZadanieRepository extends AbstractCrudRepository<Zadanie, Integer> 
              resultSet) {
             byte[] trescBytes =
             Base64.getDecoder().decode((byte[]) row.get(C_TRESC));
-            List<ZadanieInterface> zadaniaList = ZadanieFactory.createZadaniaList(
+            List<ZadanieInterface> zadaniaList = ZadanieUtils.zadaniaFactory(
                     new String(
                             trescBytes,
                             StandardCharsets.UTF_8)

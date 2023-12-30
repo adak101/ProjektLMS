@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import pl.samba.lms.przedmioty.zadania.ZadanieFactory;
+import pl.samba.lms.przedmioty.zadania.ZadanieUtils;
 import pl.samba.lms.przedmioty.zadania.zadania.rodzaje.ZadanieInterface;
 
 import java.time.LocalDateTime;
@@ -40,6 +40,6 @@ public class Zadanie {
         if (jsonTresc == null){
             this.tresc = null;
         }
-        else this.tresc = ZadanieFactory.createZadaniaList(jsonTresc);
+        else this.tresc = ZadanieUtils.zadaniaFactory(jsonTresc);
     }
 }
