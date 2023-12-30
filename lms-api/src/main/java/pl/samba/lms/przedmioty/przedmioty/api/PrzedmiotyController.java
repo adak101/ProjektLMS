@@ -5,10 +5,12 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.samba.lms.przedmioty.przedmioty.Przedmiot;
 import pl.samba.lms.przedmioty.przedmioty.database.PrzedmiotRepository;
+import pl.samba.lms.utils.PathType;
 import pl.samba.lms.utils.api.ControllerInterface;
 
 
@@ -20,7 +22,7 @@ import java.util.Optional;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping(path = "/api/przedmiot", produces = "application/json")
+@RequestMapping(path = PathType.PRZEDMIOT, produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 public class PrzedmiotyController implements ControllerInterface<Przedmiot, PrzedmiotModel> {
 
@@ -28,7 +30,7 @@ public class PrzedmiotyController implements ControllerInterface<Przedmiot, Prze
 
 
     @Override
-    @GetMapping("/all")
+    @GetMapping(PathType.ALL)
     public ResponseEntity<CollectionModel<PrzedmiotModel>> get(
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) Integer page
@@ -59,7 +61,7 @@ public class PrzedmiotyController implements ControllerInterface<Przedmiot, Prze
     }
 
     @Override
-    @GetMapping("/{id}")
+    @GetMapping(PathType.ID)
     public ResponseEntity<PrzedmiotModel> get(@PathVariable("id") Integer id) {
         Optional<Przedmiot> optPrzedmiot = Optional.ofNullable(dataSet.getById(id));
         if(optPrzedmiot.isPresent()){
@@ -79,14 +81,14 @@ public class PrzedmiotyController implements ControllerInterface<Przedmiot, Prze
         else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
     @Override
-    @DeleteMapping("/{id}")
+    @DeleteMapping(PathType.ID)
     @ResponseStatus(code=HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") Integer id) {
         dataSet.delete(id);
     }
 
     @Override
-    @PostMapping(consumes = "application/json")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> post(@RequestBody Przedmiot data) {
         Integer id = dataSet.save(data);
         return new ResponseEntity<>(
@@ -98,7 +100,7 @@ public class PrzedmiotyController implements ControllerInterface<Przedmiot, Prze
     }
 
     @Override
-    @PatchMapping("/{id}")
+    @PatchMapping(PathType.ID)
     public ResponseEntity<Object> patch(
             @PathVariable("id") Integer id,
             @RequestBody Przedmiot data

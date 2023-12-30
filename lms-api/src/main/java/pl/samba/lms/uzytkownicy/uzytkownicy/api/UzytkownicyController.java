@@ -5,8 +5,10 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.samba.lms.utils.PathType;
 import pl.samba.lms.utils.api.ControllerInterface;
 import pl.samba.lms.uzytkownicy.uzytkownicy.Uzytkownik;
 
@@ -20,14 +22,14 @@ import java.util.Optional;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping(path = "/api/uzytkownik", produces = "application/json")
+@RequestMapping(path = PathType.UZYTKOWNIK, produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 public class UzytkownicyController implements ControllerInterface<Uzytkownik, UzytkownikModel> {
 
     private final UzytkownikRepository dataSet;
 
 
-    @GetMapping("/all")
+    @GetMapping(PathType.ALL)
     @Override
     public ResponseEntity<CollectionModel<UzytkownikModel>> get(
             @RequestParam(required = false) Integer size,
@@ -61,7 +63,7 @@ public class UzytkownicyController implements ControllerInterface<Uzytkownik, Uz
         else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(PathType.ID)
     @Override
     public ResponseEntity<UzytkownikModel> get(@PathVariable("id") Integer id) {
         Optional<Uzytkownik> optUzytkownik = Optional.ofNullable(dataSet.getById(id));
@@ -81,13 +83,14 @@ public class UzytkownicyController implements ControllerInterface<Uzytkownik, Uz
         }
         else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
-    @DeleteMapping("/{id}")
+
+    @DeleteMapping(PathType.ID)
     @ResponseStatus(code=HttpStatus.NO_CONTENT)
     @Override
     public void delete(@PathVariable("id") Integer id) {
         dataSet.delete(id);
     }
-    @PostMapping(consumes = "application/json")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @Override
     public ResponseEntity<Object> post(@RequestBody Uzytkownik data) {
         Integer id = dataSet.save(data);
@@ -99,7 +102,7 @@ public class UzytkownicyController implements ControllerInterface<Uzytkownik, Uz
     }
 
 
-    @PatchMapping(path="/{id}", consumes = "application/json")
+    @PatchMapping(path=PathType.ID, consumes = MediaType.APPLICATION_JSON_VALUE)
     @Override
     public ResponseEntity<Object> patch(
             @PathVariable("id") Integer id,

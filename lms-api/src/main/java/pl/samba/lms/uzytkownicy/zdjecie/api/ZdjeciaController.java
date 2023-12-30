@@ -2,11 +2,13 @@ package pl.samba.lms.uzytkownicy.zdjecie.api;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.samba.lms.utils.PathType;
 import pl.samba.lms.utils.api.ControllerInterface;
 import pl.samba.lms.uzytkownicy.zdjecie.Zdjecie;
 import pl.samba.lms.uzytkownicy.zdjecie.database.ZdjecieRepository;
@@ -14,7 +16,7 @@ import pl.samba.lms.uzytkownicy.zdjecie.database.ZdjecieRepository;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/api/zdjecie", produces = "application/json")
+@RequestMapping(path = PathType.ZDJECIE, produces = MediaType.APPLICATION_JSON_VALUE)
 public class ZdjeciaController implements ControllerInterface<Zdjecie, ZdjecieModel> {
     private final ZdjecieRepository dataSet;
     public ZdjeciaController(ZdjecieRepository dataSet){
@@ -27,7 +29,7 @@ public class ZdjeciaController implements ControllerInterface<Zdjecie, ZdjecieMo
     }
 
     @Override
-    @GetMapping("/{id}")
+    @GetMapping(PathType.ID)
     public ResponseEntity<ZdjecieModel> get(@PathVariable("id") Integer id) {
         Optional<Zdjecie> optZdjecie = Optional.ofNullable(dataSet.getById(id));
         if(optZdjecie.isPresent()){

@@ -4,7 +4,8 @@ package pl.samba.lms.przedmioty.zadania.odpowiedzi.rodzaje;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import pl.samba.lms.przedmioty.zadania.RodzajeZadan;
+import pl.samba.lms.utils.constants.RodzajeZadan;
+
 
 @AllArgsConstructor
 @Getter

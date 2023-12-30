@@ -5,10 +5,12 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.samba.lms.przedmioty.zadania.zadania.Zadanie;
 import pl.samba.lms.przedmioty.zadania.zadania.database.ZadanieRepository;
+import pl.samba.lms.utils.PathType;
 import pl.samba.lms.utils.api.ControllerInterface;
 
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ import java.util.Optional;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping(path="/api/przedmiot/zadanie", produces="application/json")
+@RequestMapping(path= PathType.ZADANIE, produces= MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 public class ZadaniaController implements ControllerInterface<Zadanie, ZadanieModel> {
 
@@ -34,7 +36,7 @@ public class ZadaniaController implements ControllerInterface<Zadanie, ZadanieMo
      * @param page Numer strony, liczony od 0.
      * @return Odpowiedź HTTP zawierająca kolekcję modelu zasobów.
      */
-    @GetMapping("/all")
+    @GetMapping(PathType.ALL)
     public ResponseEntity<CollectionModel<ZadanieModel>> get(
             @RequestParam(required = true) String kod,
             @RequestParam(required = false) Integer size,
@@ -76,7 +78,7 @@ public class ZadaniaController implements ControllerInterface<Zadanie, ZadanieMo
         return null;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(PathType.ID)
     @Override
     public ResponseEntity<ZadanieModel> get(@PathVariable("id") Integer id) {
         Optional<Zadanie> optZadanie = Optional.ofNullable(dataSet.getById(id));
@@ -88,13 +90,14 @@ public class ZadaniaController implements ControllerInterface<Zadanie, ZadanieMo
         else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(PathType.ID)
     @Override
     public void delete(@PathVariable("id") Integer id) {
         dataSet.delete(id);
     }
 
-    @PostMapping(consumes = "application/json")
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @Override
     public ResponseEntity<Object> post(@RequestBody Zadanie data) {
         Integer id = dataSet.save(data);
@@ -107,7 +110,8 @@ public class ZadaniaController implements ControllerInterface<Zadanie, ZadanieMo
     }
 
     @Override
-    @PatchMapping(path="/{id}", consumes = "application/json")
+
+    @PatchMapping(path=PathType.ID, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> patch(
             @PathVariable("id") Integer id,
             @RequestBody Zadanie data

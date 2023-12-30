@@ -6,12 +6,14 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.samba.lms.przedmioty.przedmioty.database.PrzedmiotRepository;
 import pl.samba.lms.przedmioty.rejestracja.UczenPrzedmiot;
 import pl.samba.lms.przedmioty.rejestracja.database.UczenPrzedmiotRepository;
-import pl.samba.lms.uzytkownicy.uzytkownicy.api.UzytkownicyController;
+import pl.samba.lms.utils.PathType;
 import pl.samba.lms.uzytkownicy.uzytkownicy.database.UzytkownikRepository;
 
 import java.util.Base64;
@@ -21,7 +23,7 @@ import java.util.Optional;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping(path="/api/przedmiot/uczen", produces = "application/json")
+@RequestMapping(path= PathType.REJESTRACJA_PRZEDMIOT, produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 public class UczenPrzedmiotController {
     private final UczenPrzedmiotRepository dataSet;
@@ -35,7 +37,8 @@ public class UczenPrzedmiotController {
      * @param kod kod przedmiotu w base64, na ktory uczen sie rejestruje
      * @return Odpowiedź HTTP zawierająca kolekcję modeli powiazania.
      */
-    @PostMapping("/rejestruj")
+
+    @PostMapping(PathType.REJESTRUJ)
     public ResponseEntity<Object> rejestrujNaPrzedmiot(
             @RequestParam(required = true) String nick,
             @RequestParam(required = true) String kod
@@ -126,7 +129,7 @@ public class UczenPrzedmiotController {
      * @param id - numer id powiazania
      * @return Odpowiedź HTTP zawierająca model powiazania.
      */
-    @GetMapping("/{id}")
+    @GetMapping(PathType.ID)
     public ResponseEntity<Object> get(@PathVariable("id") Integer id){
         Optional<UczenPrzedmiot> optUzytkownik = Optional.ofNullable(dataSet.getById(id));
         if(optUzytkownik.isPresent()){
@@ -144,7 +147,8 @@ public class UczenPrzedmiotController {
      * @param kod kod przedmiotu w base64
      * @return Odpowiedź HTTP zawierająca link do zmodyfikowanego powiazania.
      */
-    @PatchMapping("/ocena")
+
+    @PatchMapping(PathType.OCENA)
     public ResponseEntity<Object> wystawOcene(
             @RequestParam(required = true) Integer ocena,
             @RequestParam(required = true) String nick,
@@ -171,7 +175,8 @@ public class UczenPrzedmiotController {
      * @param nick nick ucznia w base64, ktoremu wystawiona jest ocena
      * @param kod kod przedmiotu w base64
      */
-    @DeleteMapping("/wyrejestruj")
+
+    @DeleteMapping(PathType.WYREJESTRUJ)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(
             @RequestParam(required = true) String nick,

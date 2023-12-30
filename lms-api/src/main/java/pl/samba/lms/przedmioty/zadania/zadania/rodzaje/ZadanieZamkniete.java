@@ -2,7 +2,8 @@ package pl.samba.lms.przedmioty.zadania.zadania.rodzaje;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import pl.samba.lms.przedmioty.zadania.RodzajeZadan;
+import pl.samba.lms.utils.constants.RodzajeZadan;
+
 
 import java.util.List;
 

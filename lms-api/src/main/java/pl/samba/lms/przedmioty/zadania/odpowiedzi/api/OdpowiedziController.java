@@ -15,6 +15,7 @@ import pl.samba.lms.przedmioty.zadania.odpowiedzi.database.OdpowiedzRepository;
 import pl.samba.lms.przedmioty.zadania.odpowiedzi.rodzaje.OdpowiedzInterface;
 import pl.samba.lms.przedmioty.zadania.zadania.Zadanie;
 import pl.samba.lms.przedmioty.zadania.zadania.database.ZadanieRepository;
+import pl.samba.lms.utils.PathType;
 import pl.samba.lms.utils.api.ControllerInterface;
 
 import java.time.LocalDateTime;
@@ -26,7 +27,7 @@ import java.util.Optional;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping(path="/api/przedmiot/zadanie/odpowiedz", produces=MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path= PathType.ODPOWIEDZ, produces=MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 public class OdpowiedziController implements ControllerInterface<Odpowiedz, OdpowiedzModel> {
 
@@ -43,7 +44,8 @@ public class OdpowiedziController implements ControllerInterface<Odpowiedz, Odpo
      * @param page Numer strony, liczony od 0.
      * @return Odpowiedź HTTP zawierająca kolekcję modelu zasobów.
      */
-    @GetMapping("/all")
+
+    @GetMapping(PathType.ALL)
     public ResponseEntity<CollectionModel<OdpowiedzModel>> get(
             @RequestParam(required = true) String kod,
             @RequestParam(required = false) String login,
@@ -92,7 +94,8 @@ public class OdpowiedziController implements ControllerInterface<Odpowiedz, Odpo
         return null;
     }
 
-    @GetMapping("/{id}")
+
+    @GetMapping(PathType.ID)
     @Override
     public ResponseEntity<OdpowiedzModel> get(@PathVariable("id") Integer id) {
         Optional<Odpowiedz> opt = Optional.ofNullable(dataSet.getById(id));
@@ -103,7 +106,8 @@ public class OdpowiedziController implements ControllerInterface<Odpowiedz, Odpo
         } else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("/{id}")
+
+    @DeleteMapping(PathType.ID)
     @Override
     public void delete(@PathVariable("id") Integer id) {
         dataSet.delete(id);
@@ -130,7 +134,7 @@ public class OdpowiedziController implements ControllerInterface<Odpowiedz, Odpo
                 HttpStatus.CREATED);
     }
 
-    @PatchMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(path = PathType.ID, consumes = MediaType.APPLICATION_JSON_VALUE)
     @Override
     public ResponseEntity<Object> patch(
             @PathVariable("id") Integer id,
@@ -146,7 +150,7 @@ public class OdpowiedziController implements ControllerInterface<Odpowiedz, Odpo
                     data.getTresc()
             );
 
-            current.setTresc(data.getTresc());
+            current.setTresc(sprawdzone);
         }
         if (data.getKomentarz() != null) {
             current.setKomentarz(data.getKomentarz());
@@ -173,7 +177,8 @@ public class OdpowiedziController implements ControllerInterface<Odpowiedz, Odpo
      * @param data RequestBody zawierajace tresc, ocene i komentarz. Tresc powinna uwzgledniac punktacje za zadnia otwarte
      * @return Odpowiedz HTTP z linkiem do ocenionej odpowiedzi
      */
-    @PatchMapping(path = "/{id}/ocen", consumes = MediaType.APPLICATION_JSON_VALUE)
+
+    @PatchMapping(path = PathType.OCEN, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> wystawOcene(
             @PathVariable("id") Integer id,
             @RequestBody OcenaRequest data

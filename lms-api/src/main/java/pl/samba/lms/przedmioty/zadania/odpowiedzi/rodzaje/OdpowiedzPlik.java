@@ -1,7 +1,8 @@
 package pl.samba.lms.przedmioty.zadania.odpowiedzi.rodzaje;
 
 import lombok.AllArgsConstructor;
-import pl.samba.lms.przedmioty.zadania.RodzajeZadan;
+import pl.samba.lms.utils.constants.RodzajeZadan;
+
 
 import java.util.Base64;
 
