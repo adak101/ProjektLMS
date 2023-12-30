@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 /**
  * Abstrakcyjna klasa służąca do dostarczenia podstawowej implementacji operacji CRUD
@@ -74,7 +75,8 @@ public abstract class AbstractCrudRepository<T, K> implements CrudRepositoryInte
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> resultSet = (List<Map<String, Object>>) result.get("#result-set-1");
 
-        return resultMapper(resultSet);
+        if(resultSet.isEmpty()) throw new NoSuchElementException("Brak danych w tabeli '" + tableName + "'!");
+        else return resultMapper(resultSet);
     }
 
     @Override
@@ -101,7 +103,9 @@ public abstract class AbstractCrudRepository<T, K> implements CrudRepositoryInte
 
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> resultSet = (List<Map<String, Object>>) result.get("#result-set-1");
-        return resultMapper(resultSet);
+        if(resultSet.isEmpty()) throw new NoSuchElementException("Brak danych w tabeli '" + tableName + "' dla size=" + size + ", page=" + page + "!");
+        else return resultMapper(resultSet);
+
     }
 
     @Override
@@ -120,7 +124,8 @@ public abstract class AbstractCrudRepository<T, K> implements CrudRepositoryInte
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> resultSet = (List<Map<String, Object>>) result.get("#result-set-1");
 
-        return resultMapper(resultSet).iterator().hasNext() ? resultMapper(resultSet).iterator().next() : null ;
+        if(resultSet.isEmpty()) throw new NoSuchElementException("Brak danych dla klucza głównego id=" + id + "!");
+        else return resultMapper(resultSet).iterator().next();
     }
 
     @Override
@@ -139,7 +144,8 @@ public abstract class AbstractCrudRepository<T, K> implements CrudRepositoryInte
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> resultSet = (List<Map<String, Object>>) result.get("#result-set-1");
 
-        return resultMapper(resultSet).iterator().hasNext() ? resultMapper(resultSet).iterator().next() : null ;
+        if(resultSet.isEmpty()) throw new NoSuchElementException("Brak danych dla klucza unikalnego '" + unique+ "'!");
+        else return resultMapper(resultSet).iterator().next();
     }
     @Override
     public boolean delete(K id) {

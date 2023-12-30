@@ -7,10 +7,7 @@ import pl.samba.lms.przedmioty.rejestracja.UczenPrzedmiot;
 import pl.samba.lms.utils.database.AbstractCrudRepository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class UczenPrzedmiotRepository extends AbstractCrudRepository<UczenPrzedmiot, Integer> {
@@ -84,7 +81,8 @@ public class UczenPrzedmiotRepository extends AbstractCrudRepository<UczenPrzedm
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> resultSet = (List<Map<String, Object>>) result.get("#result-set-1");
 
-        return resultMapper(resultSet);
+        if(resultSet.isEmpty()) throw new NoSuchElementException("Brak danych w tabeli '" + super.getTableName() + "'!");
+        else return resultMapper(resultSet);
     }
 
     public UczenPrzedmiot get(Integer idUcznia, Integer idPrzedmiotu){
@@ -102,7 +100,8 @@ public class UczenPrzedmiotRepository extends AbstractCrudRepository<UczenPrzedm
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> resultSet = (List<Map<String, Object>>) result.get("#result-set-1");
 
-        return resultMapper(resultSet).iterator().next();
+        if(resultSet.isEmpty()) throw new NoSuchElementException("Brak danych dla idUcznia=" + idUcznia +", idPrzedmiotu="+idPrzedmiotu+ "!");
+        else return resultMapper(resultSet).iterator().next();
     }
     @Override
     public UczenPrzedmiot getById(Integer id) {
@@ -121,7 +120,8 @@ public class UczenPrzedmiotRepository extends AbstractCrudRepository<UczenPrzedm
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> resultSet = (List<Map<String, Object>>) result.get("#result-set-1");
 
-        return resultMapper(resultSet).iterator().hasNext() ? resultMapper(resultSet).iterator().next() : null ;
+        if(resultSet.isEmpty()) throw new NoSuchElementException("Brak danych dla klucza głównego id = " + id + "!");
+        else return resultMapper(resultSet).iterator().next();
     }
     @Override
     public Integer update(UczenPrzedmiot data) {

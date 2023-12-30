@@ -25,7 +25,7 @@ public interface ControllerInterface<T, K> {
     public ResponseEntity<CollectionModel<K>> get(
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) Integer page
-    );
+    ) throws Exception;
 
     /**
      * Metoda do pobierania pojedynczego zasobu na podstawie jego identyfikatora.
@@ -33,13 +33,13 @@ public interface ControllerInterface<T, K> {
      * @param id Identyfikator zasobu.
      * @return Odpowiedź HTTP zawierająca model zasobu o określonym identyfikatorze.
      */
-    public ResponseEntity<K> get(@PathVariable("id") Integer id);
+    public ResponseEntity<K> get(@PathVariable("id") Integer id) throws Exception;
     /**
      * Metoda do usuwania zasobu na podstawie jego identyfikatora.
      *
      * @param id Identyfikator zasobu do usunięcia.
      */
-    public void delete(@PathVariable("id") Integer id);
+    public void delete(@PathVariable("id") Integer id) throws Exception;
 
     /**
      * Metoda do dodawania nowego zasobu.
@@ -47,7 +47,7 @@ public interface ControllerInterface<T, K> {
      * @param data Dane zasobu do dodania.
      * @return Odpowiedź HTTP zawierająca dodany zasób.
      */
-    public ResponseEntity<Object> post(@RequestBody T data);
+    public ResponseEntity<Object> post(@RequestBody T data) throws Exception;
 
     /**
      * Metoda do częściowej aktualizacji zasobu na podstawie identyfikatora i dostarczonych danych.
@@ -58,5 +58,5 @@ public interface ControllerInterface<T, K> {
      */
     public ResponseEntity<Object> patch(
             @PathVariable("id") Integer id,
-            @RequestBody T data);
+            @RequestBody T data) throws Exception;
 }
