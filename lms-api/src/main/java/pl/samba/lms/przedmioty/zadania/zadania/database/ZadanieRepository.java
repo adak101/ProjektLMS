@@ -42,8 +42,8 @@ public class ZadanieRepository extends AbstractCrudRepository<Zadanie, Integer> 
          * */
 
         String[] requestParamsTable = requestParams.split(";");
-        Integer size = requestParamsTable[0].equals("") ? null : Integer.parseInt(requestParamsTable[0]);
-        Integer page = requestParamsTable[1].equals("") ? null : Integer.parseInt(requestParamsTable[1]);
+        Integer size = requestParamsTable[0].isEmpty() ? null : Integer.parseInt(requestParamsTable[0]);
+        Integer page = requestParamsTable[1].isEmpty() ? null : Integer.parseInt(requestParamsTable[1]);
         String kod = requestParamsTable[2];
 
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(super.getJdbc())
@@ -59,7 +59,8 @@ public class ZadanieRepository extends AbstractCrudRepository<Zadanie, Integer> 
 
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> resultSet = (List<Map<String, Object>>) result.get("#result-set-1");
-        return resultMapper(resultSet);
+        if(resultSet.isEmpty()) throw new NoSuchElementException("Brak danych w tabeli '" + super.getTableName() + "' dla size = " + size + ", page = " + page + ", kod = '"+kod+"'!");
+        else return resultMapper(resultSet);
     }
 
     @Override
@@ -78,7 +79,8 @@ public class ZadanieRepository extends AbstractCrudRepository<Zadanie, Integer> 
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> resultSet = (List<Map<String, Object>>) result.get("#result-set-1");
 
-        return resultMapper(resultSet).iterator().hasNext() ? resultMapper(resultSet).iterator().next() : null ;
+        if(resultSet.isEmpty()) throw new NoSuchElementException("Brak danych dla klucza głównego id = " + id + "!");
+        else return resultMapper(resultSet).iterator().next();
     }
 
     @Override

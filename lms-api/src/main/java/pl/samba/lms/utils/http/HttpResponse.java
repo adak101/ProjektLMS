@@ -9,4 +9,5 @@ import org.springframework.http.HttpStatus;
 public class HttpResponse {
     private HttpStatus status;
     private String message;
+    private String error;
 }

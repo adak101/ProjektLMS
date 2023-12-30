@@ -16,7 +16,6 @@ import pl.samba.lms.przedmioty.zadania.odpowiedzi.rodzaje.OdpowiedzInterface;
 import pl.samba.lms.przedmioty.zadania.zadania.Zadanie;
 import pl.samba.lms.przedmioty.zadania.zadania.database.ZadanieRepository;
 import pl.samba.lms.utils.api.ControllerInterface;
-import pl.samba.lms.utils.http.HttpResponse;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -112,23 +111,15 @@ public class OdpowiedziController implements ControllerInterface<Odpowiedz, Odpo
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @Override
-    public ResponseEntity<Object> post(Odpowiedz data) {
+    public ResponseEntity<Object> post(Odpowiedz data) throws Exception{
         Zadanie zadanie = zadanieDataSet.getById(data.getIdZadania());
 
-        try{
-            List<OdpowiedzInterface> sprawdzone = ZadanieUtils.sprawdzZadaniaZamkniete(
-                    zadanie.getTresc(),
-                    data.getTresc()
-            );
+        List<OdpowiedzInterface> sprawdzone = ZadanieUtils.sprawdzZadaniaZamkniete(
+                zadanie.getTresc(),
+                data.getTresc()
+        );
 
-            data.setTresc(sprawdzone);
-
-        }catch (Exception e){
-            HttpResponse message = new HttpResponse(HttpStatus.BAD_REQUEST, e.getMessage());
-            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
-        }
-
-
+        data.setTresc(sprawdzone);
 
         Integer id = dataSet.save(data);
         return new ResponseEntity<>(
@@ -144,24 +135,17 @@ public class OdpowiedziController implements ControllerInterface<Odpowiedz, Odpo
     public ResponseEntity<Object> patch(
             @PathVariable("id") Integer id,
             @RequestBody Odpowiedz data
-    ) {
+    ) throws Exception {
         Odpowiedz current = dataSet.getById(id);
 
         if (data.getTresc() != null) {
             Zadanie zadanie = zadanieDataSet.getById(current.getIdZadania());
 
-            try{
-                List<OdpowiedzInterface> sprawdzone = ZadanieUtils.sprawdzZadaniaZamkniete(
-                        zadanie.getTresc(),
-                        data.getTresc()
-                );
+            List<OdpowiedzInterface> sprawdzone = ZadanieUtils.sprawdzZadaniaZamkniete(
+                    zadanie.getTresc(),
+                    data.getTresc()
+            );
 
-                data.setTresc(sprawdzone);
-
-            }catch (Exception e){
-                HttpResponse message = new HttpResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-                return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
-            }
             current.setTresc(data.getTresc());
         }
         if (data.getKomentarz() != null) {

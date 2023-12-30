@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -24,42 +23,30 @@ public class AuthController {
     private final JwtService jwtUtil;
 
     @PostMapping("/register")
-    public ResponseEntity<Object> register(@RequestBody Uzytkownik uzytkownik){
+    public ResponseEntity<Object> register(@RequestBody Uzytkownik uzytkownik) throws Exception {
         Integer id = dataSet.save(uzytkownik);
         if(id != null){
-            HttpResponse response = new HttpResponse(HttpStatus.CREATED,"Konto utworzone");
+            HttpResponse response = new HttpResponse(HttpStatus.CREATED,"Konto utworzone", null);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         }
-        else {
-            HttpResponse response = new HttpResponse(HttpStatus.INTERNAL_SERVER_ERROR,"Błąd utworzenia konta");
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        else throw new Exception("Błąd utworzenia konta");
     }
 
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody LoginRequest request){
-        try {
-            Authentication authentication =
-                    authenticationManager.authenticate(
-                            new UsernamePasswordAuthenticationToken(
-                                    request.getLogin(),
-                                    request.getHaslo())
-                    );
-            String login = authentication.getName();
+        Authentication authentication =
+                authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                request.getLogin(),
+                                request.getHaslo())
+                );
+        String login = authentication.getName();
 
-            Uzytkownik uzytkownik = dataSet.getByUnique(login);
-            String token = jwtUtil.createToken(uzytkownik);
-            LoginResponse response = new LoginResponse(uzytkownik.getLogin(),token);
+        Uzytkownik uzytkownik = dataSet.getByUnique(login);
+        String token = jwtUtil.createToken(uzytkownik);
+        LoginResponse response = new LoginResponse(uzytkownik.getLogin(),token);
 
-            return ResponseEntity.ok(response);
-
-        }catch (BadCredentialsException e){
-            HttpResponse response = new HttpResponse(HttpStatus.BAD_REQUEST,"Błędny login lub hasło");
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }catch (Exception e){
-            HttpResponse response = new HttpResponse(HttpStatus.BAD_REQUEST, e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
+        return ResponseEntity.ok(response);
     }
 
 }
