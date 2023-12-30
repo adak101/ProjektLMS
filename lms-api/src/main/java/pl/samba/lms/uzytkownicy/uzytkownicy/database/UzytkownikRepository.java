@@ -33,16 +33,17 @@ public class UzytkownikRepository extends AbstractCrudRepository<Uzytkownik, Int
     public static final String C_STATUS = "status";
     public static final String C_ROLA = "rola";
 
-    private static final String P_IMIE = "p_imie";
-    private static final String P_NAZWISKO = "p_nazwisko";
-    private static final String P_TYT_NAUK = "p_tyt_nauk";
-    private static final String P_HASLO = "p_haslo";
-    private static final String P_EMAIL = "p_email";
-    private static final String P_TELEFON = "p_telefon";
-    private static final String P_DATA_URODZ = "p_data_urodz";
-    private static final String P_STATUS = "p_status";
-    private static final String P_ID_ZDJECIA = "p_id_zdjecia";
-    private static final String P_ID_ROLI = "p_id_roli";
+    public static final String P_IMIE = "p_imie";
+    public static final String P_NAZWISKO = "p_nazwisko";
+    public static final String P_TYT_NAUK = "p_tyt_nauk";
+    public static final String P_LOGIN = "p_login";
+    public static final String P_HASLO = "p_haslo";
+    public static final String P_EMAIL = "p_email";
+    public static final String P_TELEFON = "p_telefon";
+    public static final String P_DATA_URODZ = "p_data_urodz";
+    public static final String P_STATUS = "p_status";
+    public static final String P_ID_ZDJECIA = "p_id_zdjecia";
+    public static final String P_ID_ROLI = "p_id_roli";
 
     private final ZdjecieRepository dsZdjecia;
     @Autowired
