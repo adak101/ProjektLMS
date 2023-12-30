@@ -16,7 +16,6 @@ import pl.samba.lms.przedmioty.zadania.odpowiedzi.rodzaje.OdpowiedzInterface;
 import pl.samba.lms.przedmioty.zadania.zadania.Zadanie;
 import pl.samba.lms.przedmioty.zadania.zadania.database.ZadanieRepository;
 import pl.samba.lms.utils.api.ControllerInterface;
-import pl.samba.lms.utils.http.HttpResponse;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
