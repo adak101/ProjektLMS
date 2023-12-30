@@ -2,6 +2,7 @@ package pl.samba.lms.przedmioty.zadania.odpowiedzi.rodzaje;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import pl.samba.lms.przedmioty.zadania.RodzajeZadan;
 
 import java.util.List;
@@ -10,7 +11,8 @@ import java.util.List;
 @Getter
 public class OdpowiedzZamkniete implements OdpowiedzInterface {
     private List<Double> odpowiedzi;
-    private Integer punkty;
+    @Setter
+    private Double punkty;
 
     @Override
     public String toString(){

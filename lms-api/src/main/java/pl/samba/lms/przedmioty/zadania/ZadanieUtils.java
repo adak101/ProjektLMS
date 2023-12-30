@@ -1,7 +1,6 @@
 package pl.samba.lms.przedmioty.zadania;
 
 import com.google.gson.Gson;
-import pl.samba.lms.przedmioty.zadania.RodzajeZadan;
 import pl.samba.lms.przedmioty.zadania.odpowiedzi.rodzaje.*;
 import pl.samba.lms.przedmioty.zadania.zadania.rodzaje.*;
 
@@ -10,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ZadanieFactory {
+public class ZadanieUtils {
     private static final String TYP = "typ";
     private static final String PYTANIE = "pytanie";
     private static final String ODPOWIEDZ = "odpowiedz";
@@ -18,7 +17,7 @@ public class ZadanieFactory {
     private static final String PLIK = "plik";
     private static final String PUNKTY = "punkty";
 
-    public static List<ZadanieInterface> createZadaniaList(String json){
+    public static List<ZadanieInterface> zadaniaFactory(String json){
         List<ZadanieInterface> zadanieList = new ArrayList<>();
 
         Gson gson = new Gson();
@@ -44,14 +43,14 @@ public class ZadanieFactory {
                             (String) jsonObject.get(PYTANIE),
                             odpowiedzi,
                             poprawneOdp,
-                            ((Double) jsonObject.get(PUNKTY)).intValue()
+                            (Double) jsonObject.get(PUNKTY)
                     );
                 }
                 case PRAWDA_FALSZ -> {
                     zadanie = new ZadaniePrawdaFalsz(
                             (String) jsonObject.get(PYTANIE),
-                            (String) jsonObject.get(ODPOWIEDZ),
-                            ((Double) jsonObject.get(PUNKTY)).intValue()
+                            Boolean.getBoolean((String) jsonObject.get(ODPOWIEDZ)),
+                            (Double) jsonObject.get(PUNKTY)
                     );
                 }
                 case PLIK -> {
@@ -68,7 +67,7 @@ public class ZadanieFactory {
         return zadanieList;
     }
 
-    public static List<OdpowiedzInterface> createOdpowiedziList(String json){
+    public static List<OdpowiedzInterface> odpowiedziFactory(String json){
         List<OdpowiedzInterface> odpowiedzList = new ArrayList<>();
 
         Gson gson = new Gson();
@@ -91,13 +90,13 @@ public class ZadanieFactory {
 
                     odpowiedz = new OdpowiedzZamkniete(
                             odpowiedzi,
-                            ((Double) jsonObject.get(PUNKTY)).intValue()
+                            (Double) jsonObject.get(PUNKTY)
                     );
                 }
                 case PRAWDA_FALSZ -> {
                     odpowiedz = new OdpowiedzPrawdaFalsz(
-                            (String) jsonObject.get(ODPOWIEDZ),
-                            ((Double) jsonObject.get(PUNKTY)).intValue()
+                            Boolean.getBoolean((String) jsonObject.get(ODPOWIEDZ)),
+                            (Double) jsonObject.get(PUNKTY)
                     );
                 }
                 case PLIK -> {
@@ -111,5 +110,74 @@ public class ZadanieFactory {
             odpowiedzList.add(odpowiedz);
         }
         return odpowiedzList;
+    }
+
+    /**
+     * Metoda statyczna, sluzaca do sprawdzania pytan zamknietych oraz typu prawda-falsz
+     * <p>Zadania ocenianie są następująco:</p>
+     * <ul>
+     *     <li>Zadania prawda-fałsz otrzymuje 100% punktów za poprawna odpowiedź, w przeciwnym wypadku 0</li>
+     *     <li>Zadania zamknięte otrzymuje x% puntów za x poprawnych odpowiedzi</li>
+     * </ul>
+     * @param zadania Treść zadań
+     * @param odpowiedzi Treść odpowiedzi
+     * @return Lista odpowiedzi z sprawdzonymi odpowiedziami zamknietymi
+     * @throws Exception rzucany, gdy liczba odpowiedzi jest różna od liczby zadań
+     */
+    public static List<OdpowiedzInterface> sprawdzZadaniaZamkniete(
+            List<ZadanieInterface> zadania,
+            List<OdpowiedzInterface> odpowiedzi
+    ) throws Exception {
+        List<OdpowiedzInterface> ocenione = new ArrayList<>();
+
+        if(zadania.size() != odpowiedzi.size())
+            throw new Exception("Liczba zadań jest różna od liczby odpowiedzi!");
+        int size = zadania.size();
+
+        for(int i = 0; i < size; i++){
+            ZadanieInterface zadanie = zadania.get(i);
+            if(zadanie.getClass().equals(ZadanieZamkniete.class)){
+                ZadanieZamkniete zz = (ZadanieZamkniete) zadanie;
+                OdpowiedzZamkniete odpowiedz = (OdpowiedzZamkniete) odpowiedzi.get(i);
+
+                List<Double> odp = odpowiedz.getOdpowiedzi();
+                List<Integer> sprawdzone = new ArrayList<>(odp.size());
+
+                List<Double> poprOdp = zz.getPoprawneOdp();
+
+                for (int j = 0; j < odp.size(); j++) {
+                    Integer nrOdp = odp.get(j).intValue();
+
+                    for (int k = 0; k < poprOdp.size(); k++) {
+                        Integer nrPopr = poprOdp.get(k).intValue();
+                        if(nrOdp.equals(nrPopr)) {
+                            sprawdzone.add(1);
+                            break;
+                        }
+                    }
+                }
+
+                Integer suma = sprawdzone.stream().reduce(0, Integer::sum);
+
+                Double punkty = (suma.doubleValue() / poprOdp.size()) * zz.getPunkty();
+
+                odpowiedz.setPunkty(punkty);
+            }
+            else if(zadanie.getClass().equals(ZadaniePrawdaFalsz.class)){
+                ZadaniePrawdaFalsz zpf = (ZadaniePrawdaFalsz) zadanie;
+                OdpowiedzPrawdaFalsz odpowiedz = (OdpowiedzPrawdaFalsz) odpowiedzi.get(i);
+
+                if(odpowiedz.getOdpowiedz().equals(zpf.getOdpowiedz())){
+                    odpowiedz.setPunkty(zpf.getPunkty());
+                }
+                else{
+                    odpowiedz.setPunkty((double) 0);
+                }
+            }
+
+            ocenione.add(odpowiedzi.get(i));
+        }
+
+        return ocenione;
     }
 }

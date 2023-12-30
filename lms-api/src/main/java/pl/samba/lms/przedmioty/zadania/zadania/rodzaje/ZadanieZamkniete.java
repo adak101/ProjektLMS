@@ -12,7 +12,7 @@ public class ZadanieZamkniete implements ZadanieInterface {
     private String pytanie;
     private List<String> odpowiedzi;
     private List<Double> poprawneOdp;
-    private Integer punkty;
+    private Double punkty;
 
     @Override
     public String toString(){

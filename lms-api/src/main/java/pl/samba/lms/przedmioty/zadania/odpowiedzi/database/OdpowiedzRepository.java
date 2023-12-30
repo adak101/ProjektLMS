@@ -2,10 +2,12 @@ package pl.samba.lms.przedmioty.zadania.odpowiedzi.database;
 
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
-import pl.samba.lms.przedmioty.zadania.ZadanieFactory;
+import pl.samba.lms.przedmioty.przedmioty.database.PrzedmiotRepository;
+import pl.samba.lms.przedmioty.zadania.ZadanieUtils;
 import pl.samba.lms.przedmioty.zadania.odpowiedzi.Odpowiedz;
 import pl.samba.lms.przedmioty.zadania.odpowiedzi.rodzaje.OdpowiedzInterface;
 import pl.samba.lms.utils.database.AbstractCrudRepository;
+import pl.samba.lms.uzytkownicy.uzytkownicy.database.UzytkownikRepository;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -13,27 +15,83 @@ import java.util.*;
 
 @Repository
 public class OdpowiedzRepository extends AbstractCrudRepository<Odpowiedz, Integer> {
-    private static final String C_ID_ODPOWIEDZI = "id_odpowiedzi";
-    private static final String C_ID_ZADANIA = "id_zadania";
-    private static final String C_ID_UCZNIA = "id_ucznia";
-    private static final String C_TRESC = "tresc";
-    private static final String C_KOMENTARZ = "koment";
-    private static final String C_OCENA = "ocena";
-    private static final String C_DATA_WSTAW = "data_wstaw";
-    private static final String C_DATA_OCENY = "data_oceny";
+    public static final String C_ID_ODPOWIEDZI = "id_odpowiedzi";
+    public static final String C_ID_ZADANIA = "id_zadania";
+    public static final String C_ID_UCZNIA = "id_ucznia";
+    public static final String C_TRESC = "tresc";
+    public static final String C_KOMENTARZ = "koment";
+    public static final String C_OCENA = "ocena";
+    public static final String C_DATA_WSTAW = "data_wstaw";
+    public static final String C_DATA_OCENY = "data_oceny";
 
-    private static final String P_ID_ZADANIA = "p_id_zadania";
-    private static final String P_ID_UCZNIA = "p_id_ucznia";
-    private static final String P_TRESC = "p_tresc";
-    private static final String P_KOMENTARZ = "p_koment";
-    private static final String P_OCENA = "p_ocena";
-    private static final String P_DATA_OCENY = "p_data_oceny";
+    public static final String P_ID_ZADANIA = "p_id_zadania";
+    public static final String P_ID_UCZNIA = "p_id_ucznia";
+    public static final String P_TRESC = "p_tresc";
+    public static final String P_KOMENTARZ = "p_koment";
+    public static final String P_OCENA = "p_ocena";
+    public static final String P_DATA_OCENY = "p_data_oceny";
 
     public OdpowiedzRepository() {
         super("odpowiedzi_zadania", "pk_id_odpowiedzi");
     }
 
-    //todo getByUnique(kod + idUzytkownika)
+
+    @Override
+    public Iterable<Odpowiedz> getAll(String requestParams) {
+        /*
+         * requestParamsTable
+         * [0] size
+         * [1] page
+         * [2] kod
+         * [3] login
+         * */
+
+        String[] requestParamsTable = requestParams.split(";");
+        Integer size = requestParamsTable[0].equals("") ? null : Integer.parseInt(requestParamsTable[0]);
+        Integer page = requestParamsTable[1].equals("") ? null : Integer.parseInt(requestParamsTable[1]);
+        String kod = requestParamsTable[2];
+        String login = null;
+
+        if(requestParamsTable.length > 3){
+            login = requestParamsTable[3];
+        }
+
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(super.getJdbc())
+                .withSchemaName(getSCHEMA())
+                .withProcedureName(super.getReadProcName());
+        Map<String, Object> inParams = new HashMap<>();
+        inParams.put(super.getPkColumnName(), null);
+        inParams.put(getP_PAGE_SIZE(), size);
+        inParams.put(getP_PAGE(), page);
+        inParams.put(PrzedmiotRepository.P_KOD, kod);
+        inParams.put(UzytkownikRepository.P_LOGIN, login);
+
+        Map<String, Object> result = jdbcCall.execute(inParams);
+
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> resultSet = (List<Map<String, Object>>) result.get("#result-set-1");
+        return resultMapper(resultSet);
+    }
+
+    @Override
+    public Odpowiedz getById(Integer id) {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(super.getJdbc())
+                .withSchemaName(getSCHEMA())
+                .withProcedureName(super.getReadProcName());
+        Map<String, Object> inParams = new HashMap<>();
+        inParams.put(super.getPkColumnName(), id);
+        inParams.put(getP_PAGE_SIZE(), null);
+        inParams.put(getP_PAGE(), null);
+        inParams.put(PrzedmiotRepository.P_KOD, null);
+        inParams.put(UzytkownikRepository.P_LOGIN, null);
+
+        Map<String, Object> result = jdbcCall.execute(inParams);
+
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> resultSet = (List<Map<String, Object>>) result.get("#result-set-1");
+
+        return resultMapper(resultSet).iterator().hasNext() ? resultMapper(resultSet).iterator().next() : null ;
+    }
 
     @Override
     public Integer save(Odpowiedz data) {
@@ -89,7 +147,7 @@ public class OdpowiedzRepository extends AbstractCrudRepository<Odpowiedz, Integ
         for(Map<String, Object> row: resultSet){
             byte[] trescBytes = Base64.getDecoder().decode((byte[]) row.get(C_TRESC));
 
-            List<OdpowiedzInterface> odpowiedziList = ZadanieFactory.createOdpowiedziList(
+            List<OdpowiedzInterface> odpowiedziList = ZadanieUtils.odpowiedziFactory(
                     new String(trescBytes, StandardCharsets.UTF_8)
             );
 

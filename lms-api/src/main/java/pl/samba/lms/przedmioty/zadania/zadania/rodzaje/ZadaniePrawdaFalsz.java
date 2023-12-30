@@ -9,8 +9,8 @@ import pl.samba.lms.przedmioty.zadania.RodzajeZadan;
 @Getter
 public class ZadaniePrawdaFalsz implements ZadanieInterface {
     private String pytanie;
-    private String odpowiedz;
-    private Integer punkty;
+    private Boolean odpowiedz;
+    private Double punkty;
 
     @Override
     public String toString(){
