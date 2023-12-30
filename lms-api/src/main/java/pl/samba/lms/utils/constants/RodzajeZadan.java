@@ -1,4 +1,4 @@
-package pl.samba.lms.przedmioty.zadania;
+package pl.samba.lms.utils.constants;
 
 public enum RodzajeZadan {
     OTWARTE,
