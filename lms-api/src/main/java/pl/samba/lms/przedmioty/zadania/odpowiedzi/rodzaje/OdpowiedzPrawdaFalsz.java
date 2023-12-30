@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.samba.lms.utils.constants.RodzajeZadan;
 
+
 @AllArgsConstructor
 @Getter
 public class OdpowiedzPrawdaFalsz implements OdpowiedzInterface {

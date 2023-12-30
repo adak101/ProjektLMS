@@ -44,6 +44,7 @@ public class OdpowiedziController implements ControllerInterface<Odpowiedz, Odpo
      * @param page Numer strony, liczony od 0.
      * @return Odpowiedź HTTP zawierająca kolekcję modelu zasobów.
      */
+
     @GetMapping(PathType.ALL)
     public ResponseEntity<CollectionModel<OdpowiedzModel>> get(
             @RequestParam(required = true) String kod,
@@ -93,6 +94,7 @@ public class OdpowiedziController implements ControllerInterface<Odpowiedz, Odpo
         return null;
     }
 
+
     @GetMapping(PathType.ID)
     @Override
     public ResponseEntity<OdpowiedzModel> get(@PathVariable("id") Integer id) {
@@ -103,6 +105,7 @@ public class OdpowiedziController implements ControllerInterface<Odpowiedz, Odpo
             return new ResponseEntity<>(model, HttpStatus.OK);
         } else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
+
 
     @DeleteMapping(PathType.ID)
     @Override
@@ -174,6 +177,7 @@ public class OdpowiedziController implements ControllerInterface<Odpowiedz, Odpo
      * @param data RequestBody zawierajace tresc, ocene i komentarz. Tresc powinna uwzgledniac punktacje za zadnia otwarte
      * @return Odpowiedz HTTP z linkiem do ocenionej odpowiedzi
      */
+
     @PatchMapping(path = PathType.OCEN, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> wystawOcene(
             @PathVariable("id") Integer id,

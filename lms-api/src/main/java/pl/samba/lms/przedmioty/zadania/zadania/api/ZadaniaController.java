@@ -96,6 +96,7 @@ public class ZadaniaController implements ControllerInterface<Zadanie, ZadanieMo
         dataSet.delete(id);
     }
 
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @Override
     public ResponseEntity<Object> post(@RequestBody Zadanie data) {
@@ -109,6 +110,7 @@ public class ZadaniaController implements ControllerInterface<Zadanie, ZadanieMo
     }
 
     @Override
+
     @PatchMapping(path=PathType.ID, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> patch(
             @PathVariable("id") Integer id,

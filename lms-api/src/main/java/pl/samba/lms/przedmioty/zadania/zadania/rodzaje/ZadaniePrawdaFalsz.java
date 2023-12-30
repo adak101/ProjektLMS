@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import pl.samba.lms.utils.constants.RodzajeZadan;
 
+
 @AllArgsConstructor
 @Getter
 public class ZadaniePrawdaFalsz implements ZadanieInterface {

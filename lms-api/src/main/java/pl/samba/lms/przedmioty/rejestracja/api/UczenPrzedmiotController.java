@@ -7,6 +7,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.samba.lms.przedmioty.przedmioty.database.PrzedmiotRepository;
@@ -36,6 +37,7 @@ public class UczenPrzedmiotController {
      * @param kod kod przedmiotu w base64, na ktory uczen sie rejestruje
      * @return Odpowiedź HTTP zawierająca kolekcję modeli powiazania.
      */
+
     @PostMapping(PathType.REJESTRUJ)
     public ResponseEntity<Object> rejestrujNaPrzedmiot(
             @RequestParam(required = true) String nick,
@@ -145,6 +147,7 @@ public class UczenPrzedmiotController {
      * @param kod kod przedmiotu w base64
      * @return Odpowiedź HTTP zawierająca link do zmodyfikowanego powiazania.
      */
+
     @PatchMapping(PathType.OCENA)
     public ResponseEntity<Object> wystawOcene(
             @RequestParam(required = true) Integer ocena,
@@ -172,6 +175,7 @@ public class UczenPrzedmiotController {
      * @param nick nick ucznia w base64, ktoremu wystawiona jest ocena
      * @param kod kod przedmiotu w base64
      */
+
     @DeleteMapping(PathType.WYREJESTRUJ)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(
