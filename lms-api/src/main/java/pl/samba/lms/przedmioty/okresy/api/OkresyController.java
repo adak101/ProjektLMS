@@ -4,10 +4,12 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.samba.lms.przedmioty.okresy.Okres;
 import pl.samba.lms.przedmioty.okresy.database.OkresRepository;
+import pl.samba.lms.utils.PathType;
 import pl.samba.lms.utils.api.ControllerInterface;
 
 
@@ -18,7 +20,7 @@ import java.util.Optional;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping(path = "/api/przedmiot/okres", produces = "application/json")
+@RequestMapping(path = PathType.OKRES, produces = MediaType.APPLICATION_JSON_VALUE)
 public class OkresyController implements ControllerInterface<Okres, OkresModel> {
 
     private final OkresRepository dataSet;
@@ -27,7 +29,7 @@ public class OkresyController implements ControllerInterface<Okres, OkresModel> 
     }
 
     @Override
-    @GetMapping("/all")
+    @GetMapping(PathType.ALL)
     public ResponseEntity<CollectionModel<OkresModel>> get(
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false)Integer page
@@ -59,7 +61,7 @@ public class OkresyController implements ControllerInterface<Okres, OkresModel> 
     }
 
     @Override
-    @GetMapping("/{id}")
+    @GetMapping(PathType.ID)
     public ResponseEntity<OkresModel> get(@PathVariable("id") Integer id) {
         Optional<Okres> optOkres = Optional.ofNullable(dataSet.getById(id));
         if(optOkres.isPresent()){
@@ -70,14 +72,14 @@ public class OkresyController implements ControllerInterface<Okres, OkresModel> 
     }
 
     @Override
-    @DeleteMapping("/{id}")
+    @DeleteMapping(PathType.ID)
     @ResponseStatus(code=HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") Integer id) {
         dataSet.delete(id);
     }
 
     @Override
-    @PostMapping(consumes = "application/json")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> post(@RequestBody Okres data) {
         Integer id =  dataSet.save(data);
         return new ResponseEntity<>(
@@ -88,7 +90,7 @@ public class OkresyController implements ControllerInterface<Okres, OkresModel> 
     }
 
     @Override
-    @PatchMapping(path="/{id}", consumes = "application/json")
+    @PatchMapping(path=PathType.ID, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> patch(
             @PathVariable("id")Integer id,
             @RequestBody Okres data) {
