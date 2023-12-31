@@ -33,4 +33,6 @@ public class PathType {
     public static final String WYREJESTRUJ = "/wyrejestruj";
 
     public static final String MATERIAL = PRZEDMIOT + "/material";
+
+    public static final String POWIADOMIENIE = ROOT + "/powiadomienie";
 }
