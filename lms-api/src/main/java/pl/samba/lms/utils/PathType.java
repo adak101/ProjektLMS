@@ -18,13 +18,19 @@ public class PathType {
 
     public static final String ZDJECIE = ROOT + "/zdjecie";
 
+    /** PRZEDMIOT */
     public static final String PRZEDMIOT = ROOT + "/przedmiot";
+
     public static final String OKRES = PRZEDMIOT + "/okres";
+
     public static final String ZADANIE = PRZEDMIOT + "/zadanie";
     public static final String ODPOWIEDZ = ZADANIE + "/odpowiedz";
     public static final String OCEN = ID + "/ocen";
+
     public static final String REJESTRACJA_PRZEDMIOT = PRZEDMIOT + "/uczen";
     public static final String REJESTRUJ = "/rejestruj";
     public static final String OCENA = "/ocena";
     public static final String WYREJESTRUJ = "/wyrejestruj";
+
+    public static final String MATERIAL = PRZEDMIOT + "/material";
 }
