@@ -1,7 +1,7 @@
 DELIMITER //
 DROP PROCEDURE IF EXISTS lms.odpowiedzi_zadania_upd;
 CREATE PROCEDURE odpowiedzi_zadania_upd(
-	IN pk_id_odpowiedzi INT,
+	INOUT pk_id_odpowiedzi INT,
 	IN p_tresc BLOB,
 	IN p_koment VARCHAR(500),
 	IN p_ocena INT,
