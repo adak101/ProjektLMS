@@ -1,7 +1,7 @@
 DELIMITER //
 DROP PROCEDURE IF EXISTS lms.zadania_upd;
 CREATE PROCEDURE zadania_upd(
-	IN pk_id_zadania INT,
+	INOUT pk_id_zadania INT,
 	IN p_id_przedm INT,
 	IN p_data_pocz DATETIME,
 	IN p_data_konc DATETIME,

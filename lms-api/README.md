@@ -55,6 +55,12 @@ Wersja API: `lms-api-0.0.1-SNAPSHOT`
    - [Aktualizacja danych odpowiedzi](#4-aktualizacja-danych-odpowiedzi)
    - [Usunięcie odpowiedzi](#5-usunięcie-odpowiedzi)
    - [Wystawienie oceny dla zadnia](#6-wystawianie-oceny)
+10. [Materiały](#materiały)
+    - [Pobieranie listy wszystkich materiałów](#1-pobieranie-listy-wszystkich-materiałów)
+    - [Pobieranie pojednczego materiału](#2-pobieranie-pojedynczego-materiału)
+    - [Usuwanie materiału](#3-usuwanie-materiału)
+    - [Dodawanie nowego materiału](#4-dodawanie-nowego-materiału)
+    - [Aktualizacja danych materiału](#5-aktualizacja-danych-materiału)
 ---
 
 ## Plik konfiguracyjny
@@ -928,3 +934,111 @@ Authorization: Bearer <token>
     "ocena": 5
 }
 ```
+
+## Materiały
+
+### Opis
+
+Klasa `MaterialyController` obsługuje end-pointy związane z zarządzaniem materiałami przedmiotów w systemie. Poniżej przedstawione są wszystkie dostępne end-pointy wraz z ich opisem, parametrami i możliwymi odpowiedziami.
+
+### End-pointy
+
+#### 1. Pobieranie listy wszystkich materiałów
+
+- **Ścieżka**: `/api/przedmiot/material/all`
+- **Metoda**: `GET`
+- **Parametry**:
+  - `kod` (parametr zapytania, wymagany): Kod przedmiotu w base64. 
+  - `lp` (parametr zapytania, opcjonalny): Numer porządkowy materiału.
+  - `size` (parametr zapytania, opcjonalny): Liczba wyników na stronie.
+  - `page` (parametr zapytania, opcjonalny): Numer strony, liczony od 0.
+- **Odpowiedź**:
+  - `200 OK` - sukces, zwraca listę materiałów w formacie JSON
+  - `404 Not Found` - brak materiałów
+
+```
+GET /api/przedmiot/material/all?kod=<kod>&lp=<lp>&size=<size>&page=<page>
+Authorization: Bearer <token>
+```
+#### 2. Pobieranie pojedynczego materiału
+
+- **Ścieżka**: `/api/przedmiot/materialy/{id}`
+- **Metoda**: `GET`
+- **Parametry**:
+  - `id` (ścieżka): Identyfikator materiału.
+- **Odpowiedź**:
+  - `200 OK` - sukces, zwraca dane pojedynczego materiału w formacie JSON
+  - `404 Not Found` - materiał o podanym identyfikatorze nie istnieje
+
+```http
+GET /api/przedmiot/material/1
+Authorization: Bearer <token>
+```
+
+#### 3. Usuwanie materiału
+
+Po usunięciu materiału automatycznie zostaje poprawiona liczba porządkowa pozostałych materiałów,
+
+- **Ścieżka**: `/api/przedmiot/materialy/{id}`
+- **Metoda**: `DELETE`
+- **Parametry**:
+  - `id` (ścieżka): Identyfikator materiału.
+- **Odpowiedź**:
+  - `204 No Content` - sukces, materiał został usunięty
+  - `404 Not Found` - materiał o podanym identyfikatorze nie istnieje
+
+```http
+DELETE /api/przedmiot/material/1
+Authorization: Bearer <token>
+```
+
+#### 4. Dodawanie nowego materiału
+
+Automatycznie jest nadawany liczba porządkowa oraz ustawiana data wstawienia.
+
+- **Ścieżka**: `/api/przedmiot/material`
+- **Metoda**: `POST`
+- **Parametry**:
+  - Ciało żądania zawiera dane nowego materiału w formacie JSON
+- **Odpowiedź**:
+- `201 Created` - sukces, materiał został dodany, zwraca link do nowo utworzonego materiału
+- `400 Bad Request` - błąd w danych wejściowych
+
+```http
+POST /api/przedmiot/material
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+```json
+{
+    "idPrzedmiotu":1,
+    "temat": "Nowy temat",
+    "plik": "<Zawartość pliku zakodowana w base64>",
+    "nazwaPliku": "nazwa_pliku.txt",
+    "ext": "txt",
+    "opis": "Opis materiału",
+    "widocznosc": 1
+}
+```
+
+#### 5. Aktualizacja danych materiału
+
+- **Ścieżka**: `/api/przedmiot/material/{id}`
+- **Metoda**: `PATCH`
+- **Parametry**:
+  - `id` (ścieżka): Identyfikator materiału.
+  - Ciało żądania zawiera dane do aktualizacji w formacie JSON
+- **Odpowiedź**:
+  - `200 OK` - sukces, materiał został zaktualizowany, zwraca link do zaktualizowanego materiału
+  - `400 Bad Request` - błąd w danych wejściowych
+  - `404 Not Found` - materiał o podanym identyfikatorze nie istnieje
+
+```http
+PATCH /api/przedmiot/material/1
+Content-Type: application/json
+Authorization: Bearer <token>
+
+json
+{
+    "temat": "Nowy temat"
+}
