@@ -2,7 +2,7 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS lms.przedmioty_upd;
 CREATE PROCEDURE przedmioty_upd(
 	INOUT pk_id_przedm INT,
-	IN p_nazwa VARCHAR(100),
+	IN p_nazwa VARCHAR(1000),
 	IN p_id_prow INT,
 	IN p_limit_miejsc INT,
 	IN p_opis VARCHAR(2000),

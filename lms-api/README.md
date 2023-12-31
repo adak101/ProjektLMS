@@ -415,7 +415,7 @@ Authorization: Bearer <token>
     "opis": "Przedmiot z zakresu matematyki",
     "warunkiZaliczenia": "Egzamin końcowy",
     "idOkresu": 1,
-    "status": "AKTYWNY", 
+    "status": "DO_ZATWIERDZENIA", 
     "czyRejestrUczn": true
 }
 ```

@@ -3,7 +3,7 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS lms.przedmioty_ins;
 CREATE PROCEDURE przedmioty_ins(
 	OUT pk_id_przedm INT,
-	IN p_nazwa VARCHAR(100),
+	IN p_nazwa VARCHAR(1000),
 	IN p_id_prow INT,
 	IN p_limit_miejsc INT,
 	IN p_opis VARCHAR(2000),
@@ -22,6 +22,11 @@ BEGIN
 	INTO v_id_status
 	FROM przedmiot_status ps
 	WHERE ps.kod = p_kod_status;
+	
+	IF(v_id_status IS NULL) THEN 
+		SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = 'Nieprawidłowy status przedmiotu!';
+   END IF;
 	
 	INSERT INTO przedmioty(kod, nazwa, id_prow, limit_miejsc, opis, war_zalicz, id_okresu, id_status, rejestr_uczn)
 	VALUES (v_kod, p_nazwa, p_id_prow, p_limit_miejsc, p_opis, p_war_zalicz, p_id_okresu, v_id_status, p_rejestr_uczn);
