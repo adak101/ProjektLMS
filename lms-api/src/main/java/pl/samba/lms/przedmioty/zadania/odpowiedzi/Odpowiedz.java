@@ -38,10 +38,13 @@ public class Odpowiedz {
         this.idOdpowiedzi = idOdpowiedzi;
         this.idZadania = idZadania;
         this.idUcznia = idUcznia;
-        this.tresc = ZadanieUtils.odpowiedziFactory(jsonTresc);
+        if(jsonTresc != null) {
+            this.tresc = ZadanieUtils.odpowiedziFactory(jsonTresc);
+        }
         this.komentarz = komentarz;
         this.ocena = ocena;
         this.dataWstawienia = dataWstawienia;
         this.dataOcenienia = dataOcenienia;
     }
+
 }
