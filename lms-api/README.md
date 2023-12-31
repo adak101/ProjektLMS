@@ -2,7 +2,7 @@
 
 Dokumentacja do aplikacji rest api projektu LSM.
 
-Wersja API: `lms-api-0.0.1-SNAPSHOT`
+Wersja API: `lms-api-0.0.2-SNAPSHOT`
 
 ## Spis treści
 
@@ -61,6 +61,11 @@ Wersja API: `lms-api-0.0.1-SNAPSHOT`
     - [Usuwanie materiału](#3-usuwanie-materiału)
     - [Dodawanie nowego materiału](#4-dodawanie-nowego-materiału)
     - [Aktualizacja danych materiału](#5-aktualizacja-danych-materiału)
+11. [Powiadomienia](#powiadomienia)
+    - [Pobieranie listy wszystkich powiadomień dla użytkownika](#1-pobieranie-listy-wszystkich-powiadomień-dla-użytkownika)
+    - [Pobieranie pojedynczego powiadomienia](#2-pobieranie-pojedynczego-powiadomienia)
+    - [Usuwanie powiadomienia](#3-usuwanie-powiadomienia)
+    - [Aktualizacja flagi powiadomienia](#4-aktualizacja-flagi-powiadomienia)
 ---
 
 ## Plik konfiguracyjny
@@ -1042,3 +1047,95 @@ json
 {
     "temat": "Nowy temat"
 }
+```
+
+## Powiadomienia
+
+### Opis
+
+Klasa `PowiadomieniaController` obsługuje end-pointy związane z zarządzaniem powiadomieniami użytkowników w systemie. Poniżej przedstawione są wszystkie dostępne end-pointy wraz z ich opisem, parametrami i możliwymi odpowiedziami.
+
+Powiadomienia są dodawane automatycznie po stronie bazy danych za pomocą odpowiednich *triggerów*:
+
+- `tai_materialy` - Trigger dodaje powiadomienie wszystkim uczestnikom przedmiotu, gdy zostanie dodany material do przedmiotu. 
+  - Treść: ` '<p>Dostępny nowy materiał z przedmiotu \'<nazwa_przedmiotu\'!</p>'`
+- `tbu_materialy` - Trigger dodaje powiadomienie wszystkim uczestnikom przedmiotu, gdy zostanie uwidoczniony materiał.
+  - Treść: ` '<p>Dostępny nowy materiał z przedmiotu \'<nazwa_przedmiotu\'!</p>'`
+- `tai_odpowiedzi_zadania` - Trigger dodaje nowe powiadomienie nauczycielowi, gdy uczeń doda odpowiedz do zadania.
+  - Treść: `'<p>Użytkownik <imie i nazwisko> dodał nową odpowiedź do zadania z przedmiotu \'<nazwa_przedmiotu\'.</p>'`
+- `tbu_odpowiedzi_zadania` - Trigger dodaje nowe powiadomienie gdy wystawiono ocenę uczniowi za zadanie.
+  - Treść: `'<p>Dostałeś nową ocenę za zadanie z przedmiotu \'<nazwa_przedmiotu\'!</p>'`
+- `tai_zadania` - Trigger dodaje powiadomienie wszystkim uczestnikom przedmiotu, gdy zostanie dodane nowe zadanie.
+  - Treść: `'<p>Dostępne nowe zadanie dla przedmiotu \'<nazwa_przedmiotu\'!</p><p>Zadanie będzie dostępne do dnia: <data_konca>.<p>'`
+- `tbu_uczen_przedmiot` - Trigger dodaje nowe powiadomienie, gdy wystawiono ocenę uczniowi z przedmiotu.
+  - Treść: `'<p>Dostałeś nową ocenę z przedmiotu \'<nazwa_przedmiotu\'!</p>'`
+### End-pointy
+
+#### 1. Pobieranie listy wszystkich powiadomień dla użytkownika
+
+- **Ścieżka**: `/api/powiadomienie/all`
+- **Metoda**: `GET`
+- **Parametry**:
+  - `login` (parametr zapytania, wymagany): Login użytkownika w base64.
+  - `size` (parametr zapytania, opcjonalny): Liczba wyników na stronie.
+  - `page` (parametr zapytania, opcjonalny): Numer strony, liczony od 0.
+- **Odpowiedź**:
+  - `200 OK` - sukces, zwraca listę powiadomień w formacie JSON
+  - `404 Not Found` - brak powiadomień
+
+```http
+GET /api/powiadomienie/all?login=<login>&size=<size>&page=<page>
+Authorization: Bearer <token>
+```
+
+#### 2. Pobieranie pojedynczego powiadomienia
+
+- **Ścieżka**: `/api/powiadomienie/{id}`
+- **Metoda**: `GET`
+- **Parametry**:
+  - `id` (ścieżka): Identyfikator powiadomienia.
+- **Odpowiedź**:
+  - `200 OK` - sukces, zwraca dane pojedynczego powiadomienia w formacie JSON
+  - `404 Not Found` - powiadomienie o podanym identyfikatorze nie istnieje
+
+```http
+GET /api/powiadomienie/1
+Authorization: Bearer <token>
+```
+
+#### 3. Usuwanie powiadomienia
+
+- **Ścieżka**: `/api/powiadomienie/{id}`
+- **Metoda**: `DELETE`
+- **Parametry**:
+  - `id` (ścieżka): Identyfikator powiadomienia.
+- **Odpowiedź**:
+  - `204 No Content` - sukces, powiadomienie zostało usunięte
+  - `404 Not Found` - powiadomienie o podanym identyfikatorze nie istnieje
+
+```http
+DELETE /api/powiadomienie/1
+Authorization: Bearer <token>
+```
+
+#### 4. Aktualizacja flagi powiadomienia
+
+- **Ścieżka**: `/api/powiadomienie/{id}`
+- **Metoda**: `PATCH`
+- **Parametry**:
+  - `id` (ścieżka): Identyfikator powiadomienia.
+  - Ciało żądania zawiera dane do aktualizacji w formacie JSON
+- **Odpowiedź**:
+  - `200 OK` - sukces, flaga powiadomienia została zaktualizowana, zwraca link do zaktualizowanego powiadomienia
+  - `404 Not Found` - powiadomienie o podanym identyfikatorze nie istnieje
+
+```http
+PATCH /api/powiadomienie/1
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+```json
+{
+    "flaga":"PRZECZYTANA"
+}
+```
