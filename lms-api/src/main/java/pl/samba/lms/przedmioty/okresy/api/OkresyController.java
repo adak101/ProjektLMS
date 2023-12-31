@@ -94,7 +94,7 @@ public class OkresyController implements ControllerInterface<Okres, OkresModel> 
     public ResponseEntity<Object> patch(
             @PathVariable("id")Integer id,
             @RequestBody Okres data) {
-        Okres current = dataSet.getById(data.getIdOkresu());
+        Okres current = dataSet.getById(id);
 
         if(data.getKod() != null){
             current.setKod(data.getKod());
