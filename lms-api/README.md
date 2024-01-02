@@ -96,18 +96,22 @@ security.auth.secret=~a?%B^"}i[xu}~IhA+BO'nGS8G(o5x
 ## Zadeklarowane stałe
 
 ### Statusy
+
+#### Statusy przedmiotów:
 1. `DO_ZATWIERDZENIA (2AP)` - Oczekuje na zatwierdzenie.
 2. `ZATWIERDZONY (APR)` - Został zatwierdzony.
 3. `ODRZUCONY (REJ)` - Został odrzucony.
 4. `TRWAJACY (ACT)`- Jest aktualnie w trakcie.
 5. `ZAKONCZONY (END)`- Zakończony.
-6. `AKTYWNY (1)`- Aktywny.
-7. `NIE_AKTYWNY (0)`- Nieaktywny.
+
+#### Statusy użytkowników:
+1`AKTYWNY (1)`- Aktywny.
+2`NIEAKTYWNY (0)`- Nieaktywny.
 
 ### Role
 1. `ADMIN (1)`
-2. `NAUCZYCIEL (2)` 
-3. `UCZEN (3)`
+2. `NAUCZYCIEL (3)` 
+3. `UCZEN (2)`
 
 ### Flagi
 1. `NIEPRZECZYTANA` - Oznacza, że obiekt nie został jeszcze przeczytany.
@@ -127,6 +131,14 @@ Klasa `AuthController` odpowiada za obsługę end-pointów związanych z rejestr
 
 #### 1. Rejestracja nowego użytkownika
 
+> **WAŻNE!**
+>
+> Login użytkownika nadawany jest automatycznie w konwencji <pierwsza_litera_imienia>.<nazwisko>[?nr_porządkowy]
+>
+> W bazie danych przechowywane jest zaszyfrowane hasło przy użyciu algorytmu `BCrypt`
+>
+> Gdy nie zostanie przekazane zdjęcie, ustawione zostanie na domyślne (id 1).
+
 - **Ścieżka:** `/api/v1/auth/register`
 - **Metoda:** `POST`
 - **Parametry:**
@@ -145,6 +157,7 @@ Content-Type: application/json
     "nazwisko": "Kowalski",
     "tytNauk": null,
     "email": "john.doe@example.com",
+    "haslo": "haslo",
     "telefon": 123456789,
     "dataUrodz": "1990-01-01",
     "status": "AKTYWNY",
@@ -276,6 +289,8 @@ Authorization: Bearer <token>
 > Login użytkownika nadawany jest automatycznie w konwencji <pierwsza_litera_imienia>.<nazwisko>[?nr_porządkowy]
 > 
 > W bazie danych przechowywane jest zaszyfrowane hasło przy użyciu algorytmu `BCrypt`
+> 
+> Gdy nie zostanie przekazane zdjęcie, ustawione zostanie na domyślne (id 1).
 ```http
 POST /api/uzytkownik
 Content-Type: application/json
@@ -286,8 +301,8 @@ Authorization: Bearer <token>
     "imie": "Jan",
     "nazwisko": "Kowalski",
     "tytNauk": null,
-    "haslo": "haslo",
     "email": "john.doe@example.com",
+    "haslo": "haslo",
     "telefon": 123456789,
     "dataUrodz": "1990-01-01",
     "status": "AKTYWNY",
@@ -426,7 +441,7 @@ Authorization: Bearer <token>
     "opis": "Przedmiot z zakresu matematyki",
     "warunkiZaliczenia": "Egzamin końcowy",
     "idOkresu": 1,
-    "status": "DO_ZATWIERDZENIA", 
+    "status": "DO_ZATWIERDZENIA",
     "czyRejestrUczn": true
 }
 ```
@@ -648,7 +663,7 @@ Authorization: Bearer <token>
 
 ### Rodzaje zadań
 
-Zadania przekazywane w `tresc` mają format listy obiektów json. To pole jest typu `String`, więc wszystkie `"` muszą być poprzedzone znakiem *escape*: `\ `.Poniżej typy zadań:
+Zadania przekazywane w `tresc` mają format listy obiektów json. To pole jest typu `String`, więc wszystkie `"` muszą być poprzedzone znakiem *escape*: `\ `. Poniżej typy zadań:
 
 #### 1. Zadania otwarte:
 
@@ -697,10 +712,10 @@ Zadania przekazywane w `tresc` mają format listy obiektów json. To pole jest t
 
 ```
 [
-  {\"typ\":\"OTWARTE\",\"pytanie\":\"Bardzo trudne pytanie wymagające rozbudowanej odpowiedzi\"},
-  {\"typ\":\"PRAWDA_FALSZ\",\"pytanie\":\"Bardzo proste pytanie wymagające odpowiedzi prawda albo fałsz\",\"odpowiedz\":\"true\"},
-  {\"typ\":\"PLIK\",\"pytanie\":\"Pytanie wymagajace wgrania pliku lub jego edycję i ponowne wganie\",\"plik\":\"Ym5Wc2JBPT0=\"},
-  {\"typ\":\"ZAMKNIETE\",\"pytanie\":\"Pytanie testowe z czterema odpowiedziami do wyboru, gdzie dwie są prawdziwe\",\"odpowiedz\":[\"odpowiedź1\",\"odpowiedź2\",\"odpowiedź3\",\"odpowiedź3\"],\"poprawneOdp\":[1,3]}
+  {\"typ\":\"OTWARTE\",\"pytanie\":\"Bardzo trudne pytanie wymagające rozbudowanej odpowiedzi\",\"punkty\":2},
+  {\"typ\":\"PRAWDA_FALSZ\",\"pytanie\":\"Bardzo proste pytanie wymagające odpowiedzi prawda albo fałsz\",\"odpowiedz\":\"true\"\"punkty\":30},
+  {\"typ\":\"PLIK\",\"pytanie\":\"Pytanie wymagajace wgrania pliku lub jego edycję i ponowne wganie\",\"plik\":\"Ym5Wc2JBPT0=\"\"punkty\":20},
+  {\"typ\":\"ZAMKNIETE\",\"pytanie\":\"Pytanie testowe z czterema odpowiedziami do wyboru, gdzie dwie są prawdziwe\",\"odpowiedz\":[\"odpowiedź1\",\"odpowiedź2\",\"odpowiedź3\",\"odpowiedź3\"],\"poprawneOdp\":[1,3]\"punkty\":1}
 ]
 ```
 

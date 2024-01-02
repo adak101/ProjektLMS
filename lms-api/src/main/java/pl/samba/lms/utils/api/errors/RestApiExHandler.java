@@ -5,6 +5,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.UncategorizedSQLException;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -79,6 +80,16 @@ public class RestApiExHandler extends ResponseEntityExceptionHandler {
                 "Wystąpił błąd danych podczas wykonywania procedury składowanej SQL.",
                 ex.getMessage(),
                 request.toString()
+        );
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(BadSqlGrammarException.class)
+    public ResponseEntity<Object> handleBadSqlGrammarException(Exception ex, WebRequest request) {
+        HttpErrorResponse response = new HttpErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                "Wystąpił błąd podczas wykonywania procedury składowanej SQL.",
+                ex.getMessage(), request.toString()
         );
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }

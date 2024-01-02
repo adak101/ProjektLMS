@@ -110,7 +110,7 @@ public class PrzedmiotyController implements ControllerInterface<Przedmiot, Prze
         if(data.getNazwa() != null){
             current.setNazwa(data.getNazwa());
         }
-        if(data.getIdPrzedmiotu() != null){
+        if(data.getIdProwadzacego() != null){
             current.setIdProwadzacego(data.getIdProwadzacego());
         }
         if(data.getLimit() != null){

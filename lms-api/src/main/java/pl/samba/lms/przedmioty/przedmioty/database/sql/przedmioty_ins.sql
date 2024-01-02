@@ -1,7 +1,7 @@
 DELIMITER //
 
 DROP PROCEDURE IF EXISTS lms.przedmioty_ins;
-CREATE PROCEDURE przedmioty_ins(
+CREATE PROCEDURE lms.przedmioty_ins(
 	OUT pk_id_przedm INT,
 	IN p_nazwa VARCHAR(1000),
 	IN p_id_prow INT,
@@ -13,18 +13,18 @@ CREATE PROCEDURE przedmioty_ins(
 	IN p_rejestr_uczn BOOLEAN
 )
 BEGIN
-	DECLARE v_kod VARCHAR(10);
+	DECLARE v_kod VARCHAR(15);
 	DECLARE v_id_status INT;
 	
 	SET v_kod = generuj_kod_przedm_func(p_id_okresu,p_nazwa);
-
+   
 	SELECT ps.id_status
 	INTO v_id_status
 	FROM przedmiot_status ps
 	WHERE ps.kod = p_kod_status;
 	
 	IF(v_id_status IS NULL) THEN 
-		SIGNAL SQLSTATE '45000'
+		SIGNAL SQLSTATE '65000'
       SET MESSAGE_TEXT = 'Nieprawidłowy status przedmiotu!';
    END IF;
 	

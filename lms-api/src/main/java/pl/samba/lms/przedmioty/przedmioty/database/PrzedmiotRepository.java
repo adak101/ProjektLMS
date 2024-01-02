@@ -97,7 +97,7 @@ public class PrzedmiotRepository extends AbstractCrudRepository<Przedmiot, Integ
                     (String) row.get(C_OPIS),
                     (String) row.get(C_WAR_ZALICZ),
                     (Integer) row.get(C_ID_OKRESU),
-                    Status.getStatusByKod(C_KOD_STATUS),
+                    Status.getStatusByKod((String) row.get(C_KOD_STATUS)),
                     (Boolean) row.get(C_REJESTR_UCZN)
             );
             przedmiotList.add(przedmiot);

@@ -14,8 +14,8 @@ public enum Status {
     ODRZUCONY("REJ"),         // Został odrzucony.
     TRWAJACY("ACT"),          // Jest aktualnie w trakcie.
     ZAKONCZONY("END"),        // Zakończony.
-    AKTYWNY("1"),             // Aktywny.
-    NIE_AKTYWNY("0");         // Nieaktywny.
+    AKTYWNY("1"),             // Aktywny-tylko uzytkownik.
+    NIEAKTYWNY("0");         // Nieaktywny-tylko uzytkownik.
 
     private String kod;
     private Status(String kod){

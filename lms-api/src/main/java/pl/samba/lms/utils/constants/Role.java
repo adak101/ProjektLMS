@@ -4,8 +4,8 @@ import lombok.Getter;
 
 public enum Role {
     ADMIN(1),
-    NAUCZYCIEL(2),
-    UCZEN(3);
+    NAUCZYCIEL(3),
+    UCZEN(2);
 
     @Getter
     private Integer id;
