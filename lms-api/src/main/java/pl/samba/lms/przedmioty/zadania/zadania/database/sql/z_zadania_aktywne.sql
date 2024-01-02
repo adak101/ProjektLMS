@@ -5,6 +5,7 @@ CREATE DEFINER=`lms_admin`@`%` EVENT `e_zadania_aktywne`
 	ENABLE
 	COMMENT 'Event dodaje powiadomienie wszystkim uczesnikom przedmiotu gdy zostanie dodane zadanie do przedmiotu i zadanie jest już aktywne.'
 	DO BEGIN
+	DECLARE z_id_powiadom INT;
 	DECLARE z_przedmiot VARCHAR(200);
 	DECLARE z_tresc VARCHAR(1000);
 	DECLARE done INT DEFAULT 0;

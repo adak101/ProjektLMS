@@ -1085,7 +1085,7 @@ Powiadomienia są dodawane automatycznie po stronie bazy danych za pomocą odpow
 - `tbu_uczen_przedmiot` - Trigger dodaje nowe powiadomienie, gdy wystawiono ocenę uczniowi z przedmiotu.
   - Treść: `'<p>Dostałeś nową ocenę z przedmiotu \'<nazwa_przedmiotu\'!</p>'`
 
-Dla zadań utworzony jest także *event*, który wysyła powiadomienia użytkownikom, zarejestrowanym do danego przedmiotu, jeżeli danego dnia zadanie się otwiera.
+Dla zadań utworzony jest także *event* (`e_zadania_aktywne`), który wysyła powiadomienia użytkownikom, zarejestrowanym do danego przedmiotu, jeżeli danego dnia zadanie się otwiera.
 
 ### End-pointy
 

@@ -4,6 +4,7 @@ CREATE DEFINER=`lms_admin`@`%` TRIGGER `tai_zadania` AFTER INSERT ON `zadania` F
  * autor: bsurma
  */
 BEGIN
+	DECLARE z_id_powiadom INT;
 	DECLARE z_przedmiot VARCHAR(200);
 	DECLARE z_tresc VARCHAR(1000);
 	DECLARE done INT DEFAULT 0;
