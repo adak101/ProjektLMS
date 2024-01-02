@@ -1080,10 +1080,13 @@ Powiadomienia są dodawane automatycznie po stronie bazy danych za pomocą odpow
   - Treść: `'<p>Użytkownik <imie i nazwisko> dodał nową odpowiedź do zadania z przedmiotu \'<nazwa_przedmiotu\'.</p>'`
 - `tbu_odpowiedzi_zadania` - Trigger dodaje nowe powiadomienie gdy wystawiono ocenę uczniowi za zadanie.
   - Treść: `'<p>Dostałeś nową ocenę za zadanie z przedmiotu \'<nazwa_przedmiotu\'!</p>'`
-- `tai_zadania` - Trigger dodaje powiadomienie wszystkim uczestnikom przedmiotu, gdy zostanie dodane nowe zadanie.
+- `tai_zadania` - Trigger dodaje powiadomienie wszystkim uczestnikom przedmiotu, gdy zostanie dodane nowe zadanie, które jest aktywne danego dnia.
   - Treść: `'<p>Dostępne nowe zadanie dla przedmiotu \'<nazwa_przedmiotu\'!</p><p>Zadanie będzie dostępne do dnia: <data_konca>.<p>'`
 - `tbu_uczen_przedmiot` - Trigger dodaje nowe powiadomienie, gdy wystawiono ocenę uczniowi z przedmiotu.
   - Treść: `'<p>Dostałeś nową ocenę z przedmiotu \'<nazwa_przedmiotu\'!</p>'`
+
+Dla zadań utworzony jest także *event*, który wysyła powiadomienia użytkownikom, zarejestrowanym do danego przedmiotu, jeżeli danego dnia zadanie się otwiera.
+
 ### End-pointy
 
 #### 1. Pobieranie listy wszystkich powiadomień dla użytkownika
