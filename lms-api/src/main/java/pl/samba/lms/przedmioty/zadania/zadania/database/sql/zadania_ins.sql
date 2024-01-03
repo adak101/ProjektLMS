@@ -6,11 +6,12 @@ CREATE PROCEDURE zadania_ins(
 	IN p_id_przedm INT,
 	IN p_data_pocz DATETIME,
 	IN p_data_konc DATETIME,
-	IN p_tresc BLOB
+	IN p_tresc BLOB,
+	IN p_id_typu INT
 )
 BEGIN
-	INSERT INTO zadania(id_przedm, data_pocz, data_konc, tresc)
-	VALUES (p_id_przedm, p_data_pocz, p_data_konc, p_tresc);
+	INSERT INTO zadania(id_przedm, data_pocz, data_konc, tresc, id_typu)
+	VALUES (p_id_przedm, p_data_pocz, p_data_konc, p_tresc, p_id_typu);
 
 	SELECT LAST_INSERT_ID() INTO pk_id_zadania;
 END //

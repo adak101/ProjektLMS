@@ -5,11 +5,17 @@ CREATE PROCEDURE zadania_upd(
 	IN p_id_przedm INT,
 	IN p_data_pocz DATETIME,
 	IN p_data_konc DATETIME,
-	IN p_tresc BLOB
+	IN p_tresc BLOB,
+	IN p_id_typu INT
 )
 BEGIN
-	UPDATE zadania
-	SET id_przedm = p_id_przedm, data_pocz = p_data_pocz, data_konc = p_data_konc, tresc = p_tresc
+	UPDATE zadania z
+	SET 
+		id_przedm = p_id_przedm, 
+		data_pocz = p_data_pocz, 
+		data_konc = p_data_konc, 
+		tresc = p_tresc,
+		id_typu = p_id_typu
 	WHERE id_zadania = pk_id_zadania;
 END //
 DELIMITER ;

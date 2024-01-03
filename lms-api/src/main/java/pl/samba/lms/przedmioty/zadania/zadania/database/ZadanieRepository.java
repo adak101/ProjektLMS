@@ -6,6 +6,7 @@ import pl.samba.lms.przedmioty.przedmioty.database.PrzedmiotRepository;
 import pl.samba.lms.przedmioty.zadania.ZadanieUtils;
 import pl.samba.lms.przedmioty.zadania.zadania.rodzaje.ZadanieInterface;
 import pl.samba.lms.przedmioty.zadania.zadania.Zadanie;
+import pl.samba.lms.utils.constants.TypyZadan;
 import pl.samba.lms.utils.database.AbstractCrudRepository;
 
 import java.nio.charset.StandardCharsets;
@@ -21,12 +22,13 @@ public class ZadanieRepository extends AbstractCrudRepository<Zadanie, Integer> 
    public static final String C_DATA_POCZ = "data_pocz";
    public static final String C_DATA_KONC = "data_konc";
    public static final String C_TRESC = "tresc";
+   public static final String C_ID_TYPU = "id_typu";
 
    public static final String P_ID_PRZEDM = "p_id_przedm";
    public static final String P_DATA_POCZ = "p_data_pocz";
    public static final String P_DATA_KONC = "p_data_konc";
    public static final String P_TRESC = "p_tresc";
-
+   public static final String P_ID_TYPU = "p_id_typu";
 
     public ZadanieRepository() {
         super("zadania", "pk_id_zadania");
@@ -98,6 +100,7 @@ public class ZadanieRepository extends AbstractCrudRepository<Zadanie, Integer> 
         inParams.put(P_TRESC,
                 Base64.getEncoder().encode(tresc.getBytes(StandardCharsets.UTF_8))
         );
+        inParams.put(P_ID_TYPU, data.getTypyZadania().getId());
 
         Map<String, Object> result = jdbcCall.execute(inParams);
 
@@ -113,14 +116,14 @@ public class ZadanieRepository extends AbstractCrudRepository<Zadanie, Integer> 
                 .withProcedureName(getUpdateProcName());
 
         Map<String, Object> inParams = new HashMap<>();
-        inParams.put(getPkColumnName(), data.getIdPrzedmiotu());
+        inParams.put(getPkColumnName(), data.getIdZadania());
         inParams.put(P_ID_PRZEDM, data.getIdPrzedmiotu());
         inParams.put(P_DATA_POCZ, data.getDataPoczatku());
         inParams.put(P_DATA_KONC, data.getDataKonca());
-
         inParams.put(P_TRESC,
                 Base64.getEncoder().encode(tresc.getBytes(StandardCharsets.UTF_8))
         );
+        inParams.put(P_ID_TYPU, data.getTypyZadania().getId());
 
         Map<String, Object> result = jdbcCall.execute(inParams);
 
@@ -144,6 +147,7 @@ public class ZadanieRepository extends AbstractCrudRepository<Zadanie, Integer> 
             zadania.add(new Zadanie(
                     (Integer) row.get(C_ID_ZADANIA),
                     (Integer) row.get(C_ID_PRZEDM),
+                    TypyZadan.getById((Integer) row.get(C_ID_TYPU)),
                     (LocalDateTime) row.get(C_DATA_WSTAW),
                     (LocalDateTime) row.get(C_DATA_POCZ),
                     (LocalDateTime) row.get(C_DATA_KONC),

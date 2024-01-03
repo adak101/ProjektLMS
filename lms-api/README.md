@@ -105,8 +105,8 @@ security.auth.secret=~a?%B^"}i[xu}~IhA+BO'nGS8G(o5x
 5. `ZAKONCZONY (END)`- Zakończony.
 
 #### Statusy użytkowników:
-1`AKTYWNY (1)`- Aktywny.
-2`NIEAKTYWNY (0)`- Nieaktywny.
+1.`AKTYWNY (1)`- Aktywny.
+2.`NIEAKTYWNY (0)`- Nieaktywny.
 
 ### Role
 1. `ADMIN (1)`
@@ -120,6 +120,11 @@ security.auth.secret=~a?%B^"}i[xu}~IhA+BO'nGS8G(o5x
 4. `USUNIETA` - Oznacza, że obiekt został usunięty. 
 5. `NOWA` - Oznacza, że obiekt jest nowy. 
 6. `ROBOCZA`  - Oznacza, że obiekt jest wersją roboczą lub tymczasową.
+
+### TypyZadan
+1. `ZADANIE (1)`
+2. `TEST (2)`
+3. `EGZAMIN (3)`
 
 ## Autentykacja użytkownika
 
@@ -790,6 +795,7 @@ Authorization: Bearer <token>
 ```json
 {
   "idPrzedmiotu": 4,
+  "typZadania":"EGZAMIN",
   "dataWstawienia": "2023-12-28T19:11:04",
   "dataPoczatku": "2024-02-28T00:00:00",
   "dataKonca": "2024-02-28T00:00:00",

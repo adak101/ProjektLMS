@@ -127,6 +127,9 @@ public class ZadaniaController implements ControllerInterface<Zadanie, ZadanieMo
         if(data.getTresc() != null){
             current.setTresc(data.getTresc());
         }
+        if(data.getTypyZadania() !=null){
+            current.setTypyZadania(data.getTypyZadania());
+        }
 
         id = dataSet.update(current);
         return new ResponseEntity<>(
