@@ -18,6 +18,7 @@ import java.util.List;
 public class Zadanie {
     private final Integer idZadania;
     private final Integer idPrzedmiotu;
+    private String opis;
     private TypyZadan typyZadania;
     private LocalDateTime dataWstawienia;
     private LocalDateTime dataPoczatku;
@@ -29,6 +30,7 @@ public class Zadanie {
     public Zadanie(
             @JsonProperty("idZadania") Integer idZadania,
             @JsonProperty("idPrzedmiotu") Integer idPrzedmiotu,
+            @JsonProperty("opis") String opis,
             @JsonProperty("typZadania") TypyZadan typZadania,
             @JsonProperty("dataWstawienia") LocalDateTime dataWstawienia,
             @JsonProperty("dataPoczatku") LocalDateTime dataPoczatku,
@@ -37,6 +39,7 @@ public class Zadanie {
     ){
         this.idZadania = idZadania;
         this.idPrzedmiotu = idPrzedmiotu;
+        this.opis = opis;
         this.typyZadania = typZadania;
         this.dataWstawienia = dataWstawienia;
         this.dataPoczatku = dataPoczatku;

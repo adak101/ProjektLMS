@@ -796,6 +796,7 @@ Authorization: Bearer <token>
 {
   "idPrzedmiotu": 4,
   "typZadania":"EGZAMIN",
+  "opis":"<opis_zadania>",
   "dataWstawienia": "2023-12-28T19:11:04",
   "dataPoczatku": "2024-02-28T00:00:00",
   "dataKonca": "2024-02-28T00:00:00",

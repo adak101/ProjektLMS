@@ -13,6 +13,7 @@ BEGIN
 		SELECT
 			z.id_zadania,
 			z.id_przedm,
+			z.opis,
 			z.data_wstaw,
 			z.data_pocz,
 			z.data_konc,
@@ -26,6 +27,7 @@ BEGIN
 		SELECT
 			z.id_zadania,
 			z.id_przedm,
+			z.opis,
 			z.data_wstaw,
 			z.data_pocz,
 			z.data_konc,
@@ -45,6 +47,7 @@ BEGIN
 		SELECT
 			z.id_zadania,
 			z.id_przedm,
+			z.opis,
 			z.data_wstaw,
 			z.data_pocz,
 			z.data_konc,
