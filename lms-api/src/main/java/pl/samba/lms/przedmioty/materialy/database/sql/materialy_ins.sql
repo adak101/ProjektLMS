@@ -9,6 +9,7 @@ CREATE PROCEDURE materialy_ins(
 	IN p_nazwa_pliku VARCHAR(80),
 	IN p_ext VARCHAR(5),
 	IN p_opis VARCHAR(500),
+	IN p_id_zadania INT,
 	IN p_widocznosc BOOLEAN
 )
 BEGIN
@@ -22,7 +23,8 @@ BEGIN
 		plik, 
 		nazwa_pliku, 
 		ext, 
-		opis, 
+		opis,
+		id_zadania, 
 		widocznosc
 		)
 	VALUES (
@@ -32,7 +34,8 @@ BEGIN
 		p_plik, 
 		p_nazwa_pliku, 
 		p_ext,  
-		p_opis, 
+		p_opis,
+		p_id_zadania,
 		p_widocznosc
 		);
 

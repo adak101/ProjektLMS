@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.samba.lms.przedmioty.materialy.Material;
 import pl.samba.lms.przedmioty.materialy.database.MaterialRepository;
+import pl.samba.lms.przedmioty.zadania.zadania.database.ZadanieRepository;
 import pl.samba.lms.utils.PathType;
 import pl.samba.lms.utils.api.ControllerInterface;
 
@@ -27,6 +28,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class MaterialyController implements ControllerInterface<Material, MaterialModel> {
 
     private final MaterialRepository dataSet;
+    private final ZadanieRepository zadaniaDataSet;
 
     /**
      * Metoda do pobierania materiałów dla konkretnego przedmiotu z uwzględnieniem parametrów
@@ -137,6 +139,12 @@ public class MaterialyController implements ControllerInterface<Material, Materi
         }
         if(data.getWidocznosc() != null){
             current.setWidocznosc(data.getWidocznosc());
+        }
+        if(data.getIdZadania() != null){
+            if(!data.getIdZadania().equals(current.getIdZadania())){
+                zadaniaDataSet.delete(current.getIdZadania());
+                current.setIdZadania(data.getIdZadania());
+            }
         }
 
         id = dataSet.update(current);

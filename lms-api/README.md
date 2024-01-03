@@ -1,8 +1,17 @@
 # LMS-API DOC
-
+```
+==============================================================================
+   _____              __  __   ____                   _        __  __    _____
+  / ____|     /\     |  \/  | |  _ \      /\         | |      |  \/  |  / ____|
+ | (___      /  \    | \  / | | |_) |    /  \        | |      | \  / | | (___
+  \___ \    / /\ \   | |\/| | |  _ <    / /\ \       | |      | |\/| |  \___ \
+  ____) |  / ____ \  | |  | | | |_) |  / ____ \      | |____  | |  | |  ____) |
+ |_____/  /_/    \_\ |_|  |_| |____/  /_/    \_\     |______| |_|  |_| |_____/
+ ==============================================================================
+ :: Spring Boot      v3.2.0 ::                                       :: 2024 ::
+ :: api version      v0.2.2 ::
+```
 Dokumentacja do aplikacji rest api projektu LSM.
-
-Wersja API: `lms-api-0.0.2-SNAPSHOT`
 
 ## Spis treści
 
@@ -44,9 +53,10 @@ Wersja API: `lms-api-0.0.2-SNAPSHOT`
    - [Rodzaje zadań](#Rodzaje-zadań)
    - [Pobieranie listy wszystkich zadań](#1-pobieranie-listy-wszystkich-zadań)
    - [Pobieranie pojedynczego zadania](#2-pobieranie-pojedynczego-zadania)
-   - [Usuwanie zadania](#3-usuwanie-zadania)
-   - [Dodawanie nowego zadania](#4-dodawanie-nowego-zadania)
-   - [Aktualizacja danych zadania](#5-aktualizacja-danych-zadania)
+   - [Pobieranie aktywnych zadań](#3-pobieranie-aktywnych-zadań)
+   - [Usuwanie zadania](#4-usuwanie-zadania)
+   - [Dodawanie nowego zadania](#5-dodawanie-nowego-zadania)
+   - [Aktualizacja danych zadania](#6-aktualizacja-danych-zadania)
 9. [Odpowiedzi](#odpowiedzi)
    - [Rodzaje odpowiedzi](#rodzaje-odpowiedzi)
    - [Pobieranie listy wszystkich odpowiedzi](#1-pobieranie-listy-wszystkich-odpowiedzi)
@@ -105,8 +115,8 @@ security.auth.secret=~a?%B^"}i[xu}~IhA+BO'nGS8G(o5x
 5. `ZAKONCZONY (END)`- Zakończony.
 
 #### Statusy użytkowników:
-1`AKTYWNY (1)`- Aktywny.
-2`NIEAKTYWNY (0)`- Nieaktywny.
+1.`AKTYWNY (1)`- Aktywny.
+2.`NIEAKTYWNY (0)`- Nieaktywny.
 
 ### Role
 1. `ADMIN (1)`
@@ -120,6 +130,11 @@ security.auth.secret=~a?%B^"}i[xu}~IhA+BO'nGS8G(o5x
 4. `USUNIETA` - Oznacza, że obiekt został usunięty. 
 5. `NOWA` - Oznacza, że obiekt jest nowy. 
 6. `ROBOCZA`  - Oznacza, że obiekt jest wersją roboczą lub tymczasową.
+
+### TypyZadan
+1. `ZADANIE (1)`
+2. `TEST (2)`
+3. `EGZAMIN (3)`
 
 ## Autentykacja użytkownika
 
@@ -757,7 +772,21 @@ GET /api/przedmiot/zadanie/1
 Authorization: Bearer <token>
 ```
 
-#### 3. Usuwanie zadania
+#### 3. Pobieranie aktywnych zadań
+
+Poniższe zapytanie zwraca zdania o określonym typie, które spełniają warunek: `NOW() BETWEEN z.data_pocz AND z.data_konc`. Można pobrać zadania aktywne dla danego użytkownika, w danym przedmiocie lub wszystkie aktywne.
+
+- Ścieżka: `/api/przedmiot/zadanie/aktywne`
+- Metoda: `GET`
+- Parametry:
+  - `login` (opcjonalny): login użytkownika zakodowany w base64
+  - `kod` (opcjonalny): Kod przedmiotu zakodowany w base64.
+  - `typ` (wymagany): Typ zadania (zadanie, test, egzamin) zakodowany w base64.
+- Odpowiedź:
+    - `200 OK` - sukces, zwraca listę zadań w formacie JSON.
+    - `404 Not Found` - brak zadań.
+
+#### 4. Usuwanie zadania
 
 - **Ścieżka**: `/api/przedmiot/zadanie/{id}`
 - **Metoda**: `DELETE`
@@ -771,7 +800,7 @@ Authorization: Bearer <token>
 DELETE /api/przedmiot/zadanie/<nr_id>
 Authorization: Bearer <token>
 ```
-#### 4. Dodawanie nowego zadania
+#### 5. Dodawanie nowego zadania
 
 - **Ścieżka:** `/api/przedmiot/zadanie`
 - **Metoda:** `POST`
@@ -790,13 +819,15 @@ Authorization: Bearer <token>
 ```json
 {
   "idPrzedmiotu": 4,
+  "typZadania":"EGZAMIN",
+  "opis":"<opis_zadania>",
   "dataWstawienia": "2023-12-28T19:11:04",
   "dataPoczatku": "2024-02-28T00:00:00",
   "dataKonca": "2024-02-28T00:00:00",
   "tresc": "<tresc_json>"
 }
 ```
-#### 5. Aktualizacja danych zadania
+#### 6. Aktualizacja danych zadania
 
 - **Ścieżka**: `/api/przedmiot/zadanie/{id}`
 - **Metoda**: `PATCH`
@@ -1016,6 +1047,8 @@ Authorization: Bearer <token>
 
 Automatycznie jest nadawany liczba porządkowa oraz ustawiana data wstawienia.
 
+Można dodać zadanie do danego materiału przedmiotu. Wówczas należy najpierw utworzyć owe zadanie i przekazać jego `id` w tym zapytaniu w obiekcie `json`.
+
 - **Ścieżka**: `/api/przedmiot/material`
 - **Metoda**: `POST`
 - **Parametry**:
@@ -1037,6 +1070,7 @@ Authorization: Bearer <token>
     "nazwaPliku": "nazwa_pliku.txt",
     "ext": "txt",
     "opis": "Opis materiału",
+    "idZadania": 2,
     "widocznosc": 1
 }
 ```

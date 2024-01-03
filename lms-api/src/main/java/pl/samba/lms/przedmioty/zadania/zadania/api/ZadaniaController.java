@@ -12,6 +12,7 @@ import pl.samba.lms.przedmioty.zadania.zadania.Zadanie;
 import pl.samba.lms.przedmioty.zadania.zadania.database.ZadanieRepository;
 import pl.samba.lms.utils.PathType;
 import pl.samba.lms.utils.api.ControllerInterface;
+import pl.samba.lms.utils.constants.TypyZadan;
 
 import java.util.ArrayList;
 import java.util.Base64;
@@ -78,6 +79,53 @@ public class ZadaniaController implements ControllerInterface<Zadanie, ZadanieMo
         return null;
     }
 
+    /**
+     * End-point do pobierania aktywnych zadań danego typu dla ucznia lub przedmiotu
+     * @param login login użytkownika w base64
+     * @param kod Kod przedmiotu w base64
+     * @param typ typ zadania: zadanie, test, egzamin w base64
+     * @return
+     */
+    @GetMapping(PathType.AKTYWNE)
+    public ResponseEntity<CollectionModel<ZadanieModel>> getAktywne(
+            @RequestParam(required = false) String login,
+            @RequestParam(required = false) String kod,
+            @RequestParam(required = true) String typ
+    ){
+        String decodedLogin = null;
+        if (login != null){
+            decodedLogin = new String(Base64.getDecoder().decode(login));
+        }
+        String decodedKod = null;
+        if(kod != null){
+            decodedKod =new String(Base64.getDecoder().decode(kod));
+        }
+        String decodedType = new String(Base64.getDecoder().decode(typ)).toUpperCase();
+        TypyZadan typZadan = TypyZadan.valueOf(decodedType);
+
+        String params =
+                    (decodedLogin == null? "" : decodedLogin) + ";" +
+                    (decodedKod == null ? "" : decodedKod)  + ";" +
+                    typZadan.getId();
+
+        Iterable<Zadanie> zadania = dataSet.getActive(params);
+
+        if(zadania.iterator().hasNext()){
+            List<ZadanieModel> listaModeli = new ArrayList<>();
+
+            for(Zadanie przedmiot: zadania){
+                listaModeli.add(new ZadanieModelAssembler().toModel(przedmiot));
+            }
+
+            CollectionModel<ZadanieModel> kolekcjaModeli = CollectionModel.of(listaModeli);
+
+            kolekcjaModeli.add(WebMvcLinkBuilder.linkTo(methodOn(ZadaniaController.class).getAktywne(login, kod, typ))
+                    .withRel("zadania").withTitle("lista_zadan_aktywnych"));
+            return new ResponseEntity<>(kolekcjaModeli, HttpStatus.OK);
+        }
+        else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+
     @GetMapping(PathType.ID)
     @Override
     public ResponseEntity<ZadanieModel> get(@PathVariable("id") Integer id) {
@@ -126,6 +174,12 @@ public class ZadaniaController implements ControllerInterface<Zadanie, ZadanieMo
         }
         if(data.getTresc() != null){
             current.setTresc(data.getTresc());
+        }
+        if(data.getTypyZadania() !=null){
+            current.setTypyZadania(data.getTypyZadania());
+        }
+        if(data.getOpis() != null){
+            current.setOpis(data.getOpis());
         }
 
         id = dataSet.update(current);

@@ -22,6 +22,7 @@ public class Material {
     private String ext;
     private String opis;
     private Boolean widocznosc;
+    private Integer idZadania;
 
     @JsonCreator
     public Material(
@@ -32,7 +33,8 @@ public class Material {
             @JsonProperty("nazwaPliku") String nazwaPliku,
             @JsonProperty("ext") String ext,
             @JsonProperty("opis") String opis,
-            @JsonProperty("widocznosc") Boolean widocznosc
+            @JsonProperty("widocznosc") Boolean widocznosc,
+            @JsonProperty("idZadania") Integer idZadania
     ){
         this.idMaterialu = null;
         this.idPrzedmiotu = idPrzedmiotu;
@@ -44,5 +46,6 @@ public class Material {
         this.ext = ext;
         this.opis = opis;
         this.widocznosc = widocznosc;
+        this.idZadania = idZadania;
     }
 }

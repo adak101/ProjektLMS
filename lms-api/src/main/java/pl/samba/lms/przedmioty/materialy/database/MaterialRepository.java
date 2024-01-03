@@ -23,6 +23,7 @@ public class MaterialRepository extends AbstractCrudRepository<Material, Integer
     public static final String C_EXT = "ext";
     public static final String C_OPIS = "opis";
     public static final String C_WIDOCZNOSC = "widocznosc";
+    public static final String C_ID_ZADANIA = "id_zadania";
 
     public static final String P_ID_PRZEDM = "p_id_przedm";
     public static final String P_LP = "p_lp";
@@ -32,6 +33,7 @@ public class MaterialRepository extends AbstractCrudRepository<Material, Integer
     public static final String P_EXT = "p_ext";
     public static final String P_OPIS = "p_opis";
     public static final String P_WIDOCZNOSC = "p_widocznosc";
+    public static final String P_ID_ZADANIA = "p_id_zadania";
 
     public MaterialRepository() {
         super("materialy","pk_id_mater");
@@ -107,6 +109,7 @@ public class MaterialRepository extends AbstractCrudRepository<Material, Integer
         inParams.put(P_EXT, data.getExt());
         inParams.put(P_OPIS, data.getOpis());
         inParams.put(P_WIDOCZNOSC, data.getWidocznosc());
+        inParams.put(P_ID_ZADANIA, data.getIdZadania());
 
         Map<String, Object> result = jdbcCall.execute(inParams);
 
@@ -128,6 +131,7 @@ public class MaterialRepository extends AbstractCrudRepository<Material, Integer
         inParams.put(P_EXT, data.getExt());
         inParams.put(P_OPIS, data.getOpis());
         inParams.put(P_WIDOCZNOSC, data.getWidocznosc());
+        inParams.put(P_ID_ZADANIA, data.getIdZadania());
 
         Map<String, Object> result = jdbcCall.execute(inParams);
 
@@ -149,7 +153,8 @@ public class MaterialRepository extends AbstractCrudRepository<Material, Integer
                     (String) row.get(C_NAZWA_PLIKU),
                     (String) row.get(C_EXT),
                     (String) row.get(C_OPIS),
-                    (Boolean) row.get(C_WIDOCZNOSC)
+                    (Boolean) row.get(C_WIDOCZNOSC),
+                    (Integer) row.get(C_ID_ZADANIA)
             ));
 
         }

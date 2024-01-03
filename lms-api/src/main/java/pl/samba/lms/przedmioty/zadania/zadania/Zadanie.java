@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.samba.lms.przedmioty.zadania.ZadanieUtils;
 import pl.samba.lms.przedmioty.zadania.zadania.rodzaje.ZadanieInterface;
+import pl.samba.lms.utils.constants.TypyZadan;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,6 +18,8 @@ import java.util.List;
 public class Zadanie {
     private final Integer idZadania;
     private final Integer idPrzedmiotu;
+    private String opis;
+    private TypyZadan typyZadania;
     private LocalDateTime dataWstawienia;
     private LocalDateTime dataPoczatku;
     private LocalDateTime dataKonca;
@@ -27,6 +30,8 @@ public class Zadanie {
     public Zadanie(
             @JsonProperty("idZadania") Integer idZadania,
             @JsonProperty("idPrzedmiotu") Integer idPrzedmiotu,
+            @JsonProperty("opis") String opis,
+            @JsonProperty("typZadania") TypyZadan typZadania,
             @JsonProperty("dataWstawienia") LocalDateTime dataWstawienia,
             @JsonProperty("dataPoczatku") LocalDateTime dataPoczatku,
             @JsonProperty("dataKonca") LocalDateTime dataKonca,
@@ -34,6 +39,8 @@ public class Zadanie {
     ){
         this.idZadania = idZadania;
         this.idPrzedmiotu = idPrzedmiotu;
+        this.opis = opis;
+        this.typyZadania = typZadania;
         this.dataWstawienia = dataWstawienia;
         this.dataPoczatku = dataPoczatku;
         this.dataKonca = dataKonca;
