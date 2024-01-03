@@ -21,6 +21,7 @@ BEGIN
 			m.nazwa_pliku,
 			m.ext,
 			m.opis,
+			m.id_zadania,
 			m.widocznosc
 		FROM lms.materialy m
 		WHERE m.id_mater = pk_id_mater;
@@ -35,6 +36,7 @@ BEGIN
 			m.nazwa_pliku,
 			m.ext,
 			m.opis,
+			m.id_zadania,
 			m.widocznosc
 		FROM lms.materialy m
 		JOIN lms.przedmioty p ON m.id_przedm = p.id_przedm
@@ -53,6 +55,7 @@ BEGIN
 				m.nazwa_pliku,
 				m.ext,
 				m.opis,
+				m.id_zadania,
 				m.widocznosc
 			FROM lms.materialy m
 			JOIN lms.przedmioty p ON m.id_przedm = p.id_przedm
@@ -71,6 +74,7 @@ BEGIN
 				m.nazwa_pliku,
 				m.ext,
 				m.opis,
+				m.id_zadania,
 				m.widocznosc
 			FROM lms.materialy m
 			JOIN lms.przedmioty p ON m.id_przedm = p.id_przedm
