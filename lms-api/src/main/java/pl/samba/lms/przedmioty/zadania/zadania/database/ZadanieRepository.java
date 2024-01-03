@@ -8,6 +8,8 @@ import pl.samba.lms.przedmioty.zadania.zadania.rodzaje.ZadanieInterface;
 import pl.samba.lms.przedmioty.zadania.zadania.Zadanie;
 import pl.samba.lms.utils.constants.TypyZadan;
 import pl.samba.lms.utils.database.AbstractCrudRepository;
+import pl.samba.lms.uzytkownicy.uzytkownicy.Uzytkownik;
+import pl.samba.lms.uzytkownicy.uzytkownicy.database.UzytkownikRepository;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -50,6 +52,8 @@ public class ZadanieRepository extends AbstractCrudRepository<Zadanie, Integer> 
         Integer page = requestParamsTable[1].isEmpty() ? null : Integer.parseInt(requestParamsTable[1]);
         String kod = requestParamsTable[2];
 
+
+
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(super.getJdbc())
                 .withSchemaName(getSCHEMA())
                 .withProcedureName(super.getReadProcName());
@@ -58,6 +62,8 @@ public class ZadanieRepository extends AbstractCrudRepository<Zadanie, Integer> 
         inParams.put(getP_PAGE_SIZE(), size);
         inParams.put(getP_PAGE(), page);
         inParams.put(PrzedmiotRepository.P_KOD, kod);
+        inParams.put(UzytkownikRepository.P_LOGIN, null);
+        inParams.put(P_ID_TYPU, null);
 
         Map<String, Object> result = jdbcCall.execute(inParams);
 
@@ -67,6 +73,42 @@ public class ZadanieRepository extends AbstractCrudRepository<Zadanie, Integer> 
         else return resultMapper(resultSet);
     }
 
+
+    public Iterable<Zadanie> getActive(String requestParams) {
+        /*
+         * requestParamsTable
+         * [0] login
+         * [1] kod
+         * [2] idTypu
+         * */
+
+        String[] requestParamsTable = requestParams.split(";");
+        String login = requestParamsTable[0];
+        String kod = requestParamsTable[1];
+        Integer idTypu = Integer.parseInt(requestParamsTable[2]);
+
+
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(super.getJdbc())
+                .withSchemaName(getSCHEMA())
+                .withProcedureName(super.getReadProcName());
+        Map<String, Object> inParams = new HashMap<>();
+        inParams.put(super.getPkColumnName(), null);
+        inParams.put(getP_PAGE_SIZE(), null);
+        inParams.put(getP_PAGE(), null);
+        inParams.put(UzytkownikRepository.P_LOGIN, login);
+        inParams.put(PrzedmiotRepository.P_KOD, kod);
+        inParams.put(P_ID_TYPU, idTypu);
+
+        Map<String, Object> result = jdbcCall.execute(inParams);
+
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> resultSet = (List<Map<String, Object>>) result.get("#result-set-1");
+        if(resultSet.isEmpty()) throw new NoSuchElementException("Brak danych w tabeli '" + super.getTableName() +
+                "' dla login='"+login+"'," +
+                " typ='" + TypyZadan.getById(idTypu)+ "," +
+                " kod='"+kod+"'!");
+        else return resultMapper(resultSet);
+    }
     @Override
     public Zadanie getById(Integer id) {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(super.getJdbc())
@@ -77,6 +119,8 @@ public class ZadanieRepository extends AbstractCrudRepository<Zadanie, Integer> 
         inParams.put(getP_PAGE_SIZE(), null);
         inParams.put(getP_PAGE(), null);
         inParams.put(PrzedmiotRepository.P_KOD, null);
+        inParams.put(UzytkownikRepository.P_LOGIN, null);
+        inParams.put(P_ID_TYPU, null);
 
         Map<String, Object> result = jdbcCall.execute(inParams);
 

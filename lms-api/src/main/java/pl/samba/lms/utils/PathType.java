@@ -24,6 +24,7 @@ public class PathType {
     public static final String OKRES = PRZEDMIOT + "/okres";
 
     public static final String ZADANIE = PRZEDMIOT + "/zadanie";
+    public static final String AKTYWNE = "/aktywne";
     public static final String ODPOWIEDZ = ZADANIE + "/odpowiedz";
     public static final String OCEN = ID + "/ocen";
 
