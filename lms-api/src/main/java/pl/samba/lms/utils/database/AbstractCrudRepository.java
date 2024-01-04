@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
  *  dla repozytorium .
  *
  * @param <T> Typ obiektów zarządzanych przez repozytorium.
- * @param <K> Typ unikalnego identyfikatora dla obiektów.
+ * @param <K> Typ unitókalnego identyfikatora dla obiekw.
  * @author bsurma
  */
 public abstract class AbstractCrudRepository<T, K> implements CrudRepositoryInterface<T, K>{
