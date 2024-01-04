@@ -76,6 +76,18 @@ Dokumentacja do aplikacji rest api projektu LSM.
     - [Pobieranie pojedynczego powiadomienia](#2-pobieranie-pojedynczego-powiadomienia)
     - [Usuwanie powiadomienia](#3-usuwanie-powiadomienia)
     - [Aktualizacja flagi powiadomienia](#4-aktualizacja-flagi-powiadomienia)
+12. [Forum - wpisy](#forum-wpisy)
+    - [Pobieranie listy wszystkich wpisów na forum](#1-pobieranie-listy-wszystkich-wpisów-na-forum)
+    - [Pobieranie pojedynczego wpisu na forum](#2-pobieranie-pojedynczego-wpisu-z-forum)
+    - [Dodawanie wpisu na forum](#3-dodawanie-wpisu-na-forum)
+    - [Usuwanie wpisu z forum](#4-usuwanie-wpisu-z-forum)
+    - [Edycja wpisu na forum](#5-edycja-wpisu-na-forum)
+13. [Forum - odpowiedzi](#forum-odpowiedzi)
+    - [Pobieranie listy wszystkich odpowiedzi na forum](#1-pobieranie-listy-wszystkich-odpowiedzi-na-forum)
+    - [Pobieranie pojedynczej odpowiedzi z forum](#2-pobieranie-pojedynczej-odpowiedzi-z-forum)
+    - [Dodawanie odpowiedzi do wpisu na forum](#3-dodawanie-odpowiedzi-do-wpisu-na-forum)
+    - [Usuwanie odpowiedzi z forum](#4-usuwanie-odpowiedzi-z-forum)
+    - [Edycja odpowiedzi na forum](#5-edycja-odpowiedzi-na-forum)
 ---
 
 ## Plik konfiguracyjny
@@ -1189,5 +1201,213 @@ Authorization: Bearer <token>
 ```json
 {
     "flaga":"PRZECZYTANA"
+}
+```
+
+## Forum-wpisy
+
+### Opis
+
+Klasa `ForumWpisyController` odpowiada za obsługę end-pointów związanych z wpisami na forum. W ramach dokumentacji przedstawione są wszystkie dostępne end-pointy wraz z ich opisem, parametrami i możliwymi odpowiedziami.
+
+### End-pointy
+
+#### 1. Pobieranie listy wszystkich wpisów na forum
+- **Ścieżka:** `/api/forum/wpisy/all`
+- **Metoda:** `GET`
+- **Parametry:**
+  - `size` (opcjonalny): liczba elementów na stronie
+  - `page` (opcjonalny): numer strony (liczony od 0) (liczony od 0)
+- **Odpowiedź:**
+  - `200 OK` - sukces, zwraca listę wpisów w formacie JSON
+  - `404 Not Found` - brak wpisów
+
+```http
+GET /api/forum/wpisy/all
+Authorization: Bearer <token>
+```
+
+#### 2. Pobieranie pojedynczego wpisu z forum
+
+- **Ścieżka:** `/api/forum/wpisy{id}`
+- **Metoda:** `GET`
+- **Parametry:**
+    - `id` (ścieżka): identyfikator wpisu
+- **Odpowiedź:**
+    - `200 OK` - sukces, zwraca dane wpisu w formacie JSON
+    - `404 Not Found` - wpis o podanym identyfikatorze nie istnieje
+
+```http
+GET /api/forum/wpisy/1
+Authorization: Bearer <token>
+```
+
+#### 3. Dodawanie wpisu na forum
+
+- **Ścieżka:** `/api/forum/wpisy`
+- **Metoda:** `POST`
+- **Parametry:**
+    - Ciało żądania zawiera dane nowego wpisu w formacie JSON
+- **Odpowiedź:**
+  -  `201 Created` - sukces, wpis został dodany, zwraca link do nowo utworzonego wpisu
+  -  `400 Bad Request` - błąd w danych wejściowych
+  
+```http
+POST /api/forum/wpisy
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+```json
+{
+    "idWpisu": 1,
+    "idPrzedmiotu": 1,
+    "idUzytkownika": 1,
+    "temat": "<temat wpisu>",
+    "tresc": "<tresc wpisu>",
+    "DataWpis": "2023-12-28T19:11:04",
+}
+```
+  
+  #### 4. Usuwanie wpisu z forum
+
+- **Ścieżka:** `/api/forum/wpisy/{id}
+- **Metoda:** `DELETE`
+- **Parametry:**
+   - `id` (ścieżka): identyfikator wpisu
+- **Odpowiedź:**
+   - `204 No Content`- sukces, wpis został usunięty
+  - `404 Not Found` - wpis o podanym identyfikatorze nie istnieje
+
+```http
+DELETE /api/forum/<nr_id>
+Authorization: Bearer <token>
+```
+
+  #### 5. Edycja wpisu na forum
+
+- **Ścieżka:** `/api/forum/wpisy/{id}
+- **Metoda:** `PATCH`
+- **Parametry:**
+  - `id` (ścieżka): identyfikator wpisu
+  - Ciało żądania zawiera dane do aktualizacji w formacie JSON
+-**Odpowiedź:**
+  - `200 OK` - sukces, wpis został zaktualizowany, zwraca link do zaktualizowanego wpisu
+  - `400 Bad Request` - błąd w danych wejściowych
+  - `404 Not Found` - wpis o podanym identyfikatorze nie istnieje
+
+```http
+PATCH /api/forum/wpisy/1
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+```json
+{
+    "temat": "<temat wpisu>",
+    "tresc": "<tresc wpisu>",
+}
+```
+
+## Forum-odpowiedzi
+
+### Opis
+
+Klasa `ForumOdpController` odpowiada za obsługę end-pointów związanych z odpowiedziami do wpisów na forum. W ramach dokumentacji przedstawione są wszystkie dostępne end-pointy wraz z ich opisem, parametrami i możliwymi odpowiedziami.
+
+### End-pointy
+
+#### 1. Pobieranie listy wszystkich odpowiedzi na forum
+- **Ścieżka:** `/api/forum/odpowiedzi/all`
+- **Metoda:** `GET`
+- **Parametry:**
+  - `size` (opcjonalny): liczba elementów na stronie
+  - `page` (opcjonalny): numer strony (liczony od 0) (liczony od 0)
+- **Odpowiedź:**
+  - `200 OK` - sukces, zwraca listę odpowiedzi w formacie JSON
+  - `404 Not Found` - brak odpowiedzi
+
+```http
+GET /api/forum/odpowiedzi/all
+Authorization: Bearer <token>
+```
+
+#### 2. Pobieranie pojedynczej odpowiedzi z forum
+
+- **Ścieżka:** `/api/forum/odpowiedzi/{id}`
+- **Metoda:** `GET`
+- **Parametry:**
+    - `id` (ścieżka): identyfikator odpowiedzi
+- **Odpowiedź:**
+    - `200 OK` - sukces, zwraca dane odpowiedzi w formacie JSON
+    - `404 Not Found` - odpowiedź o podanym identyfikatorze nie istnieje
+
+```http
+GET /api/odpowiedzi/1
+Authorization: Bearer <token>
+```
+
+#### 3. Dodawanie odpowiedzi do wpisu na forum
+
+- **Ścieżka:** `/api/forum/odpowiedzi`
+- **Metoda:** `POST`
+- **Parametry:**
+    - Ciało żądania zawiera dane nowej odpowiedzi w formacie JSON
+- **Odpowiedź:**
+  -  `201 Created` - sukces, odpowiedź została dodana, zwraca link do nowo utworzonej odpowiedzi
+  -  `400 Bad Request` - błąd w danych wejściowych
+  
+```http
+POST /api/forum/odpowiedzi
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+```json
+{
+    "idOdpowiedzi": 1,
+	"idWpisu": 1,
+    "idUzytkownika": 1,
+    "tresc": "<tresc odpowiedzi>",
+    "DataWpis": "2023-12-28T19:11:04",
+}
+```
+  
+  #### 4. Usuwanie odpowiedzi z forum
+
+- **Ścieżka:** `/api/forum/odpowiedzi/{id}
+- **Metoda:** `DELETE`
+- **Parametry:**
+   - `id` (ścieżka): identyfikator odpowiedzi
+- **Odpowiedź:**
+   - `204 No Content`- sukces, odpowiedz została usunięta
+  - `404 Not Found` - odpowiedz o podanym identyfikatorze nie istnieje
+
+```http
+DELETE /api/forum/odpowiedzi/<nr_id>
+Authorization: Bearer <token>
+```
+
+  #### 5. Edycja odpowiedzi na forum
+
+- **Ścieżka:** `/api/forum/odpowiedzi/{id}`
+- **Metoda:** `PATCH`
+- **Parametry:**
+  - `id` (ścieżka): identyfikator odpowidzi
+  - Ciało żądania zawiera dane do aktualizacji w formacie JSON
+-**Odpowiedź:**
+  - `200 OK` - sukces, odpowiedź została zaktualizowana, zwraca link do zaktualizowanej odpowiedzi
+  - `400 Bad Request` - błąd w danych wejściowych
+  - `404 Not Found` - odpowiedź o podanym identyfikatorze nie istnieje
+
+```http
+PATCH /api/forum/odpowiedzi/1
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+```json
+{
+    "tresc": "<tresc odpowiedzi>",
 }
 ```
