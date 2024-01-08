@@ -222,6 +222,7 @@ Content-Type: application/json
 **Odpowiedź:**
 ```json
 {
+    "id": 1,
     "login": "j.doe",
     "token": "<jwt-token>"
 }
@@ -282,7 +283,7 @@ Authorization: Bearer <token>
    
 
 ```http
-GET /api/uzytkownik/?login=<login_base_64>
+GET /api/uzytkownik?login=<login_base_64>
 Authorization: Bearer <token>
 ```
 

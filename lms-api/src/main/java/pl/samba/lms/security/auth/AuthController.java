@@ -48,7 +48,7 @@ public class AuthController {
 
         Uzytkownik uzytkownik = dataSet.getByUnique(login);
         String token = jwtUtil.createToken(uzytkownik);
-        LoginResponse response = new LoginResponse(uzytkownik.getLogin(),token);
+        LoginResponse response = new LoginResponse(uzytkownik.getIdUzytk(),uzytkownik.getLogin(),token);
 
         return ResponseEntity.ok(response);
     }
