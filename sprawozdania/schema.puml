@@ -1,0 +1,164 @@
+@startuml lms-database
+
+entity flagi {
+  + id_flagi: int (PK)
+  kod: varchar(14) not null
+}
+
+entity forum_odp {
+  + id_odp: int (PK)
+  + id_wpis: int (FK)
+  + id_uzytk: int (FK)
+  tresc: varchar(700) not null
+  data_wpis: datetime not null
+}
+
+entity forum_wpisy {
+  + id_wpis: int (PK)
+  + id_przedm: int (FK)
+  + id_uzytk: int (FK)
+  temat: varchar(200) not null
+  tresc: varchar(700) not null
+  data_wpis: datetime not null
+}
+
+entity materialy {
+  + id_mater: int (PK)
+  + id_przedm: int (FK)
+  data_wstaw: datetime not null
+  lp: int
+  temat: varchar(200) not null
+  plik: longblob not null
+  nazwa_pliku: varchar(80) not null
+  ext: varchar(5) not null
+  opis: varchar(500)
+  widocznosc: tinyint(1) not null default '1'
+  + id_zadania: int (FK)
+}
+
+entity odpowiedzi_zadania {
+  + id_odpowiedzi: int (PK)
+  + id_zadania: int (FK)
+  + id_ucznia: int (FK)
+  tresc: blob not null
+  koment: varchar(500)
+  ocena: int
+  data_wstaw: datetime not null
+  data_oceny: datetime
+}
+
+entity okresy {
+  + id_okresu: int (PK)
+  kod: varchar(10)
+  data_pocz: datetime
+  data_konc: datetime
+}
+
+entity powiadomienia {
+  + id_powiadom: int (PK)
+  + id_odbiorcy: int (FK)
+  data_wstaw: datetime not null
+  tresc: varchar(1000) not null
+  + id_flagi: int (FK)
+}
+
+entity przedmioty {
+  + id_przedm: int (PK)
+  kod: varchar(15) not null
+  nazwa: varchar(1000) not null
+  + id_prow: int (FK)
+  limit_miejsc: int not null
+  opis: varchar(2000)
+  war_zalicz: varchar(2000)
+  + id_okresu: int (FK)
+  + id_status: int (FK)
+  rejestr_uczn: tinyint(1) not null default '1'
+}
+
+entity przedmiot_status {
+  + id_status: int (PK)
+  kod: varchar(3)
+  nazwa: varchar(20)
+}
+
+entity raport {
+  + id_raportu: int (PK)
+  + id_uzytk: int (FK)
+  nazwa: varchar(50)
+  data_wystaw: datetime
+  raport: blob
+}
+
+entity role {
+  + id_roli: int (PK)
+  nazwa: varchar(10) not null
+}
+
+entity typy_zadan {
+  + id_typu: int (PK)
+  nazwa: varchar(10) not null
+}
+
+entity uczen_przedmiot {
+  + id_encji: int (PK)
+  + id_przedm: int (FK)
+  + id_ucznia: int (FK)
+  ocena: int
+  data_wystaw_oc: datetime
+}
+
+entity uzytkownicy {
+  + id_uzytk: int (PK)
+  imie: varchar(40) not null
+  nazwisko: varchar(40) not null
+  tyt_nauk: varchar(30)
+  login: varchar(80) not null
+  haslo: varchar(60) not null
+  email: varchar(40) not null
+  telefon: int not null
+  data_urodz: date not null
+  status: tinyint not null default '0'
+  + id_zdjecia: int (FK)
+  + id_roli: int (FK)
+}
+
+entity zadania {
+  + id_zadania: int (PK)
+  + id_przedm: int (FK)
+  opis: varchar(1000)
+  data_wstaw: datetime not null
+  data_pocz: datetime not null
+  data_konc: datetime not null
+  tresc: blob not null
+  + id_typu: int (FK)
+}
+
+entity zdjecia {
+  + id_zdjecia: int (PK)
+  zdjecie: longblob not null
+  nazwa: varchar(40)
+  ext: varchar(5) default 'jpg'
+  alt: varchar(20)
+  data_wstaw: datetime
+}
+
+flagi --{ przedmioty
+forum_odp --{ forum_wpisy
+forum_wpisy --{ przedmioty
+materialy --{ przedmioty
+materialy --{ zadania
+odpowiedzi_zadania --{ zadania
+powiadomienia --{ uzytkownicy
+powiadomienia --{ flagi
+przedmioty --{ przedmiot_status
+przedmioty --{ okresy
+przedmioty --{ status
+raport --{ uzytkownicy
+uzytkownicy --{ zdjecia
+uczen_przedmiot --{ przedmioty
+uczen_przedmiot --{ uzytkownicy
+zadania --{ przedmioty
+zadania --{ typy_zadan
+zdjecia --{ uzytkownicy
+
+@enduml
