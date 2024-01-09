@@ -88,6 +88,8 @@ Dokumentacja do aplikacji rest api projektu LSM.
     - [Dodawanie odpowiedzi do wpisu na forum](#3-dodawanie-odpowiedzi-do-wpisu-na-forum)
     - [Usuwanie odpowiedzi z forum](#4-usuwanie-odpowiedzi-z-forum)
     - [Edycja odpowiedzi na forum](#5-edycja-odpowiedzi-na-forum)
+14. [Raporty](#raporty)
+    - [Generowanie raportu](#1-generowanie-raportu)
 ---
 
 ## Plik konfiguracyjny
@@ -1407,3 +1409,27 @@ Authorization: Bearer <token>
     "tresc": "<tresc odpowiedzi>"
 }
 ```
+
+## Raporty
+
+### Opis
+
+`Raport` jest zasobem służącym tylko do odczytu dlatego posiada tylko jeden end-point: `GET`. Klasa `RaportController` odpowiada za obsługę tego end-pointu. Poniżej znajduje się jego opis.
+
+#### 1. Generowanie raportu
+
+- **Ścieżka:** `/api/raport/generuj?idPrzedmiotu=<id_przedmiotu>`
+- **Metoda:** `GET`
+- **Parametry:**
+    - `id_przedmiotu`: id przedmiotu dla którego chcemy utworzyć i otrzymać raport
+- **Odpowiedź:**
+    - `200 OK` - sukces, zwraca raport z listą uczniów uczęszczających na dany przedmiot, ich oceny cząstkowe i oceny końcowe w postaci tabeli w formacie PDF
+    - `400 Bad Request` - błędny format zapytania
+    - `500 Internal Server Error` - inny błąd
+
+```http
+GET /api/raport/generuj?idPrzedmiotu=1
+Authorization: Bearer <token>
+```
+
+
