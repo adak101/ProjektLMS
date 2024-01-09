@@ -25,6 +25,7 @@ public class UzytkownikModel extends RepresentationModel<UzytkownikModel> {
     private final String email;
     private final int telefon;
     private final Date dataUrodz;
+    private final byte[] zdjecie;
     private final Status status;
     private final Role rola;
 
@@ -39,9 +40,6 @@ public class UzytkownikModel extends RepresentationModel<UzytkownikModel> {
         this.dataUrodz = u.getDataUrodz();
         this.status = u.getStatus();
         this.rola = u.getRola();
-        add(WebMvcLinkBuilder
-                .linkTo(methodOn(ZdjeciaController.class)
-                        .get(u.getZdjecie().getIdZdjecia()))
-                .withRel("zdjecie"));
+        this.zdjecie = u.getZdjecie().getPlik();
     }
 }
