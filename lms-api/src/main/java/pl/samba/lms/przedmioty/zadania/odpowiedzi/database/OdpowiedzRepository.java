@@ -49,7 +49,7 @@ public class OdpowiedzRepository extends AbstractCrudRepository<Odpowiedz, Integ
         String[] requestParamsTable = requestParams.split(";");
         Integer size = requestParamsTable[0].isEmpty() ? null : Integer.parseInt(requestParamsTable[0]);
         Integer page = requestParamsTable[1].isEmpty() ? null : Integer.parseInt(requestParamsTable[1]);
-        String kod = requestParamsTable[2];
+        String kod = requestParamsTable[2].isEmpty() ? null: requestParamsTable[2];
         String login = null;
 
         if(requestParamsTable.length > 3){
