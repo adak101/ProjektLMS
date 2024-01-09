@@ -4,13 +4,8 @@ import InfoTab from "../Components/HomePage/InfoTab";
 import TestContainerInfo from "../Components/Test/TestContainerInfo";
 import TitleContainer from "../Components/Test/TitleContainer";
 import TestItem from "../Components/Test/TestItem";
-import useApi from "../Components/Materials/Hooks/useApi";
-function Test() {
-  const { data, isLoading, error } = useApi("/api/przedmiot/all");
-  if (data) {
-    console.log(data);
-  }
 
+function Test() {
   return (
     <TestContainer>
       <UserInfo />

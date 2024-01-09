@@ -1,30 +1,29 @@
+import { useContext } from "react";
+import UserContext from "../Context/UserContext";
+import LogOutComponent from "./LogOutComponent";
+import Loader from "../Helpers/Loader";
 function UserInfo() {
+  const { userData } = useContext(UserContext);
+
+  if (!userData) {
+    return <Loader />;
+  }
+
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-x-5">
         <div className="w-[60px] h-auto ml-5 mt-5 rounded-lg ">
-          <img src="person.jpg" alt="person" />
-        </div>
-        <h3 className="translate-y-[13px] ">Szymon Świercz</h3>
-      </div>
-      <span className="translate-x-[600px] cursor-pointer">
-        {" "}
-        <svg
-          width="30px"
-          height="30px"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M15 4H18C19.1046 4 20 4.89543 20 6V18C20 19.1046 19.1046 20 18 20H15M8 8L4 12M4 12L8 16M4 12L16 12"
-            stroke="#F26C6C"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+          <img
+            src={`data:image/jpeg;base64,${userData.zdjecie}`}
+            alt="person"
           />
-        </svg>
-      </span>
+        </div>
+        <h3 className="translate-y-[13px] ">
+          {userData.imie} {userData.nazwisko}
+        </h3>
+      </div>
+
+      <LogOutComponent />
       <div className="w-10 h-10 flex items-center justify-center rounded-full  mr-5 cursor-pointer relative">
         <svg
           width="30px"

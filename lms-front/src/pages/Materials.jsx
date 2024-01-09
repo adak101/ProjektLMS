@@ -11,9 +11,15 @@ import { Outlet } from "react-router-dom";
 
 import useHideContainer from "../Components/Materials/Hooks/useHideContainer";
 import useNameMaterials from "../Components/Materials/Hooks/useNameMaterials";
+import { useContext } from "react";
+import UserContext from "../Components/Context/UserContext";
 
 function Materials() {
-  const { data, isLoading, error } = useApi("/api/przedmiot/all");
+  const { userInfo } = useContext(UserContext);
+
+  const { data, isLoading, error } = useApi(
+    `/api/przedmiot/all?idUcznia=${userInfo.id}`
+  );
   const load = useHideContainer(false);
   const [nameMaterials, setNameMaterials] = useNameMaterials("");
 
