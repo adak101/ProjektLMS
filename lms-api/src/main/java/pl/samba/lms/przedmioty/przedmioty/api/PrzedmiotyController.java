@@ -29,21 +29,54 @@ public class PrzedmiotyController implements ControllerInterface<Przedmiot, Prze
     private final PrzedmiotRepository dataSet;
 
 
-    @Override
+//    @Override
+//    @GetMapping(PathType.ALL)
+//    public ResponseEntity<CollectionModel<PrzedmiotModel>> get(
+//            @RequestParam(required = false) Integer size,
+//            @RequestParam(required = false) Integer page
+//    ) {
+//        Iterable<Przedmiot> przedmioty;
+//
+//        if(size != null || page != null ){
+//            String params =  (size == null? "0" : size) + ";" +
+//                    (page == null? "0" : page);
+//            przedmioty = dataSet.getAll(params);
+//        }
+//        else przedmioty = dataSet.getAll();
+//
+//        if(przedmioty.iterator().hasNext()){
+//            List<PrzedmiotModel> listaModeli = new ArrayList<>();
+//
+//            for(Przedmiot przedmiot: przedmioty){
+//                listaModeli.add(new PrzedmiotModelAssembler().toModel(przedmiot));
+//            }
+//
+//            CollectionModel<PrzedmiotModel> kolekcjaModeli = CollectionModel.of(listaModeli);
+//
+//            kolekcjaModeli.add(WebMvcLinkBuilder.linkTo(methodOn(PrzedmiotyController.class).get(size, page))
+//                    .withRel("przedmioty").withTitle("lista_przedmiotow"));
+//            return new ResponseEntity<>(kolekcjaModeli, HttpStatus.OK);
+//        }
+//        else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+//    }
+
     @GetMapping(PathType.ALL)
     public ResponseEntity<CollectionModel<PrzedmiotModel>> get(
+            @RequestParam(required = false) Integer idUcznia,
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) Integer page
     ) {
-        Iterable<Przedmiot> przedmioty;
-
-        if(size != null || page != null ){
-            String params =  (size == null? "0" : size) + ";" +
-                    (page == null? "0" : page);
-            przedmioty = dataSet.getAll(params);
+        String params;
+        if(size == null && page == null){
+            params = ";;" + (idUcznia == null? "-1" : idUcznia);
         }
-        else przedmioty = dataSet.getAll();
+        else {
+            params =  (size == null? "0" : size) + ";" +
+                    (page == null? "0" : page) +
+                    (idUcznia == null? "-1" : idUcznia);
+        }
 
+        Iterable<Przedmiot> przedmioty = dataSet.getAll(params);
         if(przedmioty.iterator().hasNext()){
             List<PrzedmiotModel> listaModeli = new ArrayList<>();
 
@@ -53,11 +86,17 @@ public class PrzedmiotyController implements ControllerInterface<Przedmiot, Prze
 
             CollectionModel<PrzedmiotModel> kolekcjaModeli = CollectionModel.of(listaModeli);
 
-            kolekcjaModeli.add(WebMvcLinkBuilder.linkTo(methodOn(PrzedmiotyController.class).get(size, page))
+            kolekcjaModeli.add(WebMvcLinkBuilder.linkTo(methodOn(PrzedmiotyController.class).get(idUcznia,size, page))
                     .withRel("przedmioty").withTitle("lista_przedmiotow"));
             return new ResponseEntity<>(kolekcjaModeli, HttpStatus.OK);
         }
         else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+
+    @Deprecated
+    @Override
+    public ResponseEntity<CollectionModel<PrzedmiotModel>> get(Integer size, Integer page) throws Exception {
+        return null;
     }
 
     @Override

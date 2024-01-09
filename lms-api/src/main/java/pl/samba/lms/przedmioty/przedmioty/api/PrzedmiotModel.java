@@ -13,6 +13,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Getter
 public class PrzedmiotModel extends RepresentationModel<PrzedmiotModel> {
     private final Integer id;
+    private final Integer idProwadzacego;
+    private final Integer idOkresu;
     private final String kod;
     private final String nazwa;
     private final Integer limit;
@@ -23,6 +25,8 @@ public class PrzedmiotModel extends RepresentationModel<PrzedmiotModel> {
 
     public PrzedmiotModel(Przedmiot p){
         this.id = p.getIdPrzedmiotu();
+        this.idProwadzacego = p.getIdProwadzacego();
+        this.idOkresu = p.getIdOkresu();
         this.kod = p.getKod();
         this.nazwa = p.getNazwa();
         this.limit = p.getLimit();
@@ -30,15 +34,6 @@ public class PrzedmiotModel extends RepresentationModel<PrzedmiotModel> {
         this.warunkiZaliczenia = p.getWarunkiZaliczenia();
         this.status = p.getStatus();
         this.czyRejestrUczn = p.getCzyRejestrUczn();
-
-        add(WebMvcLinkBuilder
-                .linkTo(methodOn(UzytkownicyController.class)
-                        .get(p.getIdProwadzacego()))
-                .withRel("prowadzący"));
-        add(WebMvcLinkBuilder
-                .linkTo(methodOn(OkresyController.class)
-                        .get(p.getIdOkresu()))
-                .withRel("okres"));
     }
 
 }

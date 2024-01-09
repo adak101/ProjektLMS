@@ -9,7 +9,7 @@
  |_____/  /_/    \_\ |_|  |_| |____/  /_/    \_\     |______| |_|  |_| |_____/
  ==============================================================================
  :: Spring Boot      v3.2.0 ::                                       :: 2024 ::
- :: api version      v0.2.4 ::
+ :: api version      v0.2.5 ::
 ```
 Dokumentacja do aplikacji rest api projektu LSM.
 
@@ -376,6 +376,7 @@ Klasa `PrzedmiotyController` odpowiada za obsługę end-pointów związanych z z
 - **Ścieżka:** `/api/przedmiot/all`
 - **Metoda:** `GET`
 - **Parametry:**
+  - `idUcznia` (opcjonalny): id ucznia, dla którego mają zostać pobrane przedmioty, na które jest zapisany
   - `size` (opcjonalny): liczba elementów na stronie
   - `page` (opcjonalny): numer strony (liczony od 0) (liczony od 0)
 - **Odpowiedź:**

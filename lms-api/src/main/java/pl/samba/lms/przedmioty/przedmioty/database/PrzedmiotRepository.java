@@ -6,10 +6,7 @@ import pl.samba.lms.przedmioty.przedmioty.Przedmiot;
 import pl.samba.lms.utils.constants.Status;
 import pl.samba.lms.utils.database.AbstractCrudRepository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class PrzedmiotRepository extends AbstractCrudRepository<Przedmiot, Integer> {
@@ -34,9 +31,41 @@ public class PrzedmiotRepository extends AbstractCrudRepository<Przedmiot, Integ
     public static final String P_ID_OKRESU = "p_id_okresu";
     public static final String P_KOD_STATUS = "p_kod_status";
     public static final String P_REJESTR_UCZN = "p_rejestr_uczn";
+    public static final String P_ID_UCZNIA = "p_id_ucznia";
 
     public PrzedmiotRepository() {
         super("przedmioty", "pk_id_przedm");
+    }
+
+    @Override
+    public Iterable<Przedmiot> getAll(String requestParams) {
+        /*
+         * requestParamsTable
+         * [0] size
+         * [1] page
+         * */
+        String[] requestParamsTable = requestParams.split(";");
+        Integer size = requestParamsTable[0].isEmpty() ? null : Integer.parseInt(requestParamsTable[0]);
+        Integer page = requestParamsTable[1].isEmpty() ? null : Integer.parseInt(requestParamsTable[1]);
+        Integer idUcznia = Integer.parseInt(requestParamsTable[2]) == -1 ? null : Integer.parseInt(requestParamsTable[2]);
+
+
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(super.getJdbc())
+                .withSchemaName(getSCHEMA())
+                .withProcedureName(super.getReadProcName());
+        Map<String, Object> inParams = new HashMap<>();
+        inParams.put(super.getPkColumnName(), null);
+        inParams.put(getP_PAGE_SIZE(), size);
+        inParams.put(getP_PAGE(), page);
+        inParams.put(getP_UNIQUE(), null);
+        inParams.put(P_ID_UCZNIA, idUcznia);
+
+        Map<String, Object> result = jdbcCall.execute(inParams);
+
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> resultSet = (List<Map<String, Object>>) result.get("#result-set-1");
+        if(resultSet.isEmpty()) throw new NoSuchElementException("Brak danych w tabeli '" + super.getTableName() + "' dla size=" + size + ", page=" + page + "!");
+        else return resultMapper(resultSet);
     }
 
     @Override
