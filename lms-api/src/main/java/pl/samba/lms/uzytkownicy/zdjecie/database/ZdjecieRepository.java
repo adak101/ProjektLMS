@@ -15,9 +15,7 @@ import java.util.Map;
 public class ZdjecieRepository extends AbstractCrudRepository<Zdjecie, Integer> {
     public static final String C_ID_ZDJECIA = "id_zdjecia";
     public static final String C_PLIK = "plik";
-    public static final String C_NAZWA_PLIKU = "nazwa_pliku";
     public static final String C_EXT = "ext";
-    public static final String C_ALT = "alt";
 
     private static final String P_ZDJECIE = "p_zdjecie";
     private static final String P_ALT = "p_alt";
@@ -35,9 +33,7 @@ public class ZdjecieRepository extends AbstractCrudRepository<Zdjecie, Integer> 
                 .withProcedureName(super.getInsertProcName());
         Map<String, Object> inParams = new HashMap<>();
         inParams.put(P_ZDJECIE, data.getPlik());
-        inParams.put(P_ALT, data.getAlt());
         inParams.put(P_EXT, data.getExt());
-        inParams.put(P_NAZWA, data.getNazwa());
 
         Map<String, Object> result = jdbcCall.execute(inParams);
 
@@ -52,9 +48,7 @@ public class ZdjecieRepository extends AbstractCrudRepository<Zdjecie, Integer> 
         Map<String, Object> inParams = new HashMap<>();
         inParams.put(super.getPkColumnName(), data.getIdZdjecia());
         inParams.put(P_ZDJECIE, data.getPlik());
-        inParams.put(P_ALT, data.getAlt());
         inParams.put(P_EXT, data.getExt());
-        inParams.put(P_NAZWA, data.getNazwa());
 
         Map<String, Object> result = jdbcCall.execute(inParams);
 
@@ -68,9 +62,7 @@ public class ZdjecieRepository extends AbstractCrudRepository<Zdjecie, Integer> 
             Zdjecie zdjecie = new Zdjecie(
                     (Integer) row.get(C_ID_ZDJECIA),
                     (byte[]) row.get(C_PLIK),
-                    (String) row.get(C_NAZWA_PLIKU),
-                    (String) row.get(C_EXT),
-                    (String) row.get(C_ALT));
+                    (String) row.get(C_EXT));
 
             zdjecieList.add(zdjecie);
         }

@@ -87,12 +87,13 @@ public class UzytkownikRepository extends AbstractCrudRepository<Uzytkownik, Int
     public Integer update(Uzytkownik data) {
         Integer idZdjecia = 1;
 
-        if(data.getZdjecie().getIdZdjecia() == null ){
+        if(data.getZdjecie().getIdZdjecia() == null || data.getZdjecie().getIdZdjecia().equals(1)){
             idZdjecia = dsZdjecia.save(data.getZdjecie());
         }
         else if(!data.getZdjecie().getIdZdjecia().equals(1)){
             idZdjecia = dsZdjecia.update(data.getZdjecie());
         }
+
 
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(super.getJdbc())
                 .withSchemaName(getSCHEMA())
@@ -122,9 +123,7 @@ public class UzytkownikRepository extends AbstractCrudRepository<Uzytkownik, Int
             Zdjecie zdjecie = new Zdjecie(
                     (Integer) row.get(ZdjecieRepository.C_ID_ZDJECIA),
                     (byte[]) row.get(ZdjecieRepository.C_PLIK),
-                    (String) row.get(ZdjecieRepository.C_NAZWA_PLIKU),
-                    (String) row.get(ZdjecieRepository.C_EXT),
-                    (String) row.get(ZdjecieRepository.C_ALT));
+                    (String) row.get(ZdjecieRepository.C_EXT));
 
             Uzytkownik uzytkownik = new Uzytkownik(
                     (Integer) row.get(C_ID_UZYTK),

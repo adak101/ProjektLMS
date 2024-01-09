@@ -190,10 +190,7 @@ Content-Type: application/json
     "status": "AKTYWNY",
     "rola": "UCZEN",
     "zdjecie": {
-        "plik": "<plik_binarny_base_64>",
-        "nazwa": "zdjecie",
-        "ext": "png",
-        "alt": "zdjecie-uzytkownika"
+        "plik": "<plik_binarny_base_64>"
     }
 }
 ```
@@ -336,10 +333,7 @@ Authorization: Bearer <token>
     "status": "AKTYWNY",
     "rola": "UCZEN",
     "zdjecie": {
-        "plik": "<plik_binarny_base_64>",
-        "nazwa": "zdjecie",
-        "ext": "png",
-        "alt": "zdjecie-uzytkownika"
+        "plik": "<plik_binarny_base_64>"
     }
 }
 ```
@@ -1266,7 +1260,7 @@ Authorization: Bearer <token>
     "idUzytkownika": 1,
     "temat": "<temat wpisu>",
     "tresc": "<tresc wpisu>",
-    "DataWpis": "2023-12-28T19:11:04",
+    "DataWpis": "2023-12-28T19:11:04"
 }
 ```
   
@@ -1306,7 +1300,7 @@ Authorization: Bearer <token>
 ```json
 {
     "temat": "<temat wpisu>",
-    "tresc": "<tresc wpisu>",
+    "tresc": "<tresc wpisu>"
 }
 ```
 
@@ -1370,7 +1364,7 @@ Authorization: Bearer <token>
 	"idWpisu": 1,
     "idUzytkownika": 1,
     "tresc": "<tresc odpowiedzi>",
-    "DataWpis": "2023-12-28T19:11:04",
+    "DataWpis": "2023-12-28T19:11:04"
 }
 ```
   
@@ -1409,6 +1403,6 @@ Authorization: Bearer <token>
 
 ```json
 {
-    "tresc": "<tresc odpowiedzi>",
+    "tresc": "<tresc odpowiedzi>"
 }
 ```
