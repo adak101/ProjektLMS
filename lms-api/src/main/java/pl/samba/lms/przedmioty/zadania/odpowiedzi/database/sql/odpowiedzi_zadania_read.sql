@@ -38,6 +38,24 @@ BEGIN
 		ORDER BY oz.id_odpowiedzi
 		LIMIT p_size
 		OFFSET v_offset;
+	ELSEIF p_login IS NOT NULL THEN
+	SELECT
+			oz.id_odpowiedzi,
+			oz.id_zadania,
+			oz.id_ucznia,
+			oz.tresc,
+			oz.koment,
+			oz.ocena,
+			oz.data_wstaw,
+			oz.data_oceny
+		FROM lms.odpowiedzi_zadania oz
+		WHERE EXISTS(
+			SELECT *
+			FROM lms.uzytkownicy u
+			WHERE u.login = p_login 
+			AND u.id_uzytk = oz.id_ucznia
+		);
+	
 	ELSEIF p_kod IS NOT NULL AND p_login IS NOT NULL THEN
 		SELECT
 			oz.id_odpowiedzi,
