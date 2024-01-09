@@ -8,19 +8,15 @@ BEGIN
 	IF pk_id_zdjecia IS NOT NULL THEN
 			SELECT
 				z.id_zdjecia,
-				z.nazwa AS nazwa_pliku,
 				z.zdjecie AS plik,
-				z.ext,
-				z.alt
+				z.ext
 			FROM lms.zdjecia z
 			WHERE u.id_zdjecia = pk_id_zdjecia;
 	ELSE
 			SELECT
 				z.id_zdjecia,
-				z.nazwa AS nazwa_pliku,
 				z.zdjecie AS plik,
-				z.ext,
-				z.alt
+				z.ext
 			FROM lms.zdjecia z
 			WHERE u.id_zdjecia = pk_id_zdjecia
 			ORDER BY u.id_zdjecia;

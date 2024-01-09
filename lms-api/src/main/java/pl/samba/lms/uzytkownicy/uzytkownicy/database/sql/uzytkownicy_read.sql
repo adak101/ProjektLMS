@@ -23,10 +23,8 @@ BEGIN
 				u.`status`,
 				r.nazwa AS rola,
 				z.id_zdjecia,
-				z.nazwa AS nazwa_pliku,
 				z.zdjecie AS plik,
-				z.ext,
-				z.alt
+				z.ext
 			FROM lms.uzytkownicy u
 			JOIN lms.role r ON u.id_roli = r.id_roli
 			JOIN lms.zdjecia z ON u.id_zdjecia = z.id_zdjecia
@@ -45,10 +43,8 @@ BEGIN
 				u.`status`,
 				r.nazwa AS rola,
 				z.id_zdjecia,
-				z.nazwa AS nazwa_pliku,
 				z.zdjecie AS plik,
-				z.ext,
-				z.alt
+				z.ext
 			FROM lms.uzytkownicy u
 			JOIN lms.role r ON u.id_roli = r.id_roli
 			JOIN lms.zdjecia z ON u.id_zdjecia = z.id_zdjecia
@@ -69,10 +65,8 @@ BEGIN
 				u.`status`,
 				r.nazwa AS rola,
 				z.id_zdjecia,
-				z.nazwa AS nazwa_pliku,
 				z.zdjecie AS plik,
-				z.ext,
-				z.alt
+				z.ext
 			FROM lms.uzytkownicy u
 			JOIN lms.role r ON u.id_roli = r.id_roli
 			JOIN lms.zdjecia z ON u.id_zdjecia = z.id_zdjecia
@@ -93,10 +87,8 @@ BEGIN
 				u.`status`,
 				r.nazwa AS rola,
 				z.id_zdjecia,
-				z.nazwa AS nazwa_pliku,
 				z.zdjecie AS plik,
-				z.ext,
-				z.alt
+				z.ext
 			FROM lms.uzytkownicy u
 			JOIN lms.role r ON u.id_roli = r.id_roli
 			JOIN lms.zdjecia z ON u.id_zdjecia = z.id_zdjecia

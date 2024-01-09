@@ -138,9 +138,7 @@ public class UzytkownicyController implements ControllerInterface<Uzytkownik, Uz
             Zdjecie nowe = new Zdjecie(
                     current.getZdjecie().getIdZdjecia(),
                     data.getZdjecie().getPlik(),
-                    data.getZdjecie().getNazwa(),
-                    data.getZdjecie().getExt(),
-                    data.getZdjecie().getAlt());
+                    data.getZdjecie().getExt());
             current.setZdjecie(nowe);
         }
         if(data.getRola() != null){
