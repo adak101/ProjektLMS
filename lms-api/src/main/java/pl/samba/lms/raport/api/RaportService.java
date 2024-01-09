@@ -2,7 +2,7 @@ package pl.samba.lms.raport.api;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import pl.samba.lms.raport.StudentData;
+import pl.samba.lms.raport.StudentRaportData;
 import pl.samba.lms.raport.SubjectInfo;
 import pl.samba.lms.raport.database.RaportRepository;
 import pl.samba.lms.raport.api.RaportGenerator;
@@ -25,7 +25,7 @@ public class RaportService {
     public ByteArrayOutputStream generateRaport(int idPrzedmiotu) {
         // Pobranie danych o przedmiocie i studentach z bazy danych
         SubjectInfo subjectInfo = raportRepository.getSubjectInfo(idPrzedmiotu);
-        List<StudentData> studentDataList = raportRepository.getStudentGradesForSubject(idPrzedmiotu);
+        List<StudentRaportData> studentDataList = raportRepository.getStudentGradesForSubject(idPrzedmiotu);
 
         // Wygenerowanie raportu
         return raportGenerator.createPdf(subjectInfo.getSubjectName(), subjectInfo.getGroupCode(), studentDataList);

@@ -9,14 +9,14 @@ import java.util.List;
 
 @Getter
 @Setter
-public class StudentData {
+public class StudentRaportData {
     private String Imie;
     private String Nazwisko;
     private List<Integer> OcenyCzastkowe; // Lista ocen cząstkowych
-    private Integer OcenaKoncowa; // Ocenę końcową
+    private Integer OcenaKoncowa; // Ocena końcową
 
     @JsonCreator
-    public StudentData(
+    public StudentRaportData(
             @JsonProperty("imie") String name,
             @JsonProperty("nazwisko") String surname,
             @JsonProperty("ocenyCzastkowe") List<Integer> partialGrades,

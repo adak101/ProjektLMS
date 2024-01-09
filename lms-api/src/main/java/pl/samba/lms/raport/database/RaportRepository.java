@@ -2,7 +2,7 @@ package pl.samba.lms.raport.database;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import pl.samba.lms.raport.StudentData;
+import pl.samba.lms.raport.StudentRaportData;
 import pl.samba.lms.raport.SubjectInfo;
 
 import java.util.Arrays;
@@ -28,8 +28,8 @@ public class RaportRepository {
         );
     }
 
-    public List<StudentData> getStudentGradesForSubject(int idPrzedmiotu) {
-        String sql = "CALL lms.GetStudentGrades(?)";
+    public List<StudentRaportData> getStudentGradesForSubject(int idPrzedmiotu) {
+        String sql = "CALL lms.get_students_grades(?)";
         return jdbcTemplate.query(sql, new Object[]{idPrzedmiotu}, (rs, rowNum) -> {
             String imie = rs.getString("imie");
             String nazwisko = rs.getString("nazwisko");
@@ -37,12 +37,13 @@ public class RaportRepository {
                     .filter(str -> !str.isEmpty())
                     .map(Integer::parseInt)
                     .collect(Collectors.toList());
-            Integer ocenaKoncowa = rs.getInt("ocenaKoncowa");
+            Integer ocenaKoncowa = rs.getObject("ocenaKoncowa") != null ? rs.getInt("ocenaKoncowa") : null;
             if (rs.wasNull()) {
                 ocenaKoncowa = null;
             }
 
-            return new StudentData(imie, nazwisko, ocenyCzastkowe, ocenaKoncowa);
+            return new StudentRaportData(imie, nazwisko, ocenyCzastkowe, ocenaKoncowa);
         });
+
     }
 }

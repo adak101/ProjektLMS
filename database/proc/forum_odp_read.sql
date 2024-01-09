@@ -1,16 +1,40 @@
-DELIMITER //
-DROP PROCEDURE IF EXISTS lms.forum_odp_ins;
-CREATE PROCEDURE forum_odp_ins(
-    OUT pk_id_odp INT,
-    IN p_id_wpis INT,
-    IN p_id_uzytk INT,
-    IN p_tresc VARCHAR(700),
-    IN p_data_wpis DATETIME
+CREATE DEFINER=`lms_admin`@`%` PROCEDURE `forum_odp_read`(
+    IN pk_id_odp INT,
+    IN p_size INT,
+    IN p_page INT
 )
 BEGIN
-    INSERT INTO forum_odp(id_wpis, id_uzytk, tresc, data_wpis)
-    VALUES (p_id_wpis, p_id_uzytk, p_tresc, p_data_wpis);
-
-    SET pk_id_odp = LAST_INSERT_ID();
-END //
-DELIMITER ;
+    DECLARE v_offset INT;
+    IF pk_id_odp IS NOT NULL THEN
+        SELECT
+            f.id_odp,
+            f.id_wpis,
+            f.id_uzytk,
+            f.tresc,
+            f.data_wpis
+        FROM lms.forum_odp f
+        WHERE f.id_odp = pk_id_odp;
+    ELSEIF p_size IS NOT NULL AND p_page IS NOT NULL THEN
+        SET v_offset = p_page * p_size;
+        
+        SELECT
+            f.id_odp,
+            f.id_wpis,
+            f.id_uzytk,
+            f.tresc,
+            f.data_wpis
+        FROM lms.forum_odp f
+        ORDER BY f.id_odp
+        LIMIT p_size
+        OFFSET v_offset;
+    ELSE
+        SELECT
+            f.id_odp,
+            f.id_wpis,
+            f.id_uzytk,
+            f.tresc,
+            f.data_wpis
+        FROM lms.forum_odp f
+        ORDER BY f.id_odp;
+    END IF;
+END

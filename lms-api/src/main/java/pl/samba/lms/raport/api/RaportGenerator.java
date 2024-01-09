@@ -9,7 +9,7 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.UnitValue;
 import org.springframework.stereotype.Service;
-import pl.samba.lms.raport.StudentData;
+import pl.samba.lms.raport.StudentRaportData;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class RaportGenerator {
 
-    public ByteArrayOutputStream createPdf(String nazwaPrzedmiotu, String kodGrupy, List<StudentData> studentDataList) {
+    public ByteArrayOutputStream createPdf(String nazwaPrzedmiotu, String kodGrupy, List<StudentRaportData> studentDataList) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
         try {
@@ -36,7 +36,7 @@ public class RaportGenerator {
             table.addCell(new Cell().add(new Paragraph("Oceny Czastkowe")).setTextAlignment(TextAlignment.CENTER));
             table.addCell(new Cell().add(new Paragraph("Ocena Koncowa")).setTextAlignment(TextAlignment.CENTER));
 
-            for (StudentData student : studentDataList) {
+            for (StudentRaportData student : studentDataList) {
                 String fullName = student.getImie() + " " + student.getNazwisko();
                 String partialGrades = student.getOcenyCzastkowe().stream()
                         .map(Object::toString)
