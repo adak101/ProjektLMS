@@ -47,25 +47,31 @@ public class OdpowiedziController implements ControllerInterface<Odpowiedz, Odpo
 
     @GetMapping(PathType.ALL)
     public ResponseEntity<CollectionModel<OdpowiedzModel>> get(
-            @RequestParam(required = true) String kod,
+            @RequestParam(required = false) String kod,
             @RequestParam(required = false) String login,
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) Integer page
     ) {
-        String decodedKod = new String(Base64.getDecoder().decode(kod));
+        String decodedKod = null;
         String decodedLogin = null;
+        if(kod != null){
+            decodedKod = new String(Base64.getDecoder().decode(kod));
+        }
         if(login != null){
             decodedLogin = new String(Base64.getDecoder().decode(login));
         }
         String params;
         if(size == null && page == null){
-            params = ";;" + decodedKod +";";
+            params = ";;";
+            if(decodedKod != null) params += decodedKod +";";
+            else params += ";";
             if(decodedLogin != null) params += decodedLogin;
         }
         else{
             params = (size == null? "0" : size) + ";" +
-                    (page == null? "0" : page) + ";" +
-                    decodedKod+";";
+                    (page == null? "0" : page) + ";";
+            if(decodedKod != null) params += decodedKod +";";
+            else params += ";";
             if(decodedLogin != null) params += decodedLogin;
         }
 

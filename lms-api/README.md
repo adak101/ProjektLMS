@@ -879,11 +879,11 @@ Podczas wstawiania i uaktualniania odpowiedzi następuje jej sprawdzenie dla zad
 
 #### 1. Pobieranie listy wszystkich odpowiedzi
 
-- **Ścieżka**: `/api/odpowiedzi/all`
+- **Ścieżka**: `/api/przedmiot/zadanie/odpowiedz/all`
 - **Metoda**: `GET`
 - **Parametry**:
   - `login` (parametr zapytania, opcjonalny): login ucznia w formacie Base64
-  - `kod` (parametr zapytania, obowiązkowy): kod przedmiotu w formacie Base64
+  - `kod` (parametr zapytania, opcjonalny): kod przedmiotu w formacie Base64
   - `size` (parametr zapytania, opcjonalny): liczba wyników na stronie
   - `page` (parametr zapytania, opcjonalny): numer strony, liczony od 0
 - **Odpowiedź**:
@@ -891,7 +891,7 @@ Podczas wstawiania i uaktualniania odpowiedzi następuje jej sprawdzenie dla zad
   - `404 Not Found` - brak odpowiedzi
   
 ```http
-GET /api/odpowiedzi/all?requestParams=size;page;kod;login
+GET /api/przedmiot/zadanie/odpowiedz/all?requestParams=size;page;kod;login
 Authorization: Bearer <token>
 ```
 
@@ -906,13 +906,13 @@ Authorization: Bearer <token>
   - `404 Not Found` - odpowiedź o podanym identyfikatorze nie istnieje
 
 ```http
-GET /api/przedmioty/zadania/odpowiedz/1
+GET /api/przedmiot/zadanie/odpowiedz/1
 Authorization: Bearer <token>
 ```
 
 #### 3. Dodawanie nowej odpowiedzi
 
-**Ścieżka**: `/api/przedmioty/zadania/odpowiedz`
+**Ścieżka**: `/api/przedmiot/zadanie/odpowiedz`
 **Metoda**: `POST`
 **Parametry**:
 Ciało żądania zawiera dane nowej odpowiedzi w formacie JSON.
@@ -921,7 +921,7 @@ Ciało żądania zawiera dane nowej odpowiedzi w formacie JSON.
 `400 Bad Request `- błąd w danych wejściowych
 
 ```http
-POST /api/przedmioty/zadania/odpowiedz
+POST /api/przedmiot/zadanie/odpowiedz
 Content-Type: application/json
 Authorization: Bearer <token>
 ```
@@ -935,7 +935,7 @@ Authorization: Bearer <token>
 
 #### 4. Aktualizacja danych odpowiedzi
 
-- **Ścieżka**: `/api/przedmioty/zadania/odpowiedz/{id}`
+- **Ścieżka**: `/api/przedmiot/zadanie/odpowiedz/{id}`
 - **Metoda**: `PATCH`
 - **Parametry**:
   - `id` (ścieżka): Identyfikator odpowiedzi.
@@ -946,7 +946,7 @@ Authorization: Bearer <token>
   - `404 Not Found` - odpowiedź o podanym identyfikatorze nie istnieje
 
 ```http
-PATCH /api/przedmioty/zadania/odpowiedz/1
+PATCH /api/przedmiot/zadanie/odpowiedz/1
 Content-Type: application/json
 Authorization: Bearer <token>
 ```
@@ -972,7 +972,7 @@ Authorization: Bearer <token>
 ```
 #### 6. Wystawianie oceny
 
-- **Ścieżka**: `/api/przedmioty/zadania/odpowiedz/{id}/ocen`
+- **Ścieżka**: `/api/przedmiot/zadanie/odpowiedz/{id}/ocen`
 - **Metoda**: `PATCH`
 - **Parametry**:
     - `id` (ścieżka): Identyfikator odpowiedzi.
@@ -982,7 +982,7 @@ Authorization: Bearer <token>
     - `400 Bad Request` - błąd w danych wejściowych
 
 ```http
-PATCH /api/przedmioty/zadania/odpowiedz/1/ocen
+PATCH /api/przedmiot/zadanie/odpowiedz/1/ocen
 Content-Type: application/json
 Authorization: Bearer <token>
 ```

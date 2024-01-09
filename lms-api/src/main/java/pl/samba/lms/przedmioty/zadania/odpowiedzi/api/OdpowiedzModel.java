@@ -14,6 +14,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Getter
 public class OdpowiedzModel extends RepresentationModel<OdpowiedzModel> {
     private final Integer id;
+    private final Integer idZadania;
+    private final Integer idUcznia;
     private String tresc;
     private String komentarz;
     private Integer ocena;
@@ -23,17 +25,12 @@ public class OdpowiedzModel extends RepresentationModel<OdpowiedzModel> {
 
     public OdpowiedzModel(Odpowiedz o){
         this.id = o.getIdOdpowiedzi();
+        this.idZadania = o.getIdZadania();
+        this.idUcznia = o.getIdUcznia();
         this.tresc = o.getTresc().toString();
         this.komentarz = o.getKomentarz();
         this.ocena = o.getOcena();
         this.dataWstawienia = o.getDataWstawienia();
         this.dataOcenienia = o.getDataOcenienia();
-
-        add(WebMvcLinkBuilder.linkTo(
-                methodOn(ZadaniaController.class)
-                        .get(o.getIdZadania())).withRel("zadanie"));
-        add(WebMvcLinkBuilder.linkTo(
-                methodOn(UzytkownicyController.class)
-                        .get(o.getIdUcznia())).withRel("uczen"));
     }
 }
