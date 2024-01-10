@@ -1,9 +1,27 @@
 /* eslint-disable react/prop-types */
+
 import { useEffect, useState } from "react";
 
-function OpenQuestion({ element, setSentData }) {
+function OpenQuestion({ element, sentData, setFinalData }) {
   const [textValue, setTextValue] = useState("");
 
+  useEffect(
+    function () {
+      const sentToParentComponent = function () {
+        if (!sentData) return;
+        console.log(textValue);
+        let obj = {
+          typ: "OTWARTE",
+          odpowiedz: textValue,
+          punkty: 0,
+        };
+        setFinalData((data) => [...data, obj]);
+      };
+
+      sentToParentComponent();
+    },
+    [sentData]
+  );
   return (
     <div>
       <div className="mt-10 border-t-[1px] pt-3 border-gray border-opacity-20">

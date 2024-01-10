@@ -33,7 +33,7 @@ function MaterialSingleItemContent({ setDisplayContentItem, data, actualRef }) {
       </div>
       <TaskMaterialContent task={correctObj.zadanie} />
       <p
-        className="mt-10 translate-x-[-20px] text-gray opacity-50 cursor-pointer"
+        className="mt-10 translate-x-[-20px] text-gray opacity-50 cursor-pointer w-[30px]"
         onClick={() => {
           setDisplayContentItem(true);
         }}

@@ -6,9 +6,15 @@ import CloseQuestion from "./CloseQuestion";
 import OpenQuestion from "./OpenQuestion";
 import TrueFalseQuestion from "./TrueFalseQuestion";
 import FileQuestion from "./FileQuestion";
-import { useState } from "react";
+import { useState, useCallback, useRef, useMemo } from "react";
 function TaskContent({ contents, idTask }) {
   const [sentData, setSentData] = useState(false);
+  const [finalData, setFinalData] = useState([]);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    setSentData(true);
+  }
 
   if (!contents) {
     return <Loader />;
@@ -17,27 +23,40 @@ function TaskContent({ contents, idTask }) {
   return (
     <>
       <div>
-        {contents.map((cont) => {
+        {contents.map((cont, index) => {
           if (cont.typ === "OTWARTE")
             return (
               <OpenQuestion
-                key={uuidv4()}
+                key={index}
                 element={cont}
-                setSentDatasentData={setSentData}
+                sentData={sentData}
+                setFinalData={setFinalData}
+                setSentData={setSentData}
               />
             );
           if (cont.typ === "ZAMKNIETE") {
-            return <CloseQuestion key={uuidv4()} element={cont} />;
+            return <CloseQuestion key={index} element={cont} />;
           }
           if (cont.typ === "PRAWDA_FALSZ") {
-            return <TrueFalseQuestion key={uuidv4()} element={cont} />;
+            return (
+              <TrueFalseQuestion
+                key={index}
+                element={cont}
+                sentData={sentData}
+                setFinalData={setFinalData}
+                setSentData={setSentData}
+              />
+            );
           }
           if (cont.typ === "PLIK") {
-            return <FileQuestion key={uuidv4()} element={cont} />;
+            return <FileQuestion key={index} element={cont} />;
           }
         })}
       </div>
-      <button className="translate-x-[650px] translate-y-[80px] bg-blue px-6 py-2 text-white rounded-lg">
+      <button
+        className="translate-x-[650px] translate-y-[80px] bg-blue px-6 py-2 text-white rounded-lg"
+        onClick={handleSubmit}
+      >
         Wyślij zadania
       </button>
     </>

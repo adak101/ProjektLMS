@@ -1,11 +1,9 @@
-import useApi from "./Hooks/useApi";
 import { useState, useEffect } from "react";
-import Loader from "../Helpers/Loader";
+
 import TaskContent from "./TaskContent";
 function TaskMaterialContent({ task }) {
   const [contents, setContents] = useState(null);
   const [idTask, setIdTask] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(
     function () {
@@ -23,14 +21,11 @@ function TaskMaterialContent({ task }) {
       const getData = async function () {
         try {
           const res = await fetch(`/${linkURL}`, fetchData);
-          console.log(res);
           const data = await res.json();
           setContents(JSON.parse(data.tresc));
           setIdTask(data.id);
         } catch (err) {
           console.log(err);
-        } finally {
-          setIsLoading(false);
         }
       };
       getData();
@@ -40,19 +35,14 @@ function TaskMaterialContent({ task }) {
 
   return (
     <div className="mt-5 border-b border-gray border-opacity-20 pb-4 text-gray">
-      {" "}
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <>
-          <span className="text-xl text-green">Zadanie do wykonania: </span>{" "}
-          {task ? (
-            <TaskContent contents={contents} idTask={idTask} />
-          ) : (
-            "Brak zadania"
-          )}
-        </>
-      )}
+      <>
+        <span className="text-xl text-green">Zadanie do wykonania: </span>{" "}
+        {contents ? (
+          <TaskContent contents={contents} idTask={idTask} />
+        ) : (
+          "Brak zadania"
+        )}
+      </>
     </div>
   );
 }

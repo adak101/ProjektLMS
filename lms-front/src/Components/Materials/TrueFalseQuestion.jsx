@@ -1,25 +1,37 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
-function TrueFalseQuestion({ element }) {
+import { useState, useEffect } from "react";
+function TrueFalseQuestion({ element, sentData, setFinalData }) {
   const [selectedOption, setSelectedOption] = useState(null);
-  const [trueFalseObj, setTrueFalseObj] = useState({});
-  const [isDisabled, setIsDisabled] = useState(false);
-  let obj = {
-    typ: "",
-    odpowiedz: "",
-    punkty: 0,
-  };
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    obj = {
-      typ: element.typ,
-      odpowiedz: selectedOption,
-      punkty: 0,
+  // let obj = {
+  //   typ: "",
+  //   odpowiedz: "",
+  //   punkty: 0,
+  // };
+
+  // function handleSubmit(e) {
+  //   e.preventDefault();
+  //   obj = {
+  //     typ: element.typ,
+  //     odpowiedz: selectedOption,
+  //     punkty: 0,
+  //   };
+  //   setTrueFalseObj(obj);
+  //   setIsDisabled((flag) => !flag);
+  // }
+  useEffect(() => {
+    const sentDataToParent = () => {
+      if (!sentData) return;
+      let obj = {
+        typ: "PRAWDA_FALSZ",
+        odpowiedz: selectedOption,
+        punkty: 0,
+      };
+      setFinalData((data) => [...data, obj]);
     };
-    setTrueFalseObj(obj);
-    setIsDisabled((flag) => !flag);
-  }
+
+    sentDataToParent();
+  }, [sentData]);
 
   return (
     <div className="mt-10 border-t-[1px] pt-3 border-gray border-opacity-20">
@@ -35,7 +47,6 @@ function TrueFalseQuestion({ element }) {
                 name="myRadio"
                 type="radio"
                 onChange={(e) => setSelectedOption(e.target.value)}
-                disabled={isDisabled}
               />
             </label>
             <label className="flex gap-x-3 ">
@@ -43,22 +54,14 @@ function TrueFalseQuestion({ element }) {
               <input
                 name="myRadio"
                 type="radio"
-                onChange={(e) => selectedOption(e.target.value)}
-                disabled={isDisabled}
+                onChange={(e) => setSelectedOption(e.target.value)}
               />
             </label>
           </div>
           <div className="flex justify-between">
-            <button
-              className="w-[80px] mt-5"
-              onClick={handleSubmit}
-              disabled={isDisabled}
-            >
-              Wyślij
-            </button>
+            <button className="w-[80px] mt-5">Wyślij</button>
             <p>0/{element.punkty}</p>
           </div>
-          {isDisabled && <p className="text-green">Rozwiazano zadanie</p>}
         </form>
       </div>
     </div>
