@@ -19,6 +19,10 @@ function TrueFalseQuestion({ element, sentData, setFinalData }) {
   //   setTrueFalseObj(obj);
   //   setIsDisabled((flag) => !flag);
   // }
+  function handleInput(e) {
+    setSelectedOption(e.target.value);
+  }
+
   useEffect(() => {
     const sentDataToParent = () => {
       if (!sentData) return;
@@ -46,7 +50,8 @@ function TrueFalseQuestion({ element, sentData, setFinalData }) {
               <input
                 name="myRadio"
                 type="radio"
-                onChange={(e) => setSelectedOption(e.target.value)}
+                value={"true"}
+                onChange={(e) => handleInput(e)}
               />
             </label>
             <label className="flex gap-x-3 ">
@@ -54,7 +59,8 @@ function TrueFalseQuestion({ element, sentData, setFinalData }) {
               <input
                 name="myRadio"
                 type="radio"
-                onChange={(e) => setSelectedOption(e.target.value)}
+                onChange={(e) => handleInput(e)}
+                value={"false"}
               />
             </label>
           </div>
