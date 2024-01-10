@@ -1,18 +1,42 @@
 import useApi from "./Hooks/useApi";
+import { useState, useEffect } from "react";
 import Loader from "../Helpers/Loader";
 import TaskContent from "./TaskContent";
 function TaskMaterialContent({ task }) {
-  let linkUrl = null;
-  let contents = null;
-  let idTask = null;
-  if (task) {
-    linkUrl = `api/${task.split("/api/")[1]}`;
-  }
-  const { data, isLoading, error } = useApi(`/${linkUrl}`);
-  if (data) {
-    contents = JSON.parse(data.tresc);
-    idTask = data.id;
-  }
+  const [contents, setContents] = useState(null);
+  const [idTask, setIdTask] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(
+    function () {
+      if (!task) return;
+      let linkURL = `api/${task.split("/api/")[1]}`;
+      const token = JSON.parse(localStorage.getItem("token"));
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+
+      const fetchData = {
+        method: "GET",
+        headers: headers,
+      };
+      const getData = async function () {
+        try {
+          const res = await fetch(`/${linkURL}`, fetchData);
+          console.log(res);
+          const data = await res.json();
+          setContents(JSON.parse(data.tresc));
+          setIdTask(data.id);
+        } catch (err) {
+          console.log(err);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      getData();
+    },
+    [task]
+  );
 
   return (
     <div className="mt-5 border-b border-gray border-opacity-20 pb-4 text-gray">
