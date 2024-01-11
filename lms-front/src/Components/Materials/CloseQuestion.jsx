@@ -22,7 +22,7 @@ function CloseQuestion({ element, sentData, setFinalData }) {
         let obj = {
           typ: element.typ,
           odpowiedz: indexTab,
-          punkty: 0,
+          punkty: 0.0,
         };
         setFinalData((data) => [...data, obj]);
       };

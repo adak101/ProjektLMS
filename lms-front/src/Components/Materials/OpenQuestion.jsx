@@ -13,7 +13,7 @@ function OpenQuestion({ element, sentData, setFinalData }) {
         let obj = {
           typ: "OTWARTE",
           odpowiedz: textValue,
-          punkty: 0,
+          punkty: 0.0,
         };
         setFinalData((data) => [...data, obj]);
       };

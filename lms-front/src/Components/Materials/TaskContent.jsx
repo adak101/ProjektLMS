@@ -6,10 +6,13 @@ import CloseQuestion from "./CloseQuestion";
 import OpenQuestion from "./OpenQuestion";
 import TrueFalseQuestion from "./TrueFalseQuestion";
 import FileQuestion from "./FileQuestion";
-import { useState, useCallback, useRef, useMemo, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import UserContext from "../Context/UserContext";
+
 function TaskContent({ contents, idTask }) {
   const [sentData, setSentData] = useState(false);
   const [finalData, setFinalData] = useState([]);
+  const { userData } = useContext(UserContext);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -18,10 +21,34 @@ function TaskContent({ contents, idTask }) {
   useEffect(
     function () {
       if (finalData.length !== 4) return;
-      console.log(finalData);
+      const token = JSON.parse(localStorage.getItem("token"));
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+
+      const sentDataToDatabase = async () => {
+        const dataToSent = JSON.stringify(finalData);
+
+        const bodyData = {
+          idZadania: idTask,
+          idUcznia: userData.id,
+          tresc: dataToSent,
+        };
+
+        const res = await fetch("/api/przedmiot/zadanie/odpowiedz", {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify(bodyData),
+        });
+        console.log(res);
+      };
+
+      sentDataToDatabase();
     },
     [finalData]
   );
+
   if (!contents) {
     return <Loader />;
   }

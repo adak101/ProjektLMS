@@ -11,26 +11,38 @@ const fileToBase64 = (file, callback) => {
 
 function FileQuestion({ element, sentData, setFinalData }) {
   const fileRef = useRef(null);
-  useEffect(
-    function () {
-      const sentDataToParent = () => {
-        if (!sentData) return;
-        const file = fileRef.current.files[0];
-        fileToBase64(file, (base64Data) => {
-          const fileBase = base64Data.split(",")[1];
 
-          let obj = {
-            typ: element.typ,
-            odpowiedz: fileBase,
-            punkty: 0,
-          };
-          setFinalData((data) => [...data, obj]);
-        });
-      };
-      sentDataToParent();
-    },
-    [sentData]
-  );
+  useEffect(() => {
+    const sentDataToParent = () => {
+      if (!sentData) return;
+
+      const fileInput = fileRef.current;
+      if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+        // Użytkownik nie wybrał pliku, obsłuż to odpowiednio
+        let obj = {
+          typ: element.typ,
+          odpowiedz: "", // Pusty string dla braku pliku
+          punkty: 0.0,
+        };
+        setFinalData((data) => [...data, obj]);
+        return;
+      }
+
+      const file = fileInput.files[0];
+      fileToBase64(file, (base64Data) => {
+        const fileBase = base64Data.split(",")[1];
+
+        let obj = {
+          typ: element.typ,
+          odpowiedz: fileBase,
+          punkty: 0.0,
+        };
+        setFinalData((data) => [...data, obj]);
+      });
+    };
+
+    sentDataToParent();
+  }, [sentData]);
 
   return (
     <div className="mt-10 border-t-[1px] pt-3 border-gray border-opacity-20">

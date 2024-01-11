@@ -13,7 +13,7 @@ function TrueFalseQuestion({ element, sentData, setFinalData }) {
       let obj = {
         typ: "PRAWDA_FALSZ",
         odpowiedz: selectedOption,
-        punkty: 0,
+        punkty: 0.0,
       };
       setFinalData((data) => [...data, obj]);
     };
