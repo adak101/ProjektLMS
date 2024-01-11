@@ -6,7 +6,7 @@ import CloseQuestion from "./CloseQuestion";
 import OpenQuestion from "./OpenQuestion";
 import TrueFalseQuestion from "./TrueFalseQuestion";
 import FileQuestion from "./FileQuestion";
-import { useState, useCallback, useRef, useMemo } from "react";
+import { useState, useCallback, useRef, useMemo, useEffect } from "react";
 function TaskContent({ contents, idTask }) {
   const [sentData, setSentData] = useState(false);
   const [finalData, setFinalData] = useState([]);
@@ -15,7 +15,13 @@ function TaskContent({ contents, idTask }) {
     e.preventDefault();
     setSentData(true);
   }
-
+  useEffect(
+    function () {
+      if (finalData.length !== 4) return;
+      console.log(finalData);
+    },
+    [finalData]
+  );
   if (!contents) {
     return <Loader />;
   }
@@ -35,7 +41,14 @@ function TaskContent({ contents, idTask }) {
               />
             );
           if (cont.typ === "ZAMKNIETE") {
-            return <CloseQuestion key={index} element={cont} />;
+            return (
+              <CloseQuestion
+                key={index}
+                element={cont}
+                sentData={sentData}
+                setFinalData={setFinalData}
+              />
+            );
           }
           if (cont.typ === "PRAWDA_FALSZ") {
             return (
@@ -49,7 +62,14 @@ function TaskContent({ contents, idTask }) {
             );
           }
           if (cont.typ === "PLIK") {
-            return <FileQuestion key={index} element={cont} />;
+            return (
+              <FileQuestion
+                key={index}
+                element={cont}
+                sentData={sentData}
+                setFinalData={setFinalData}
+              />
+            );
           }
         })}
       </div>

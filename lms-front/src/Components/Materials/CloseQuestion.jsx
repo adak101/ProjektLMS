@@ -1,37 +1,36 @@
 /* eslint-disable react/prop-types */
 import LabelFormComponent from "./LabelFormComponent";
-import { createRef, useRefs, useState } from "react";
+import { createRef, useEffect } from "react";
 
-function CloseQuestion({ element }) {
+function CloseQuestion({ element, sentData, setFinalData }) {
   const refAnswer = [createRef(), createRef(), createRef(), createRef()];
-  const [isDisabled, setIsDisabled] = useState(false);
-  const [closeObj, setCloseObj] = useState({});
 
-  let obj = {
-    typ: "",
-    odpowiedz: null,
-    punkty: 0,
-  };
-  function handleSubmit(e) {
-    e.preventDefault();
-    if (!refAnswer) return;
-    const textTab = [];
-    refAnswer.forEach((answer, index) => {
-      const inpt = answer.current.children[1];
-      if (inpt.checked) {
-        const textCont = answer.current.textContent.split(" ")[1];
-        textTab.push(textCont);
-      }
-    });
+  useEffect(
+    function () {
+      const sentToParentComponent = function () {
+        if (!sentData || !refAnswer) return;
+        const textTab = [];
+        const indexTab = [];
+        refAnswer.forEach((answer, index) => {
+          const inpt = answer.current.children[1];
+          if (inpt.checked) {
+            const textCont = answer.current.textContent.split(" ")[1];
+            indexTab.push(index + 1);
+            textTab.push(textCont);
+          }
+        });
+        let obj = {
+          typ: element.typ,
+          odpowiedz: indexTab,
+          punkty: 0,
+        };
+        setFinalData((data) => [...data, obj]);
+      };
 
-    obj = {
-      typ: element.typ,
-      odpowiedz: textTab,
-      punkty: 0,
-    };
-    setIsDisabled((flag) => !flag);
-    setCloseObj(obj);
-  }
+      sentToParentComponent();
+    },
+    [sentData]
+  );
 
   return (
     <div className="mt-10 border-t-[1px] pt-3 border-gray border-opacity-20">
@@ -46,21 +45,13 @@ function CloseQuestion({ element }) {
               id={index}
               content={answer}
               refAnswer={refAnswer[index]}
-              isDisabled={isDisabled}
             />
           ))}
         </form>
         <div className="flex justify-between items-center mt-2 pb-3">
-          <button
-            className="w-[80px] mt-5"
-            onClick={handleSubmit}
-            disabled={isDisabled}
-          >
-            Wyślij
-          </button>
+          <button className="w-[80px] mt-5">Wyślij</button>
           <p>0/{element.punkty}</p>
         </div>
-        {isDisabled && <p className="text-green">Rozwiazano zadanie</p>}
       </div>
     </div>
   );

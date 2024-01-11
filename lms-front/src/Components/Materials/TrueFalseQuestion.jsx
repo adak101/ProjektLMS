@@ -3,22 +3,6 @@ import { useState, useEffect } from "react";
 function TrueFalseQuestion({ element, sentData, setFinalData }) {
   const [selectedOption, setSelectedOption] = useState(null);
 
-  // let obj = {
-  //   typ: "",
-  //   odpowiedz: "",
-  //   punkty: 0,
-  // };
-
-  // function handleSubmit(e) {
-  //   e.preventDefault();
-  //   obj = {
-  //     typ: element.typ,
-  //     odpowiedz: selectedOption,
-  //     punkty: 0,
-  //   };
-  //   setTrueFalseObj(obj);
-  //   setIsDisabled((flag) => !flag);
-  // }
   function handleInput(e) {
     setSelectedOption(e.target.value);
   }

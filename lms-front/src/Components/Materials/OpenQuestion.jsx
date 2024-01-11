@@ -9,7 +9,7 @@ function OpenQuestion({ element, sentData, setFinalData }) {
     function () {
       const sentToParentComponent = function () {
         if (!sentData) return;
-        console.log(textValue);
+
         let obj = {
           typ: "OTWARTE",
           odpowiedz: textValue,
