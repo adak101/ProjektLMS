@@ -8,6 +8,7 @@ import TrueFalseQuestion from "./TrueFalseQuestion";
 import FileQuestion from "./FileQuestion";
 import { useState, useEffect, useContext } from "react";
 import UserContext from "../Context/UserContext";
+import swapItem from "./Hooks/swapItem";
 
 function TaskContent({ contents, idTask }) {
   const [sentData, setSentData] = useState(false);
@@ -28,7 +29,12 @@ function TaskContent({ contents, idTask }) {
       };
 
       const sentDataToDatabase = async () => {
-        const dataToSent = JSON.stringify(finalData);
+        const sortedArray = [...finalData].sort((a, b) =>
+          a.typ.localeCompare(b.typ)
+        );
+        const sortedArrayCorrect = swapItem(sortedArray);
+
+        const dataToSent = JSON.stringify(sortedArrayCorrect);
 
         const bodyData = {
           idZadania: idTask,
@@ -41,6 +47,7 @@ function TaskContent({ contents, idTask }) {
           headers: headers,
           body: JSON.stringify(bodyData),
         });
+
         console.log(res);
       };
 
