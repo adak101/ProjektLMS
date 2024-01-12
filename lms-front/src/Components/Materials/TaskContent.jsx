@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 
 import Loader from "../Helpers/Loader";
-import { v4 as uuidv4 } from "uuid";
 import CloseQuestion from "./CloseQuestion";
 import OpenQuestion from "./OpenQuestion";
 import TrueFalseQuestion from "./TrueFalseQuestion";
@@ -9,12 +8,12 @@ import FileQuestion from "./FileQuestion";
 import { useState, useEffect, useContext } from "react";
 import UserContext from "../Context/UserContext";
 import swapItem from "./Hooks/swapItem";
-
+import { useNavigate } from "react-router-dom";
 function TaskContent({ contents, idTask }) {
   const [sentData, setSentData] = useState(false);
   const [finalData, setFinalData] = useState([]);
   const { userData } = useContext(UserContext);
-
+  const navigate = useNavigate();
   function handleSubmit(e) {
     e.preventDefault();
     setSentData(true);
@@ -47,8 +46,12 @@ function TaskContent({ contents, idTask }) {
           headers: headers,
           body: JSON.stringify(bodyData),
         });
-
         console.log(res);
+
+        // if (!res.ok) throw new Error("Blad w wyslanych danych");
+        // const data = await res.json();
+        // console.log(data);
+        navigate("/materials");
       };
 
       sentDataToDatabase();

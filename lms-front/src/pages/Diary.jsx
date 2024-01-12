@@ -8,51 +8,81 @@ import FirstPeriod from "../Components/Diary/FirstPeriod";
 import RatingPeriod from "../Components/Diary/RatingPeriod";
 import FinalGradeDesc from "../Components/Diary/FinalGradeDesc";
 import FinalGrade from "../Components/Diary/FinalGrade";
+import { useContext, useState } from "react";
+import UserContext from "../Components/Context/UserContext";
+import useApi from "../Components/Materials/Hooks/useApi";
+import Loader from "../Components/Helpers/Loader";
+import OptionContainer from "../Components/Diary/OptionContainer";
+
 function Diary() {
+  const { userData } = useContext(UserContext);
+  const link = `/api/uczen/oceny/${userData.id}`;
+  const { data, isLoading, error } = useApi(link);
+  const [period, setPeriod] = useState("okres1");
+  if (!data) {
+    return <Loader />;
+  }
+  const dataArrayOfPeriods = data._embedded.zaliczenieModelList;
+  const correctObj = dataArrayOfPeriods.find((obj) => obj.okres === period);
+  const diaryData = correctObj.przedmioty;
+
   return (
     <DiaryPage>
       <UserInfo />
       <InfoTab title="Diary" />
+      <OptionContainer data={dataArrayOfPeriods} setPeriod={setPeriod} />
       <DiaryContainer>
         <SubjectDiary>
-          <SingleSubject />
-          <SingleSubject bgColor="lightSlate" />
-          <SingleSubject />
-          <SingleSubject bgColor="lightSlate" />
-          <SingleSubject />
-          <SingleSubject bgColor="lightSlate" />
+          {diaryData.map((subject, index) => {
+            if (index % 2 !== 0) {
+              return (
+                <SingleSubject
+                  key={index}
+                  bgColor="lightSlate"
+                  text={subject.nazwa}
+                />
+              );
+            } else {
+              return <SingleSubject key={index} text={subject.nazwa} />;
+            }
+          })}
         </SubjectDiary>
-        <FirstPeriod>
-          <RatingPeriod />
-          <RatingPeriod bgColor="lightSlate" />
-          <RatingPeriod />
-          <RatingPeriod bgColor="lightSlate" />
-          <RatingPeriod />
-          <RatingPeriod bgColor="lightSlate" />
+        <FirstPeriod title={"Oceny cząstkowe 1 okres"}>
+          {diaryData.map((subject, index) => {
+            if (index % 2 !== 0) {
+              return (
+                <RatingPeriod
+                  key={index}
+                  bgColor="lightSlate"
+                  partialGrades={subject.ocenyCzastkowe}
+                />
+              );
+            } else {
+              return (
+                <RatingPeriod
+                  key={index}
+                  partialGrades={subject.ocenyCzastkowe}
+                />
+              );
+            }
+          })}
         </FirstPeriod>
         <FinalGradeDesc>
-          <FinalGrade />
-          <FinalGrade bgColor="lightSlate" />
-          <FinalGrade />
-          <FinalGrade bgColor="lightSlate" />
-          <FinalGrade />
-          <FinalGrade bgColor="lightSlate" />
-        </FinalGradeDesc>
-        <FirstPeriod>
-          <RatingPeriod />
-          <RatingPeriod bgColor="lightSlate" />
-          <RatingPeriod />
-          <RatingPeriod bgColor="lightSlate" />
-          <RatingPeriod />
-          <RatingPeriod bgColor="lightSlate" />
-        </FirstPeriod>
-        <FinalGradeDesc>
-          <FinalGrade />
-          <FinalGrade bgColor="lightSlate" />
-          <FinalGrade />
-          <FinalGrade bgColor="lightSlate" />
-          <FinalGrade />
-          <FinalGrade bgColor="lightSlate" />
+          {diaryData.map((subject, index) => {
+            if (index % 2 !== 0) {
+              return (
+                <FinalGrade
+                  key={index}
+                  bgColor="lightSlate"
+                  finalGrade={subject.ocenaKocnowa}
+                />
+              );
+            } else {
+              return (
+                <FinalGrade key={index} finalGrade={subject.ocenaKocnowa} />
+              );
+            }
+          })}
         </FinalGradeDesc>
       </DiaryContainer>
     </DiaryPage>

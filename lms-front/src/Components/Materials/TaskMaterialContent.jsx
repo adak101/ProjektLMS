@@ -8,6 +8,7 @@ function TaskMaterialContent({ task }) {
   useEffect(
     function () {
       if (!task) return;
+
       let linkURL = `api/${task.split("/api/")[1]}`;
       const token = JSON.parse(localStorage.getItem("token"));
       const headers = {
@@ -22,6 +23,7 @@ function TaskMaterialContent({ task }) {
         try {
           const res = await fetch(`/${linkURL}`, fetchData);
           const data = await res.json();
+
           setContents(JSON.parse(data.tresc));
           setIdTask(data.id);
         } catch (err) {
