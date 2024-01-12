@@ -69,6 +69,47 @@ public class PrzedmiotRepository extends AbstractCrudRepository<Przedmiot, Integ
     }
 
     @Override
+    public Przedmiot getById(Integer id) {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(super.getJdbc())
+                .withSchemaName(getSCHEMA())
+                .withProcedureName(super.getReadProcName());
+        Map<String, Object> inParams = new HashMap<>();
+        inParams.put(super.getPkColumnName(), id);
+        inParams.put(getP_PAGE_SIZE(), null);
+        inParams.put(getP_PAGE(), null);
+        inParams.put(getP_UNIQUE(), null);
+        inParams.put(P_ID_UCZNIA, null);
+        Map<String, Object> result = jdbcCall.execute(inParams);
+
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> resultSet = (List<Map<String, Object>>) result.get("#result-set-1");
+
+        if(resultSet.isEmpty()) throw new NoSuchElementException("Brak danych dla klucza głównego id=" + id + "!");
+        else return resultMapper(resultSet).iterator().next();
+    }
+
+    @Override
+    public Przedmiot getByUnique(String unique){
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(super.getJdbc())
+                .withSchemaName(getSCHEMA())
+                .withProcedureName(super.getReadProcName());
+        Map<String, Object> inParams = new HashMap<>();
+        inParams.put(super.getPkColumnName(), null);
+        inParams.put(getP_PAGE_SIZE(), null);
+        inParams.put(getP_PAGE(), null);
+        inParams.put(getP_UNIQUE(), unique);
+        inParams.put(P_ID_UCZNIA, null);
+
+        Map<String, Object> result = jdbcCall.execute(inParams);
+
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> resultSet = (List<Map<String, Object>>) result.get("#result-set-1");
+
+        if(resultSet.isEmpty()) throw new NoSuchElementException("Brak danych dla klucza unikalnego '" + unique+ "'!");
+        else return resultMapper(resultSet).iterator().next();
+    }
+
+    @Override
     public Integer save(Przedmiot data) {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(super.getJdbc())
                 .withSchemaName(getSCHEMA())

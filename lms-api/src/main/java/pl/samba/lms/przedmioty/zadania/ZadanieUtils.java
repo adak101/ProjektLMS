@@ -1,6 +1,7 @@
 package pl.samba.lms.przedmioty.zadania;
 
 import com.google.gson.Gson;
+import org.apache.tomcat.util.codec.binary.Base64;
 import pl.samba.lms.przedmioty.zadania.odpowiedzi.rodzaje.*;
 import pl.samba.lms.przedmioty.zadania.zadania.rodzaje.*;
 import pl.samba.lms.utils.constants.RodzajeZadan;
@@ -102,8 +103,9 @@ public class ZadanieUtils {
                     );
                 }
                 case PLIK -> {
+                    String temp = (String) jsonObject.get(ODPOWIEDZ);
                     odpowiedz = new OdpowiedzPlik(
-                            ((String) jsonObject.get(PLIK)).getBytes(StandardCharsets.UTF_8),
+                            Base64.decodeBase64((String) jsonObject.get(ODPOWIEDZ)),
                             ((Double) jsonObject.get(PUNKTY)).intValue()
                     );
                 }

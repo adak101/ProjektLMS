@@ -15,8 +15,9 @@ public class PathType {
     public static final String REGISTER = "/register";
 
     public static final String UZYTKOWNIK = ROOT + "/uzytkownik";
-
     public static final String ZDJECIE = ROOT + "/zdjecie";
+
+    public static final String WYKAZ_OCEN = ROOT + "/uczen/oceny";
 
     /** PRZEDMIOT */
     public static final String PRZEDMIOT = ROOT + "/przedmiot";

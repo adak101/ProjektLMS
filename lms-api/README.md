@@ -90,6 +90,8 @@ Dokumentacja do aplikacji rest api projektu LSM.
     - [Edycja odpowiedzi na forum](#5-edycja-odpowiedzi-na-forum)
 14. [Raporty](#raporty)
     - [Generowanie raportu](#1-generowanie-raportu)
+15. [Zaliczenie (wykaz ocen ucznia)](#zaliczenie-wykaz-ocen-ucznia)
+    - [Pobranie wykazu ocen ucznia](#1-pobranie-wykazu-ocen-ucznia)
 ---
 
 ## Plik konfiguracyjny
@@ -1373,7 +1375,7 @@ Authorization: Bearer <token>
   
   #### 4. Usuwanie odpowiedzi z forum
 
-- **Ścieżka:** `/api/forum/odpowiedzi/{id}
+- **Ścieżka:** `/api/forum/odpowiedzi/{id}`
 - **Metoda:** `DELETE`
 - **Parametry:**
    - `id` (ścieżka): identyfikator odpowiedzi
@@ -1432,4 +1434,22 @@ GET /api/raport/generuj?idPrzedmiotu=1
 Authorization: Bearer <token>
 ```
 
+## Zaliczenie (wykaz ocen ucznia)
 
+Klasa `ZaliczenieCOntroller` służy do pobierania aktualnych ocen (cząstkowych i końcowych) z poszczególnych przedmiotów dla konkretnego ucznia.
+
+#### 1. Pobranie wykazu ocen ucznia
+
+- **Ścieżka:** `/api/uczen/oceny/{id}`
+- **Metoda:** `GET`
+- **Parametry:**
+    - `id` (ścieżka): identyfikator ucznia, dla którego chcemy pobrać wykaz ocen
+- **Odpowiedź:**
+    - `200 OK` - sukces, zwraca listę ocen końcowych i cząstkowych
+    - `400 Bad Request` - błędny format zapytania
+    - `500 Internal Server Error` - inny błąd
+
+```http
+GET /api/uczen/oceny/{idUcznia}
+Authorization: Bearer <token>
+```
