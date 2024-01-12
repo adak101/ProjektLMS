@@ -11,7 +11,7 @@ import java.util.*;
 
 @Repository
 public class UczenPrzedmiotRepository extends AbstractCrudRepository<UczenPrzedmiot, Integer> {
-    private static final String C_ID_OCENY = "id_oceny";
+    private static final String C_ID_OCENY = "id_encji";
     private static final String C_ID_PRZEM = "id_przedm";
     private static final String C_ID_UCZNIA = "id_ucznia";
     private static final String C_OCENA = "ocena";
@@ -19,6 +19,7 @@ public class UczenPrzedmiotRepository extends AbstractCrudRepository<UczenPrzedm
 
     private static final String P_ID_UCZNIA = "p_id_ucznia";
     private static final String P_ID_PRZEDM = "p_id_przedm";
+    private static final String P_OCENA = "p_ocena";
 
     public UczenPrzedmiotRepository() {
         super("uczen_przedmiot","pk_id_encji");
@@ -132,6 +133,7 @@ public class UczenPrzedmiotRepository extends AbstractCrudRepository<UczenPrzedm
         inParams.put(super.getPkColumnName(), data.getIdEncji());
         inParams.put(P_ID_UCZNIA, data.getIdUcznia());
         inParams.put(P_ID_PRZEDM, data.getIdPrzedmiotu());
+        inParams.put(P_OCENA, data.getOcena());
 
         Map<String, Object> result = jdbcCall.execute(inParams);
 
