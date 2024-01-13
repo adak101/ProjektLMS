@@ -8,6 +8,7 @@ import pl.samba.lms.przedmioty.zadania.zadania.Zadanie;
 import pl.samba.lms.utils.constants.TypyZadan;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -21,6 +22,7 @@ public class ZadanieModel extends RepresentationModel<ZadanieModel> {
     private final LocalDateTime dataPoczatku;
     private final LocalDateTime dataKonca;
     private final String tresc;
+    private List<Integer> idUczniowKtorzyOdpowiedzieli;
 
     public ZadanieModel(Zadanie z){
         this.id = z.getIdZadania();
@@ -30,6 +32,7 @@ public class ZadanieModel extends RepresentationModel<ZadanieModel> {
         this.dataPoczatku = z.getDataPoczatku();
         this.dataKonca = z.getDataKonca();
         this.tresc = z.getTresc().toString();
+        this.idUczniowKtorzyOdpowiedzieli = z.getIdUczniowKtorzyOdpowiedzieli();
         this.przedmiot = WebMvcLinkBuilder
                 .linkTo(methodOn(PrzedmiotyController.class).get(z.getIdPrzedmiotu()))
                 .toUri()

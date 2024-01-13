@@ -1,5 +1,6 @@
 package pl.samba.lms.przedmioty.zadania.zadania.database;
 
+import org.springframework.jdbc.core.SingleColumnRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 import pl.samba.lms.przedmioty.przedmioty.database.PrzedmiotRepository;
@@ -8,7 +9,6 @@ import pl.samba.lms.przedmioty.zadania.zadania.rodzaje.ZadanieInterface;
 import pl.samba.lms.przedmioty.zadania.zadania.Zadanie;
 import pl.samba.lms.utils.constants.TypyZadan;
 import pl.samba.lms.utils.database.AbstractCrudRepository;
-import pl.samba.lms.uzytkownicy.uzytkownicy.Uzytkownik;
 import pl.samba.lms.uzytkownicy.uzytkownicy.database.UzytkownikRepository;
 
 import java.nio.charset.StandardCharsets;
@@ -53,7 +53,6 @@ public class ZadanieRepository extends AbstractCrudRepository<Zadanie, Integer> 
         String kod = requestParamsTable[2];
 
 
-
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(super.getJdbc())
                 .withSchemaName(getSCHEMA())
                 .withProcedureName(super.getReadProcName());
@@ -69,7 +68,8 @@ public class ZadanieRepository extends AbstractCrudRepository<Zadanie, Integer> 
 
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> resultSet = (List<Map<String, Object>>) result.get("#result-set-1");
-        if(resultSet.isEmpty()) throw new NoSuchElementException("Brak danych w tabeli '" + super.getTableName() + "' dla size = " + size + ", page = " + page + ", kod = '"+kod+"'!");
+        if (resultSet.isEmpty())
+            throw new NoSuchElementException("Brak danych w tabeli '" + super.getTableName() + "' dla size = " + size + ", page = " + page + ", kod = '" + kod + "'!");
         else return resultMapper(resultSet);
     }
 
@@ -103,12 +103,13 @@ public class ZadanieRepository extends AbstractCrudRepository<Zadanie, Integer> 
 
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> resultSet = (List<Map<String, Object>>) result.get("#result-set-1");
-        if(resultSet.isEmpty()) throw new NoSuchElementException("Brak danych w tabeli '" + super.getTableName() +
-                "' dla login='"+login+"'," +
-                " typ='" + TypyZadan.getById(idTypu)+ "," +
-                " kod='"+kod+"'!");
+        if (resultSet.isEmpty()) throw new NoSuchElementException("Brak danych w tabeli '" + super.getTableName() +
+                "' dla login='" + login + "'," +
+                " typ='" + TypyZadan.getById(idTypu) + "," +
+                " kod='" + kod + "'!");
         else return resultMapper(resultSet);
     }
+
     @Override
     public Zadanie getById(Integer id) {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(super.getJdbc())
@@ -127,7 +128,7 @@ public class ZadanieRepository extends AbstractCrudRepository<Zadanie, Integer> 
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> resultSet = (List<Map<String, Object>>) result.get("#result-set-1");
 
-        if(resultSet.isEmpty()) throw new NoSuchElementException("Brak danych dla klucza głównego id = " + id + "!");
+        if (resultSet.isEmpty()) throw new NoSuchElementException("Brak danych dla klucza głównego id = " + id + "!");
         else return resultMapper(resultSet).iterator().next();
     }
 
@@ -178,31 +179,46 @@ public class ZadanieRepository extends AbstractCrudRepository<Zadanie, Integer> 
         return (Integer) result.get(super.getPkColumnName());
     }
 
+    private List<Integer> getIdUczniowKtorzyOdpowiedzieli(Integer idZadania) {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(getJdbc())
+                .withSchemaName(getSCHEMA())
+                .withProcedureName("get_uczniowie_odpowiedzi_na_zadanie")
+                .returningResultSet("idUczniow", new SingleColumnRowMapper<>(Integer.class));
+
+        Map<String, Object> inParams = new HashMap<>();
+        inParams.put("zadanieid", idZadania);
+
+        Map<String, Object> result = jdbcCall.execute(inParams);
+        return (List<Integer>) result.get("idUczniow");
+    }
+
     @Override
     public Iterable<Zadanie> resultMapper(Iterable<Map<String, Object>> resultSet) {
         List<Zadanie> zadania = new ArrayList<>();
 
-        for (Map<String, Object> row:
-             resultSet) {
-            byte[] trescBytes =
-            Base64.getDecoder().decode((byte[]) row.get(C_TRESC));
+        for (Map<String, Object> row : resultSet) {
+            byte[] trescBytes = Base64.getDecoder().decode((byte[]) row.get(C_TRESC));
             List<ZadanieInterface> zadaniaList = ZadanieUtils.zadaniaFactory(
-                    new String(
-                            trescBytes,
-                            StandardCharsets.UTF_8)
+                    new String(trescBytes, StandardCharsets.UTF_8)
             );
 
+            // Pobranie listy ID uczniów, którzy odpowiedzieli na zadanie
+            List<Integer> idUczniowKtorzyOdpowiedzieli = getIdUczniowKtorzyOdpowiedzieli((Integer) row.get(C_ID_ZADANIA));
+
+            // Tworzenie i dodawanie obiektu Zadanie do listy
             zadania.add(new Zadanie(
-                    (Integer) row.get(C_ID_ZADANIA),
-                    (Integer) row.get(C_ID_PRZEDM),
-                    (String) row.get(C_OPIS),
-                    TypyZadan.getById((Integer) row.get(C_ID_TYPU)),
-                    (LocalDateTime) row.get(C_DATA_WSTAW),
-                    (LocalDateTime) row.get(C_DATA_POCZ),
-                    (LocalDateTime) row.get(C_DATA_KONC),
+                                (Integer) row.get(C_ID_ZADANIA),
+                                (Integer) row.get(C_ID_PRZEDM),
+                                (String) row.get(C_OPIS),
+                                TypyZadan.getById((Integer) row.get(C_ID_TYPU)),
+                                (LocalDateTime) row.get(C_DATA_WSTAW),
+                                (LocalDateTime) row.get(C_DATA_POCZ),
+                                (LocalDateTime) row.get(C_DATA_KONC),
+                    idUczniowKtorzyOdpowiedzieli,
                     zadaniaList
-            ));
+                        ));
         }
+
         return zadania;
     }
 }
