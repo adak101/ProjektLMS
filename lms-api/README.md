@@ -1119,17 +1119,17 @@ Klasa `PowiadomieniaController` obsługuje end-pointy związane z zarządzaniem 
 Powiadomienia są dodawane automatycznie po stronie bazy danych za pomocą odpowiednich *triggerów*:
 
 - `tai_materialy` - Trigger dodaje powiadomienie wszystkim uczestnikom przedmiotu, gdy zostanie dodany material do przedmiotu. 
-  - Treść: ` '<p>Dostępny nowy materiał z przedmiotu \'<nazwa_przedmiotu\'!</p>'`
+  - Treść: ` 'Dostępny nowy materiał z przedmiotu \'<nazwa_przedmiotu\'!'`
 - `tbu_materialy` - Trigger dodaje powiadomienie wszystkim uczestnikom przedmiotu, gdy zostanie uwidoczniony materiał.
-  - Treść: ` '<p>Dostępny nowy materiał z przedmiotu \'<nazwa_przedmiotu\'!</p>'`
+  - Treść: ` 'Dostępny nowy materiał z przedmiotu \'<nazwa_przedmiotu\'!'`
 - `tai_odpowiedzi_zadania` - Trigger dodaje nowe powiadomienie nauczycielowi, gdy uczeń doda odpowiedz do zadania.
-  - Treść: `'<p>Użytkownik <imie i nazwisko> dodał nową odpowiedź do zadania z przedmiotu \'<nazwa_przedmiotu\'.</p>'`
+  - Treść: `'Użytkownik <imie i nazwisko> dodał nową odpowiedź do zadania z przedmiotu \'<nazwa_przedmiotu\'.'`
 - `tbu_odpowiedzi_zadania` - Trigger dodaje nowe powiadomienie gdy wystawiono ocenę uczniowi za zadanie.
-  - Treść: `'<p>Dostałeś nową ocenę za zadanie z przedmiotu \'<nazwa_przedmiotu\'!</p>'`
+  - Treść: `'Dostałeś nową ocenę za zadanie z przedmiotu \'<nazwa_przedmiotu\'!'`
 - `tai_zadania` - Trigger dodaje powiadomienie wszystkim uczestnikom przedmiotu, gdy zostanie dodane nowe zadanie, które jest aktywne danego dnia.
-  - Treść: `'<p>Dostępne nowe zadanie dla przedmiotu \'<nazwa_przedmiotu\'!</p><p>Zadanie będzie dostępne do dnia: <data_konca>.<p>'`
+  - Treść: `'Dostępne nowe zadanie dla przedmiotu \'<nazwa_przedmiotu\'! Zadanie będzie dostępne do dnia: <data_konca>.'`
 - `tbu_uczen_przedmiot` - Trigger dodaje nowe powiadomienie, gdy wystawiono ocenę uczniowi z przedmiotu.
-  - Treść: `'<p>Dostałeś nową ocenę z przedmiotu \'<nazwa_przedmiotu\'!</p>'`
+  - Treść: `'Dostałeś nową ocenę z przedmiotu \'<nazwa_przedmiotu\'!'`
 
 Dla zadań utworzony jest także *event* (`e_zadania_aktywne`), który wysyła powiadomienia użytkownikom, zarejestrowanym do danego przedmiotu, jeżeli danego dnia zadanie się otwiera.
 
@@ -1188,21 +1188,18 @@ Authorization: Bearer <token>
 - **Metoda**: `PATCH`
 - **Parametry**:
   - `id` (ścieżka): Identyfikator powiadomienia.
+  - `flaga` (parametr zapytania, obowiązkowy): nazwa flagi według: [Flagi](#flagi) (obsługiwane jest uppercase i lowercase),
   - Ciało żądania zawiera dane do aktualizacji w formacie JSON
 - **Odpowiedź**:
   - `200 OK` - sukces, flaga powiadomienia została zaktualizowana, zwraca link do zaktualizowanego powiadomienia
   - `404 Not Found` - powiadomienie o podanym identyfikatorze nie istnieje
 
 ```http
-PATCH /api/powiadomienie/1
+PATCH /api/powiadomienie/1?flaga=nowa
 Content-Type: application/json
 Authorization: Bearer <token>
 ```
-```json
-{
-    "flaga":"PRZECZYTANA"
-}
-```
+
 
 ## Forum-wpisy
 

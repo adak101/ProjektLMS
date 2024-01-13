@@ -1,6 +1,7 @@
 package pl.samba.lms.powiadomienia.api;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -113,25 +114,23 @@ public class PowiadomieniaController implements ControllerInterface<Powiadomieni
 
     @PatchMapping(path=PathType.ID, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> patch(
-            @PathVariable("id")Integer id,
-            @RequestBody PatchBody data) throws Exception {
+            @PathVariable("id") Integer id,
+            @RequestParam String flaga) throws Exception {
+        String upperFlaga = flaga.toUpperCase(Locale.ROOT);
+
+        Flagi nowaFlaga = Flagi.valueOf(upperFlaga);
+
         Powiadomienie current = dataSet.getById(id);
 
-        if(data.getFlaga() != null){
-            current.setFlaga(data.getFlaga());
-        }
+        current.setFlaga(nowaFlaga);
 
         id = dataSet.update(current);
         return new ResponseEntity<>(
                 EntityModel.of(WebMvcLinkBuilder
                         .linkTo(methodOn(PowiadomieniaController.class).get(id))
-                        .withRel("zaktualizowany").withTitle("okres")),
+                        .withRel("zaktualizowane").withTitle("powiadomienie")),
                 HttpStatus.OK);
     }
 
-    @AllArgsConstructor
-    @Getter
-    private class PatchBody{
-        private final Flagi flaga;
-    }
+
 }
