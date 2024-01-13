@@ -1,7 +1,7 @@
 DELIMITER //
 DROP PROCEDURE IF EXISTS powiadomienia_upd;
 CREATE PROCEDURE powiadomienia_upd(
-    IN pk_id_powiadom INT,
+    INOUT pk_id_powiadom INT,
     IN p_id_flagi INT
 )
 BEGIN
