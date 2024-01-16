@@ -55,8 +55,7 @@ function FileQuestion({ element, sentData, setFinalData }) {
             Wybierz plik:
             <input type="file" ref={fileRef} />
           </label>
-          <div className="flex justify-between">
-            <button className="w-[80px] mt-5">Wyślij</button>
+          <div className="flex justify-end">
             <p>0/{element.punkty}</p>
           </div>
         </form>

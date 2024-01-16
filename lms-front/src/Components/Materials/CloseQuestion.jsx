@@ -48,8 +48,7 @@ function CloseQuestion({ element, sentData, setFinalData }) {
             />
           ))}
         </form>
-        <div className="flex justify-between items-center mt-2 pb-3">
-          <button className="w-[80px] mt-5">Wyślij</button>
+        <div className="flex justify-end items-center mt-2 pb-3">
           <p>0/{element.punkty}</p>
         </div>
       </div>

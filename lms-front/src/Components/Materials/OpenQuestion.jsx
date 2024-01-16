@@ -35,8 +35,7 @@ function OpenQuestion({ element, sentData, setFinalData }) {
               value={textValue}
               onChange={(e) => setTextValue(e.target.value)}
             ></textarea>
-            <div className="flex justify-between">
-              <button className="w-[80px]">Wyślij</button>
+            <div className="flex justify-end">
               <p>0/{element.punkty}</p>
             </div>
           </form>

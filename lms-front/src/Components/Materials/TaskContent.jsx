@@ -46,7 +46,6 @@ function TaskContent({ contents, idTask }) {
           headers: headers,
           body: JSON.stringify(bodyData),
         });
-        console.log(res);
 
         // if (!res.ok) throw new Error("Blad w wyslanych danych");
         // const data = await res.json();

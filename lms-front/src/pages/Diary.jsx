@@ -19,6 +19,7 @@ function Diary() {
   const link = `/api/uczen/oceny/${userData.id}`;
   const { data, isLoading, error } = useApi(link);
   const [period, setPeriod] = useState("okres1");
+
   if (!data) {
     return <Loader />;
   }
