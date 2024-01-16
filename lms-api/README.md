@@ -1495,7 +1495,7 @@ Authorization: Bearer <token>
 
 #### 3. Pobieranie konwersacji
 
-- **Ścieżka:** `/api/wiadomosci/prywatne/between-users?idNadawcy=<id_nadawcy>?idOdbiorcy=<id_odbiorcy>
+- **Ścieżka:** `/api/wiadomosci/prywatne/between-users?idNadawcy=<id_nadawcy>?idOdbiorcy=<id_odbiorcy>'
 - **Metoda:** `GET`
 - **Parametry:**
     - `id_nadawcy`: id jednego z użytykowników
