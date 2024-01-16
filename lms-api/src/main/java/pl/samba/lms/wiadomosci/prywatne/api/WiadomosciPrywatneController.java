@@ -85,7 +85,6 @@ public class WiadomosciPrywatneController implements ControllerInterface<Wiadomo
         }
 
         CollectionModel<WiadomosciPrywatneModel> kolekcjaModeli = CollectionModel.of(listaModeli);
-        // Dodanie odpowiednich linków HATEOAS, jeśli jest to potrzebne
 
         return new ResponseEntity<>(kolekcjaModeli, HttpStatus.OK);
     }
