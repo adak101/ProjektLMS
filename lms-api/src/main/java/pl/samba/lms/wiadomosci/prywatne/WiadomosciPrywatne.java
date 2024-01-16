@@ -4,25 +4,32 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
 @Setter
 public class WiadomosciPrywatne {
-    private final Integer idWiadomosci;
-    private final Integer idNadawcy;
-    private final Integer idOdbiorcy;
+    private  Integer idWiadomosci;
+    private Integer idNadawcy;
+    private Integer idOdbiorcy;
     private String tresc;
-    private Date dataWyslania;
+    private LocalDateTime dataWyslania;
     private Integer idFlagi;
+
+
+    public WiadomosciPrywatne() {
+        // Konstruktor domyślny
+    }
 
     @JsonCreator
     public WiadomosciPrywatne(
-            Integer idWiadomosci,
-            Integer idNadawcy,
-            Integer idOdbiorcy,
+            @JsonProperty("idWiadomosci") Integer idWiadomosci,
+            @JsonProperty("idNadawcy") Integer idNadawcy,
+            @JsonProperty("idOdbiorcy") Integer idOdbiorcy,
             @JsonProperty("tresc") String tresc,
-            @JsonProperty("dataWyslania") Date dataWyslania,
+            @JsonProperty("dataWyslania") LocalDateTime dataWyslania,
             @JsonProperty("idFlagi") Integer idFlagi
     ){
         this.idWiadomosci = idWiadomosci;
