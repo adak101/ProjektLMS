@@ -92,6 +92,13 @@ Dokumentacja do aplikacji rest api projektu LSM.
     - [Generowanie raportu](#1-generowanie-raportu)
 15. [Zaliczenie (wykaz ocen ucznia)](#zaliczenie-wykaz-ocen-ucznia)
     - [Pobranie wykazu ocen ucznia](#1-pobranie-wykazu-ocen-ucznia)
+16. [Wiadomości Prywatne](#wiadomości-prywatne)
+    - [Pobieranie listy wszystkich wiadomości](#1-pobieranie-listy-wszystkich-wiadomości)
+    - [Pobieranie pojedynczej wiadomości](#2-pobieranie-pojedynczej-wiadomości)
+    - [Pobieranie konwersacji](#3-pobieranie-konwersacji)
+    - [Dodawanie wiadomości](#4-dodawanie-wiadomości)
+    - [Edytowanie wiadomości](#5-edytowanie-wiadomości)
+    - [Usuwanie wiadomości](#6-usuwanie-wiadomości)
 ---
 
 ## Plik konfiguracyjny
@@ -1450,3 +1457,120 @@ Klasa `ZaliczenieCOntroller` służy do pobierania aktualnych ocen (cząstkowych
 GET /api/uczen/oceny/{idUcznia}
 Authorization: Bearer <token>
 ```
+
+## Wiadomości Prywatne
+
+Klasa `WiadomosciPrywatneController` odpowiada za obsługę endpointów związanych z wiadomościami prywatnymi w ramach dokumentacji przedstawiono wszystkie dostępne end-pointy.
+
+#### 1. Pobieranie listy wszystkich wiadomości
+
+- **Ścieżka:** `/api/wiadomosci/prywatne/all`
+- **Metoda:** `GET`
+
+- **Odpowiedź:**
+    - `200 OK` - sukces, zwraca listę wszystkich wiadomości prywatnych
+    - `400 Bad Request` - błędny format zapytania
+    - `500 Internal Server Error` - inny błąd
+
+```http
+GET /api/wiadomosci/prywatne/all
+Authorization: Bearer <token>
+```
+
+#### 2. Pobieranie pojedynczej wiadomości
+
+- **Ścieżka:** `/api/wiadomosci/prywatne/{id}`
+- **Metoda:** `GET`
+- **Parametry:**
+    - `id` (ścieżka): identyfikator wiadomości
+- **Odpowiedź:**
+    - `200 OK` - sukces, zwraca dane wiadomości w formacie JSON
+    - `404 Not Found` - wiadomość o podanym identyfikatorze nie istnieje
+    - `500 Internal Server Error` - inny błąd
+
+```http
+GET /api/wiadomosci/prywatne/1
+Authorization: Bearer <token>
+```
+
+#### 3. Pobieranie konwersacji
+
+- **Ścieżka:** `/api/wiadomosci/prywatne/between-users?idNadawcy=<id_nadawcy>?idOdbiorcy=<id_odbiorcy>
+- **Metoda:** `GET`
+- **Parametry:**
+    - `id_nadawcy`: id jednego z użytykowników
+    - `id_odbiorcy`: id drugiego z użytykowników
+- **Odpowiedź:**
+    - `200 OK` - sukces, zwraca liste wiadomości w formacie JSON pomiędzy dwoma użytkownikami posortowaną według daty wysłania
+    - `404 Not Found` - wiadomość o podanym identyfikatorze nie istnieje
+    - `500 Internal Server Error` - inny błąd
+    - 
+```http
+GET /api/wiadomosci/prywatne/between-users?idNadawcy=5&idOdbiorcy=4
+Authorization: Bearer <token>
+```
+
+#### 4. Dodawanie wiadomości
+
+- **Ścieżka:** `/api/wiadomosci/prywatne`
+- **Metoda:** `POST`
+- **Parametry:**
+    - Ciało żądania zawiera dane nowej wiadomości w formacie JSON
+- **Odpowiedź:**
+  -  `201 Created` - sukces, wiadomość została dodana, zwraca link do nowo utworzonej wiadomości
+  -  `400 Bad Request` - błąd w danych wejściowych
+  
+```http
+POST /api/wiadomosci/prywatne
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+```json
+{
+    "idNadawcy": 4,
+    "idOdbiorcy": 5,
+    "tresc": "<tresc wiadomości>"
+}
+```
+
+  #### 5. Edytowanie wiadomości
+
+- **Ścieżka:** `/api/wiadomosci/prywatne/{id}`
+- **Metoda:** `PATCH`
+- **Parametry:**
+  - `id` (ścieżka): identyfikator wiadomosci
+  - Ciało żądania zawiera dane do aktualizacji w formacie JSON
+-**Odpowiedź:**
+  - `200 OK` - sukces, odpowiedź została zaktualizowana, zwraca link do zaktualizowanej odpowiedzi
+  - `400 Bad Request` - błąd w danych wejściowych
+  - `404 Not Found` - wiadomość o podanym identyfikatorze nie istnieje
+
+```http
+PATCH /api/wiadomosci/prywatne/1
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+```json
+{
+    "tresc": "<treść_wiadomości>",
+    "idFlagi": 2
+}
+```
+
+  #### 6. Usuwanie wiadomości
+
+- **Ścieżka:** `/api/wiadomosci/prywatne/{id}`
+- **Metoda:** `DELETE`
+- **Parametry:**
+   - `id` (ścieżka): identyfikator wiadomości
+- **Odpowiedź:**
+  - `204 No Content`- sukces, wiadomość została usunięta
+  - `404 Not Found` - wiadomość o podanym identyfikatorze nie istnieje
+
+```http
+DELETE /api/wiadmomosci/prywatne/1
+Authorization: Bearer <token>
+```
+
