@@ -70,10 +70,10 @@ public class WiadomosciPrywatneController implements ControllerInterface<Wiadomo
 
     @GetMapping("/between-users")
     public ResponseEntity<CollectionModel<WiadomosciPrywatneModel>> getMessagesBetweenUsers(
-            @RequestParam Integer idNadawcy,
-            @RequestParam Integer idOdbiorcy
+            @RequestParam Integer idUser1,
+            @RequestParam Integer idUser2
     ) {
-        Iterable<WiadomosciPrywatne> messages = dataSet.getMessagesBetweenUsers(idNadawcy, idOdbiorcy);
+        Iterable<WiadomosciPrywatne> messages = dataSet.getMessagesBetweenUsers(idUser1, idUser2);
 
         if (!messages.iterator().hasNext()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

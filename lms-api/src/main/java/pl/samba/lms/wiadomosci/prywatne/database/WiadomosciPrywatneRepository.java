@@ -85,18 +85,18 @@ public class WiadomosciPrywatneRepository extends AbstractCrudRepository<Wiadomo
         return wiadomosciPrywatne;
     }
 
-    public Iterable<WiadomosciPrywatne> getMessagesBetweenUsers(Integer idNadawcy, Integer idOdbiorcy) {
+    public Iterable<WiadomosciPrywatne> getMessagesBetweenUsers(Integer idUser1, Integer idUser2) {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(getJdbc())
                 .withCatalogName("lms")
                 .withProcedureName("get_wiadomosci_prywatne_between_users")
                 .declareParameters(
-                        new SqlParameter("_idnadawcy", Types.INTEGER),
-                        new SqlParameter("_idodbiorcy", Types.INTEGER))
+                        new SqlParameter("_iduser1", Types.INTEGER),
+                        new SqlParameter("_iduser2", Types.INTEGER))
                 .returningResultSet("result", new BeanPropertyRowMapper<>(WiadomosciPrywatne.class));
 
         Map<String, Object> inParams = new HashMap<>();
-        inParams.put("_idnadawcy", idNadawcy);
-        inParams.put("_idodbiorcy", idOdbiorcy);
+        inParams.put("_iduser1", idUser1);
+        inParams.put("_iduser2", idUser2);
 
         Map<String, Object> result = jdbcCall.execute(inParams);
         return (List<WiadomosciPrywatne>) result.get("result");

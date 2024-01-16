@@ -1495,11 +1495,11 @@ Authorization: Bearer <token>
 
 #### 3. Pobieranie konwersacji
 
-- **Ścieżka:** `/api/wiadomosci/prywatne/between-users?idNadawcy=<id_nadawcy>?idOdbiorcy=<id_odbiorcy>'
+- **Ścieżka:** `/api/wiadomosci/prywatne/between-users?idUser1=<id_uzytkownik1>?idUser2=<id_uzytkownik2>'
 - **Metoda:** `GET`
 - **Parametry:**
-    - `id_nadawcy`: id jednego z użytykowników
-    - `id_odbiorcy`: id drugiego z użytykowników
+    - `id_uzytkownik1`: id jednego z użytykowników
+    - `id_uzytkownik2`: id drugiego z użytykowników
 - **Odpowiedź:**
     - `200 OK` - sukces, zwraca liste wiadomości w formacie JSON pomiędzy dwoma użytkownikami posortowaną według daty wysłania
     - `404 Not Found` - wiadomość o podanym identyfikatorze nie istnieje
