@@ -90,6 +90,15 @@ Dokumentacja do aplikacji rest api projektu LSM.
     - [Edycja odpowiedzi na forum](#5-edycja-odpowiedzi-na-forum)
 14. [Raporty](#raporty)
     - [Generowanie raportu](#1-generowanie-raportu)
+15. [Zaliczenie (wykaz ocen ucznia)](#zaliczenie-wykaz-ocen-ucznia)
+    - [Pobranie wykazu ocen ucznia](#1-pobranie-wykazu-ocen-ucznia)
+16. [Wiadomości Prywatne](#wiadomości-prywatne)
+    - [Pobieranie listy wszystkich wiadomości](#1-pobieranie-listy-wszystkich-wiadomości)
+    - [Pobieranie pojedynczej wiadomości](#2-pobieranie-pojedynczej-wiadomości)
+    - [Pobieranie konwersacji](#3-pobieranie-konwersacji)
+    - [Dodawanie wiadomości](#4-dodawanie-wiadomości)
+    - [Edytowanie wiadomości](#5-edytowanie-wiadomości)
+    - [Usuwanie wiadomości](#6-usuwanie-wiadomości)
 ---
 
 ## Plik konfiguracyjny
@@ -1117,17 +1126,17 @@ Klasa `PowiadomieniaController` obsługuje end-pointy związane z zarządzaniem 
 Powiadomienia są dodawane automatycznie po stronie bazy danych za pomocą odpowiednich *triggerów*:
 
 - `tai_materialy` - Trigger dodaje powiadomienie wszystkim uczestnikom przedmiotu, gdy zostanie dodany material do przedmiotu. 
-  - Treść: ` '<p>Dostępny nowy materiał z przedmiotu \'<nazwa_przedmiotu\'!</p>'`
+  - Treść: ` 'Dostępny nowy materiał z przedmiotu \'<nazwa_przedmiotu\'!'`
 - `tbu_materialy` - Trigger dodaje powiadomienie wszystkim uczestnikom przedmiotu, gdy zostanie uwidoczniony materiał.
-  - Treść: ` '<p>Dostępny nowy materiał z przedmiotu \'<nazwa_przedmiotu\'!</p>'`
+  - Treść: ` 'Dostępny nowy materiał z przedmiotu \'<nazwa_przedmiotu\'!'`
 - `tai_odpowiedzi_zadania` - Trigger dodaje nowe powiadomienie nauczycielowi, gdy uczeń doda odpowiedz do zadania.
-  - Treść: `'<p>Użytkownik <imie i nazwisko> dodał nową odpowiedź do zadania z przedmiotu \'<nazwa_przedmiotu\'.</p>'`
+  - Treść: `'Użytkownik <imie i nazwisko> dodał nową odpowiedź do zadania z przedmiotu \'<nazwa_przedmiotu\'.'`
 - `tbu_odpowiedzi_zadania` - Trigger dodaje nowe powiadomienie gdy wystawiono ocenę uczniowi za zadanie.
-  - Treść: `'<p>Dostałeś nową ocenę za zadanie z przedmiotu \'<nazwa_przedmiotu\'!</p>'`
+  - Treść: `'Dostałeś nową ocenę za zadanie z przedmiotu \'<nazwa_przedmiotu\'!'`
 - `tai_zadania` - Trigger dodaje powiadomienie wszystkim uczestnikom przedmiotu, gdy zostanie dodane nowe zadanie, które jest aktywne danego dnia.
-  - Treść: `'<p>Dostępne nowe zadanie dla przedmiotu \'<nazwa_przedmiotu\'!</p><p>Zadanie będzie dostępne do dnia: <data_konca>.<p>'`
+  - Treść: `'Dostępne nowe zadanie dla przedmiotu \'<nazwa_przedmiotu\'! Zadanie będzie dostępne do dnia: <data_konca>.'`
 - `tbu_uczen_przedmiot` - Trigger dodaje nowe powiadomienie, gdy wystawiono ocenę uczniowi z przedmiotu.
-  - Treść: `'<p>Dostałeś nową ocenę z przedmiotu \'<nazwa_przedmiotu\'!</p>'`
+  - Treść: `'Dostałeś nową ocenę z przedmiotu \'<nazwa_przedmiotu\'!'`
 
 Dla zadań utworzony jest także *event* (`e_zadania_aktywne`), który wysyła powiadomienia użytkownikom, zarejestrowanym do danego przedmiotu, jeżeli danego dnia zadanie się otwiera.
 
@@ -1186,21 +1195,18 @@ Authorization: Bearer <token>
 - **Metoda**: `PATCH`
 - **Parametry**:
   - `id` (ścieżka): Identyfikator powiadomienia.
+  - `flaga` (parametr zapytania, obowiązkowy): nazwa flagi według: [Flagi](#flagi) (obsługiwane jest uppercase i lowercase),
   - Ciało żądania zawiera dane do aktualizacji w formacie JSON
 - **Odpowiedź**:
   - `200 OK` - sukces, flaga powiadomienia została zaktualizowana, zwraca link do zaktualizowanego powiadomienia
   - `404 Not Found` - powiadomienie o podanym identyfikatorze nie istnieje
 
 ```http
-PATCH /api/powiadomienie/1
+PATCH /api/powiadomienie/1?flaga=nowa
 Content-Type: application/json
 Authorization: Bearer <token>
 ```
-```json
-{
-    "flaga":"PRZECZYTANA"
-}
-```
+
 
 ## Forum-wpisy
 
@@ -1373,7 +1379,7 @@ Authorization: Bearer <token>
   
   #### 4. Usuwanie odpowiedzi z forum
 
-- **Ścieżka:** `/api/forum/odpowiedzi/{id}
+- **Ścieżka:** `/api/forum/odpowiedzi/{id}`
 - **Metoda:** `DELETE`
 - **Parametry:**
    - `id` (ścieżka): identyfikator odpowiedzi
@@ -1432,4 +1438,139 @@ GET /api/raport/generuj?idPrzedmiotu=1
 Authorization: Bearer <token>
 ```
 
+## Zaliczenie (wykaz ocen ucznia)
+
+Klasa `ZaliczenieCOntroller` służy do pobierania aktualnych ocen (cząstkowych i końcowych) z poszczególnych przedmiotów dla konkretnego ucznia.
+
+#### 1. Pobranie wykazu ocen ucznia
+
+- **Ścieżka:** `/api/uczen/oceny/{id}`
+- **Metoda:** `GET`
+- **Parametry:**
+    - `id` (ścieżka): identyfikator ucznia, dla którego chcemy pobrać wykaz ocen
+- **Odpowiedź:**
+    - `200 OK` - sukces, zwraca listę ocen końcowych i cząstkowych
+    - `400 Bad Request` - błędny format zapytania
+    - `500 Internal Server Error` - inny błąd
+
+```http
+GET /api/uczen/oceny/{idUcznia}
+Authorization: Bearer <token>
+```
+
+## Wiadomości Prywatne
+
+Klasa `WiadomosciPrywatneController` odpowiada za obsługę endpointów związanych z wiadomościami prywatnymi w ramach dokumentacji przedstawiono wszystkie dostępne end-pointy.
+
+#### 1. Pobieranie listy wszystkich wiadomości
+
+- **Ścieżka:** `/api/wiadomosci/prywatne/all`
+- **Metoda:** `GET`
+
+- **Odpowiedź:**
+    - `200 OK` - sukces, zwraca listę wszystkich wiadomości prywatnych
+    - `400 Bad Request` - błędny format zapytania
+    - `500 Internal Server Error` - inny błąd
+
+```http
+GET /api/wiadomosci/prywatne/all
+Authorization: Bearer <token>
+```
+
+#### 2. Pobieranie pojedynczej wiadomości
+
+- **Ścieżka:** `/api/wiadomosci/prywatne/{id}`
+- **Metoda:** `GET`
+- **Parametry:**
+    - `id` (ścieżka): identyfikator wiadomości
+- **Odpowiedź:**
+    - `200 OK` - sukces, zwraca dane wiadomości w formacie JSON
+    - `404 Not Found` - wiadomość o podanym identyfikatorze nie istnieje
+    - `500 Internal Server Error` - inny błąd
+
+```http
+GET /api/wiadomosci/prywatne/1
+Authorization: Bearer <token>
+```
+
+#### 3. Pobieranie konwersacji
+
+- **Ścieżka:** `/api/wiadomosci/prywatne/between-users?idUser1=<id_uzytkownik1>?idUser2=<id_uzytkownik2>'
+- **Metoda:** `GET`
+- **Parametry:**
+    - `id_uzytkownik1`: id jednego z użytykowników
+    - `id_uzytkownik2`: id drugiego z użytykowników
+- **Odpowiedź:**
+    - `200 OK` - sukces, zwraca liste wiadomości w formacie JSON pomiędzy dwoma użytkownikami posortowaną według daty wysłania
+    - `404 Not Found` - wiadomość o podanym identyfikatorze nie istnieje
+    - `500 Internal Server Error` - inny błąd
+    - 
+```http
+GET /api/wiadomosci/prywatne/between-users?idNadawcy=5&idOdbiorcy=4
+Authorization: Bearer <token>
+```
+
+#### 4. Dodawanie wiadomości
+
+- **Ścieżka:** `/api/wiadomosci/prywatne`
+- **Metoda:** `POST`
+- **Parametry:**
+    - Ciało żądania zawiera dane nowej wiadomości w formacie JSON
+- **Odpowiedź:**
+  -  `201 Created` - sukces, wiadomość została dodana, zwraca link do nowo utworzonej wiadomości
+  -  `400 Bad Request` - błąd w danych wejściowych
+  
+```http
+POST /api/wiadomosci/prywatne
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+```json
+{
+    "idNadawcy": 4,
+    "idOdbiorcy": 5,
+    "tresc": "<tresc wiadomości>"
+}
+```
+
+  #### 5. Edytowanie wiadomości
+
+- **Ścieżka:** `/api/wiadomosci/prywatne/{id}`
+- **Metoda:** `PATCH`
+- **Parametry:**
+  - `id` (ścieżka): identyfikator wiadomosci
+  - Ciało żądania zawiera dane do aktualizacji w formacie JSON
+-**Odpowiedź:**
+  - `200 OK` - sukces, odpowiedź została zaktualizowana, zwraca link do zaktualizowanej odpowiedzi
+  - `400 Bad Request` - błąd w danych wejściowych
+  - `404 Not Found` - wiadomość o podanym identyfikatorze nie istnieje
+
+```http
+PATCH /api/wiadomosci/prywatne/1
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+```json
+{
+    "tresc": "<treść_wiadomości>",
+    "idFlagi": 2
+}
+```
+
+  #### 6. Usuwanie wiadomości
+
+- **Ścieżka:** `/api/wiadomosci/prywatne/{id}`
+- **Metoda:** `DELETE`
+- **Parametry:**
+   - `id` (ścieżka): identyfikator wiadomości
+- **Odpowiedź:**
+  - `204 No Content`- sukces, wiadomość została usunięta
+  - `404 Not Found` - wiadomość o podanym identyfikatorze nie istnieje
+
+```http
+DELETE /api/wiadmomosci/prywatne/1
+Authorization: Bearer <token>
+```
 
