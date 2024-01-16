@@ -10,6 +10,7 @@ import pl.samba.lms.przedmioty.zadania.zadania.rodzaje.ZadanieInterface;
 import pl.samba.lms.utils.constants.TypyZadan;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -23,6 +24,7 @@ public class Zadanie {
     private LocalDateTime dataWstawienia;
     private LocalDateTime dataPoczatku;
     private LocalDateTime dataKonca;
+    private List<Integer> idUczniowKtorzyOdpowiedzieli;
 
     private List<ZadanieInterface> tresc;
 
@@ -35,6 +37,7 @@ public class Zadanie {
             @JsonProperty("dataWstawienia") LocalDateTime dataWstawienia,
             @JsonProperty("dataPoczatku") LocalDateTime dataPoczatku,
             @JsonProperty("dataKonca") LocalDateTime dataKonca,
+            @JsonProperty("idUczniowKtorzyOdpowiedzieli") List<Integer> idUczniowKtorzyOdpowiedzieli,
             @JsonProperty("tresc") String jsonTresc
     ){
         this.idZadania = idZadania;
@@ -44,6 +47,7 @@ public class Zadanie {
         this.dataWstawienia = dataWstawienia;
         this.dataPoczatku = dataPoczatku;
         this.dataKonca = dataKonca;
+        this.idUczniowKtorzyOdpowiedzieli = (idUczniowKtorzyOdpowiedzieli == null) ? new ArrayList<>() : idUczniowKtorzyOdpowiedzieli;
         if (jsonTresc == null){
             this.tresc = null;
         }

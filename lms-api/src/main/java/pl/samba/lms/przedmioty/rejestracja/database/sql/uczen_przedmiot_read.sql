@@ -65,7 +65,7 @@ BEGIN
 		OFFSET v_offset;
 	ELSE
 		SELECT
-			up.id_oceny,
+			up.id_encji,
 			up.id_przedm,
 			up.id_ucznia,
 			up.ocena,

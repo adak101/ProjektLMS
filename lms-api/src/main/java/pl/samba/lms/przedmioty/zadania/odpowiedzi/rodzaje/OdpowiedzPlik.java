@@ -15,7 +15,7 @@ public class OdpowiedzPlik implements OdpowiedzInterface {
     public String toString() {
         return  "{" +
                 "\"typ\":\""+ RodzajeZadan.PLIK +"\"," +
-                "\"plik\":\""+ Base64.getEncoder().encodeToString(plik) +"\"," +
+                "\"odpowiedz\":\""+ Base64.getEncoder().encodeToString(plik) +"\"," +
                 "\"punkty\":" + punkty +
                 "}";
     }

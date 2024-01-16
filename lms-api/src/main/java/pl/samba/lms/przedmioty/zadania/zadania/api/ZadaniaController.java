@@ -146,12 +146,15 @@ public class ZadaniaController implements ControllerInterface<Zadanie, ZadanieMo
 
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @Override
     public ResponseEntity<Object> post(@RequestBody Zadanie data) {
+        if (data.getIdUczniowKtorzyOdpowiedzieli() == null) {
+            data.setIdUczniowKtorzyOdpowiedzieli(new ArrayList<>());
+        }
+
         Integer id = dataSet.save(data);
         return new ResponseEntity<>(
-                EntityModel.of(WebMvcLinkBuilder.
-                        linkTo(methodOn(ZadaniaController.class).get(id))
+                EntityModel.of(WebMvcLinkBuilder
+                        .linkTo(methodOn(ZadaniaController.class).get(id))
                         .withRel("nowe")
                         .withTitle("zadanie")),
                 HttpStatus.CREATED);
