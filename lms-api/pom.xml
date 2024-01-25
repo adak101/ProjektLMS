@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>pl.samba</groupId>
 	<artifactId>lms-api</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>lms-api</name>
 	<description>System nauki online</description>
 	<properties>

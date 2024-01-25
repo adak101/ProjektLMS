@@ -9,13 +9,15 @@
  |_____/  /_/    \_\ |_|  |_| |____/  /_/    \_\     |______| |_|  |_| |_____/
  ==============================================================================
  :: Spring Boot      v3.2.0 ::                                       :: 2024 ::
- :: api version      v0.2.5 ::
+ :: api version      v1.0.0 ::
 ```
 Dokumentacja do aplikacji rest api projektu LSM.
 
 ## Spis treści
 
-1. [Plik konfiguracyjny](#Plik-konfiguracyjny)
+1. [Baza danych](#baza-danych)
+2. [Instalacja i konfigurowanie systemu](#instalacja-i-konfigurowanie-systemu)
+    - [Plik konfiguracyjny](#Plik-konfiguracyjny)
 2. [Zadeklarowane stałe](#zadeklarowane-stałe)
     - [Statusy](#statusy)
     - [Role](#role)
@@ -101,7 +103,41 @@ Dokumentacja do aplikacji rest api projektu LSM.
     - [Usuwanie wiadomości](#6-usuwanie-wiadomości)
 ---
 
-## Plik konfiguracyjny
+## Baza danych
+
+### Opis bazy danych
+
+Jest to relacyjna baza danych, zaimplementowana w języku MySQL. Została zaprojektowana do obsługi systemu zarządzania nauką online. Składa się z odpowiednich tabel, triggerów i procedur umożliwiających między innymi zarządzanie kursami, materiałami, użytkownikami oraz interakcjami między nimi. 
+
+
+### Schemat bazy danych
+
+<style>
+.schema {
+  width: 90%;
+  height: auto;
+}
+</style>
+<img src="out\schema\lms-db.png" alt="image" class="schema">
+
+### Zarządzenie bazą danych
+
+Dla każdej z tabel, z wyłączeniem tabel zawierających stałe (`flagi`, `role`, `przedmiot_status`, `typy_zadan`), utworzono procedury składowane, które ułatwiają wykonywanie operacji tworzenia, odczytu, aktualizacji oraz usuwania rekordów.
+
+W celu walidacji danych wprowadzanych do bazy danych wykorzystano triggery, a także utworzono odpowiednie klucze unikalne dla kolumn oraz odpowiednie `check constraints`.
+
+*Triggery* oprócz funkcji sprawdzania poprawności wprowadzanych danych, służą także do generowania powiadomień. Więcej o tym w podroździale *[powiadomienia](#powiadomienia)*.
+
+## Instalacja i konfigurowanie systemu
+
+Aplikacja API dla projektu LMS (Learning Management System), zbudowana przy użyciu języka Java w wersji 17 i frameworku Spring Boot w wersji 3.2.0, reprezentuje nowoczesne podejście do tworzenia zaawansowanych aplikacji internetowych. Użycie Java 17 jako platformy programistycznej zapewnia dostęp do najnowszych ulepszeń języka, co przekłada się na lepszą wydajność, zwiększoną bezpieczeństwo oraz ułatwione zarządzanie zasobami. Spring Boot 3.2.0 z kolei oferuje znaczne udogodnienia w tworzeniu aplikacji dzięki automatycznej konfiguracji, łatwej integracji z różnorodnymi bibliotekami oraz wsparciu dla mikroserwisów.
+
+Dla efektywnego uruchomienia i działania aplikacji `lms-api`, konieczne jest zainstalowanie Java Runtime Environment (JRE) zgodnego z wersją 17. JRE jest niezbędne do uruchomienia skompilowanego kodu Java na różnych systemach operacyjnych, zapewniając jednolite środowisko uruchomieniowe.
+
+Dodatkowo, kluczowym elementem konfiguracji aplikacji jest plik `application.properties`. Umożliwia on elastyczne dostosowanie aplikacji do specyficznych wymagań i warunków środowiska produkcyjnego, co gwarantuje odpowiednie dostosowanie aplikacji do potrzeb użytkownika końcowego.
+
+
+### Plik konfiguracyjny
 
 **Nazwa pliku:** `application.properties`
 
@@ -138,8 +174,8 @@ security.auth.secret=~a?%B^"}i[xu}~IhA+BO'nGS8G(o5x
 5. `ZAKONCZONY (END)`- Zakończony.
 
 #### Statusy użytkowników:
-1.`AKTYWNY (1)`- Aktywny.
-2.`NIEAKTYWNY (0)`- Nieaktywny.
+1. `AKTYWNY (1)`- Aktywny.
+2. `NIEAKTYWNY (0)`- Nieaktywny.
 
 ### Role
 1. `ADMIN (1)`
@@ -207,6 +243,14 @@ Content-Type: application/json
 ```
 
 #### 2. Logowanie użytkownika
+
+<style>
+.login {
+  width: 70%;
+  height: auto;
+}
+</style>
+<img src="out\login-jwt\login-jwt.png" alt="image" class="login">
 
 - **Ścieżka:** `/api/v1/auth/login`
 - **Metoda:** `POST`
@@ -458,7 +502,7 @@ Authorization: Bearer <token>
 
 > Kod przedmiotu nadawany jest automatycznie w konwencji:
 > 
-> <3 znaki okresu>/<4 znaki nazwy przedmiotu>/<numer porządkowy>
+> < 3 znaki okresu>/< 4 znaki nazwy przedmiotu>/<numer porządkowy>
 
 
 ```http
@@ -923,6 +967,8 @@ Authorization: Bearer <token>
 
 #### 3. Dodawanie nowej odpowiedzi
 
+<img src="out\chk-zadania\chk-zadania.png" alt="image" class="login">
+
 **Ścieżka**: `/api/przedmiot/zadanie/odpowiedz`
 **Metoda**: `POST`
 **Parametry**:
@@ -1110,8 +1156,8 @@ Authorization: Bearer <token>
 PATCH /api/przedmiot/material/1
 Content-Type: application/json
 Authorization: Bearer <token>
-
-json
+```
+```json
 {
     "temat": "Nowy temat"
 }
@@ -1137,6 +1183,10 @@ Powiadomienia są dodawane automatycznie po stronie bazy danych za pomocą odpow
   - Treść: `'Dostępne nowe zadanie dla przedmiotu \'<nazwa_przedmiotu\'! Zadanie będzie dostępne do dnia: <data_konca>.'`
 - `tbu_uczen_przedmiot` - Trigger dodaje nowe powiadomienie, gdy wystawiono ocenę uczniowi z przedmiotu.
   - Treść: `'Dostałeś nową ocenę z przedmiotu \'<nazwa_przedmiotu\'!'`
+- `tai_forum_wpisy` - Trigger dodaje powiadomienie nauczycielowi o nowym wpisie na forum, o ile nie on jest jego autorem.
+  - Treść: `Dostępny nowy wpis na forum z przedmiotu \'<nazwa_przedmiotu\'!'`
+- `tai_forum_odp` - Trigger dodaje powiadomienie autorowi wpisu na forum, gdy pojawi się nowy komentarz, o ile nie dodał go autor tego wpisu.
+  - Treść:			`'Dostępny nowy komentarz do wpisu \'<temat_wpisu>\' na forum z przedmiotu \'<nazwa_przedmiotu\'!'`
 
 Dla zadań utworzony jest także *event* (`e_zadania_aktywne`), który wysyła powiadomienia użytkownikom, zarejestrowanym do danego przedmiotu, jeżeli danego dnia zadanie się otwiera.
 
