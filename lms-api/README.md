@@ -13,6 +13,10 @@
 ```
 Dokumentacja do aplikacji rest api projektu LSM.
 
+Autorzy dokumentacji:
+- Bartosz Surma
+- Adam Waśko
+
 ## Spis treści
 
 1. [Baza danych](#baza-danych)
