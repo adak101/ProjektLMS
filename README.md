@@ -26,6 +26,7 @@ Opracowywanie systemu LMS dla szkół lub uniwersytetów do zarządzania kursami
 - [II. Plan prac](#ii-plan-prac)
 - [III. Podział obowiązków i wybór technologii](#iii-podział-obowiązków-i-wybór-technologii)
 - [IV. Sprawozdania](#iv-sprawozdania)
+- [V. Dokumentacja](#v-dokumentacja)
 
 ---
 
@@ -132,4 +133,10 @@ Stworzenie systemu LMS zapewni studentom cenne doświadczenie w tworzeniu złoż
 # IV. Sprawozdania
 
 1. [Październik](https://github.com/amrusb/lms-pz/blob/master/sprawozdania/gr-5-sprawozdanie-pa%C5%BAdziernik.md)
-2. [Listopad](sprawozdania/gr-5-sprawozdanie-listopad.md)
+2. [Listopad](https://github.com/amrusb/lms-pz/blob/master/sprawozdania/gr-5-sprawozdanie-listopad.md)
+3. [Grudzien](https://github.com/amrusb/lms-pz/blob/master/sprawozdania/gr-5-sprawozdanie-grudzien.md)
+
+# V. Dokumentacja
+
+1. [Dokumentacja API](https://github.com/amrusb/lms-pz/blob/master/lms-api/README.md)
+  - [Link do pobrania API](https://drive.google.com/file/d/1WNicvGesdgdXdC7AoeUjflqQS7ImIT-y/view?usp=sharing)
