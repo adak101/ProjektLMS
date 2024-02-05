@@ -13,6 +13,7 @@ import pl.samba.lms.forum.wpisy.database.ForumWpisRepository;
 import pl.samba.lms.utils.PathType;
 import pl.samba.lms.utils.api.ControllerInterface;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -73,9 +74,12 @@ class ForumWpisyController implements ControllerInterface<ForumWpis, ForumWpisMo
         } else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    @Override
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> post(@RequestBody ForumWpis data) {
+        // Sprawdź, czy data wpisu jest nullem i ustaw bieżącą datę
+        if (data.getDataWpis() == null) {
+            data.setDataWpis(LocalDateTime.now());
+        }
         Integer id = dataSet.save(data);
         return new ResponseEntity<>(
                 EntityModel.of(WebMvcLinkBuilder.

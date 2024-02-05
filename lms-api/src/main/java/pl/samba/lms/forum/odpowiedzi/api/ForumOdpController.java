@@ -14,6 +14,7 @@ import pl.samba.lms.forum.odpowiedzi.database.ForumOdpRepository;
 import pl.samba.lms.utils.PathType;
 import pl.samba.lms.utils.api.ControllerInterface;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -77,6 +78,11 @@ class ForumOdpController implements ControllerInterface<ForumOdp, ForumOdpModel>
     @Override
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> post(@RequestBody ForumOdp data) {
+        // Sprawdź, czy data odpowiedzi jest null i ustaw bieżącą datę
+        if (data.getDataWpis() == null) {
+            data.setDataWpis(LocalDateTime.now());
+        }
+
         Integer id = dataSet.save(data);
         return new ResponseEntity<>(
                 EntityModel.of(WebMvcLinkBuilder.

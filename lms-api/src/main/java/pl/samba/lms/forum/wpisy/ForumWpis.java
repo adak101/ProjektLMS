@@ -16,7 +16,7 @@ public class ForumWpis {
     private final Integer idUzytk;
     private  String temat;
     private  String tresc;
-    private final LocalDateTime dataWpis;
+    private LocalDateTime dataWpis;
 
 
     @JsonCreator

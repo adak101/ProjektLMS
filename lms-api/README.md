@@ -1323,7 +1323,7 @@ Authorization: Bearer <token>
     "idUzytkownika": 1,
     "temat": "<temat wpisu>",
     "tresc": "<tresc wpisu>",
-    "DataWpis": "2023-12-28T19:11:04"
+    "dataWpis": "2023-12-28T19:11:04"
 }
 ```
   
@@ -1424,10 +1424,10 @@ Authorization: Bearer <token>
 ```json
 {
     "idOdpowiedzi": 1,
-	"idWpisu": 1,
+    "idWpisu": 1,
     "idUzytkownika": 1,
     "tresc": "<tresc odpowiedzi>",
-    "DataWpis": "2023-12-28T19:11:04"
+    "dataWpis": "2023-12-28T19:11:04"
 }
 ```
   
