@@ -1,0 +1,248 @@
+body {
+	background-color: #dddddd;
+    background: linear-gradient(#dddddd, #353535);
+    background-attachment: fixed; 
+	color: #202020;
+	font-size: 15px;
+	font-family: sans-serif;
+    margin: 0px;
+    border-color: white;
+}
+
+a:link {
+    text-decoration: none; 
+}
+
+a:visited {
+    text-decoration: none; 
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:active { 
+    text-decoration: none; 
+}
+
+ul{
+    margin-top: 0px;
+    list-style:none; 
+    padding-left:0; 
+}
+
+.banner {
+    margin: 0px;
+    background-image: linear-gradient(#3c3c91, black);
+    height: 80px;
+    font-size: 40px;
+    color: #ffffff;
+    padding: 50px 0;
+}
+
+.banner-text {
+    color: #ffffff;
+    padding-left: 80px;
+    font-size: 40px;
+}
+
+.user-box {
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    align-self: flex-end; 
+    display:flex;
+    float: right;
+    width: 200px;
+    height: 90px;
+    background-color: white;
+    margin-right: 50px;
+    padding-bottom: 0px;
+}
+
+.user-avatar{
+    align-self:auto;
+    width: 80px; 
+    height: 60px; 
+    margin: auto;  
+}
+
+.tight{
+    margin-bottom: 1px;
+    line-height: 0.5;
+}
+
+.user-data{
+    line-height: 0.5;
+    font-weight: bold;
+    color: black;
+    border-color: white;
+    font-size: 15px;
+    align-self:auto;
+    width: 160px; 
+    height: 60px; 
+    margin: auto;  
+}
+
+.thread-list{
+    border-radius: 10px;
+    padding: 50px;
+    margin: auto;
+    background-color: white;
+    width: 1000px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.thread-view{
+    border-radius: 10px;
+    padding: 50px;
+    margin: auto;
+    margin-bottom: 0px;
+    background-color: white;
+    width: 1000px;
+    height: auto;
+}
+
+.thread-header{
+    background-color: #dddddd;
+    margin: auto;
+    margin-bottom: 10px;
+    width: 900px;
+    height: auto;
+    display: flex;
+    flex-direction:row;
+    padding: 10px;
+}
+
+.thread-comment{
+    background-color: #dddddd;
+    width: 900px;
+    height: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    list-style: none; 
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+
+.reply{
+    background-color: #ffffff;
+    margin-bottom: 10px;
+    width: auto;
+    height: auto;
+    /* display: flex;
+    flex-direction: column; */
+    padding: 10px;
+}
+
+.thread-text{
+    margin-left: 25px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: auto;
+    height: auto;
+}
+
+.thread-comment-text{
+    padding-left: 10px;
+}
+
+img {
+    margin-top: auto;
+    margin-bottom: auto;
+    max-width:90%;
+    max-height:90%;    
+} 
+
+.forum-icon {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 15px;
+    max-width:5%;
+    max-height:5%;    
+} 
+
+.user-icon {
+    margin-top: auto;
+    margin-bottom: auto;
+    max-width:9%;
+    max-height:9%;    
+    border: 1px solid;
+} 
+
+.thread-text {
+    font-size: larger;
+    margin-left: 25px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: auto;
+    height: auto;
+}
+
+.reply-flex {
+    display: flex;
+    flex-direction: row;
+}
+
+.reply-column {
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.usermame{
+    font-weight: bolder;
+}
+
+.thread-form {
+    border-radius: 10px;
+    padding: 50px;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 0px;
+    background-color: white;
+    width: 1000px;
+    height: auto;   
+}
+
+.login-form {
+    border-radius: 10px;
+    padding: 50px;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 0px;
+    background-color: white;
+    width: 600px;
+    height: auto;   
+}
+
+.login-form-flex {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form-element {
+    margin: 20px;
+}
+
+.user-bar {
+    background-color: white;
+    width: auto;
+    margin-top: 5px;
+    margin-bottom: 30px;
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+}
+
+.user-bar-element {
+    margin-left: 20px;
+}
+
+.logout-button {
+    margin: 0px;
+}
