@@ -1,17 +1,5 @@
 import { useEffect, useState, useReducer } from "react";
 
-const token =
-  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzLsWbd2llcmN6IiwiaW1pZSI6IlN6eW1vbiIsIm5hendpc2tvIjoixZp3aWVyY3oiLCJlbWFpbCI6InN6eW1vbi5zd2llcmN6QGV4YW1wbGUuY29tIiwiZXhwIjoxOTE5Nzg2NzM0fQ.RIzCpGsmXBmK5E7RrHfc9_EUraG67RtDVvONW7ToH-k";
-
-const headers = {
-  Authorization: `Bearer ${token}`,
-};
-
-const fetchData = {
-  method: "GET",
-  headers: headers,
-};
-
 function apiReducer(state, action) {
   switch (action.type) {
     case "fetching":
@@ -36,6 +24,16 @@ function apiReducer(state, action) {
 }
 
 async function doFetch(path) {
+  const token = JSON.parse(localStorage.getItem("token")); //Wazne - musisz poprosic bartka o wygenerowanie tokenu bo ja korzystam z tokenu uzytkownika aktualnie zalogowanego, i wtedy zamiast tej linijcki JSON.parse... wrzucic po prostu token, czyli cos takiego const token = 'abcd';
+
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  const fetchData = {
+    method: "GET",
+    headers: headers,
+  };
   const res = await fetch(path, fetchData);
   if (res.ok) {
     return res.json();

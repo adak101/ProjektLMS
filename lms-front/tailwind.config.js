@@ -19,6 +19,7 @@ export default {
       darkBlueDiary: "#190482",
       customColor: "#553452",
       lightBgSlate: "#f8fafc",
+      black: "#000",
     },
     fontFamily: {
       poppins: ["Poppins", "sans-serif"],

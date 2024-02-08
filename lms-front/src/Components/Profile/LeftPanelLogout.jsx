@@ -1,7 +1,8 @@
+import handleLogOut from "../Helpers/handleLogOut";
 function LeftPanelLogout() {
   return (
     <div className="flex items-center pt-5 gap-x-2 border-b border-gray pl-5 pb-3 border-opacity-15 cursor-pointer">
-      <span>
+      <span onClick={handleLogOut}>
         <svg
           width="30px"
           height="30px"
@@ -18,7 +19,9 @@ function LeftPanelLogout() {
           />
         </svg>
       </span>
-      <p className="opacity-55">Log out</p>
+      <p className="opacity-55" onClick={handleLogOut}>
+        Wyloguj
+      </p>
     </div>
   );
 }
