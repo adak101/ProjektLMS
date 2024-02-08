@@ -50,7 +50,7 @@ function LessonsPlan() {
   return (
     <SchedulePage>
       <UserInfo />
-      <InfoTab title="Schedule" />
+      <InfoTab title="Plan Zajęć" />
       <ScheduleContainer>
         {timeData.map((item, index) => (
           <DayOfPlan key={index} name={item.name} subjects={item.subject} />

@@ -7,7 +7,7 @@ function Home() {
   return (
     <HomePage>
       <UserInfo />
-      <InfoTab title="Dashboard" />
+      <InfoTab title="Panel Glówny" />
       <MainContent />
     </HomePage>
   );

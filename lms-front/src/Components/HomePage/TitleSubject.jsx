@@ -5,7 +5,7 @@ function TitleSubject({ setDayWeek, dayWeek }) {
 
   return (
     <div className="flex justify-between ]">
-      <h4 className="text-2xl">TimeTable</h4>
+      <h4 className="text-2xl">Plan Zajęć</h4>
       <div className="flex gap-x-5 cursor-pointer">
         <p
           className={`base-timeTable ${

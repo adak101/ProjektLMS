@@ -14,7 +14,7 @@ function Test() {
   return (
     <TestContainer>
       <UserInfo />
-      <InfoTab title="Tests" />
+      <InfoTab title="Testy" />
       <TitleContainer />
       <TestContainerInfo>
         <TestItem />

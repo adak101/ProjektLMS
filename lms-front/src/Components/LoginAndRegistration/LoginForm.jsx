@@ -56,8 +56,8 @@ function LoginForm() {
 
   return (
     <div className="flex flex-col">
-      <h1 className="text-3xl ml-10 mt-10">Login to your Account</h1>
-      <p className="text-gray opacity-55 ml-10 mt-1">Start right now with us</p>
+      <h1 className="text-3xl ml-10 mt-10">Zaloguj się do konta</h1>
+      <p className="text-gray opacity-55 ml-10 mt-1">Zacznij z nami...</p>
       <form className="flex flex-col gap-y-10 px-10 mt-10">
         <label className="flex flex-col text-blue ">
           Login:
@@ -71,7 +71,7 @@ function LoginForm() {
           />
         </label>
         <label className="flex flex-col  text-blue ">
-          Password:
+          Hasło:
           <input
             type="password"
             className="py-2 px-3 mt-1 outline-none text-lg bg-white border-[1px] border-gray border-opacity-20 rounded-lg text-black "
@@ -84,10 +84,10 @@ function LoginForm() {
         <div className="flex justify-between">
           <label className="flex gap-x-3 text-gray opacity-80">
             <input type="checkbox" />
-            Remember me
+            Zapamiętaj mnie
           </label>
           <p className="text-blue cursor-pointer text-[13px]">
-            Forgot password?
+            Zapomniałeś hasła?
           </p>
         </div>
         <div>
@@ -99,7 +99,7 @@ function LoginForm() {
           </button>
           <div className="flex mt-10 items-center justify-between gap-x-3">
             <p className="text-gray opacity-30 cursor-pointer">
-              Dont have an account?
+              Nie masz konta?
             </p>
             <button className="bg-white border border-gray border-opacity-30 rounded-lg py-3 mt-1 px-10">
               Zarejestruj

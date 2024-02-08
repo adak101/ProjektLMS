@@ -23,7 +23,7 @@ function LeftPanelInfoSettings() {
           />
         </svg>
       </span>
-      <p className="opacity-55">Settings</p>
+      <p className="opacity-55">Ustawienia</p>
     </div>
   );
 }

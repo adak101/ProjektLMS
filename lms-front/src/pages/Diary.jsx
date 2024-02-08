@@ -30,7 +30,7 @@ function Diary() {
   return (
     <DiaryPage>
       <UserInfo />
-      <InfoTab title="Diary" />
+      <InfoTab title="Dziennik" />
       <OptionContainer data={dataArrayOfPeriods} setPeriod={setPeriod} />
       <DiaryContainer>
         <SubjectDiary>

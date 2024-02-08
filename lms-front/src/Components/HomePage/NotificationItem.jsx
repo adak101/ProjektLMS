@@ -17,7 +17,7 @@ function NotificationItem({ content, id }) {
       <div className="flex flex-col gap-y-1 border-b-[1px] border-green">
         <p className=" pb-2 text-gray opacity-70">{content}</p>
         <button className="text-red pb-2" onClick={handleRemoveItem}>
-          Delete
+          Usuń
         </button>
       </div>
     </>

@@ -8,7 +8,7 @@ function Profile() {
   return (
     <ProfilePage>
       <UserInfo />
-      <InfoTab title="Profile" />
+      <InfoTab title="Profil" />
       <ProfileContainer>
         <LeftPanel />
         <RightPanel />

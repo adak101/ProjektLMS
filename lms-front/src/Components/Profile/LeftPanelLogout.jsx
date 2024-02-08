@@ -20,7 +20,7 @@ function LeftPanelLogout() {
         </svg>
       </span>
       <p className="opacity-55" onClick={handleLogOut}>
-        Log out
+        Wyloguj
       </p>
     </div>
   );
