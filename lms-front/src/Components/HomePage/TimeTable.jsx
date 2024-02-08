@@ -8,15 +8,44 @@ import { useState } from "react";
 const timeData = [
   {
     name: "Poniedzialek",
-    subject: ["Geografia", "Fizyka", "Matematyka", "Angielski"],
+    subject: ["Geografia", "Fizyka", "Matematyka", "Angielski", "Polski", "WF"],
   },
   {
     name: "Wtorek",
-    subject: ["Polski", "Chemia", "Angielski", "Rosyjski"],
+    subject: ["Polski", "Chemia", "Angielski", "Rosyjski", "Biologia", "WF"],
   },
   {
     name: "Sroda",
-    subject: ["Matematyka", "Historia", "Polski", "Biologia", "Biologia"],
+    subject: [
+      "Matematyka",
+      "Historia",
+      "Polski",
+      "Biologia",
+      "Biologia",
+      "Matematyka",
+    ],
+  },
+  {
+    name: "Czwartek",
+    subject: [
+      "Matematyka",
+      "Historia",
+      "Polski",
+      "Biologia",
+      "Biologia",
+      "Niemiecki",
+    ],
+  },
+  {
+    name: "Piatek",
+    subject: [
+      "Matematyka",
+      "Matematyka",
+      "Polski",
+      "Biologia",
+      "Biologia",
+      "Niemiecki",
+    ],
   },
 ];
 

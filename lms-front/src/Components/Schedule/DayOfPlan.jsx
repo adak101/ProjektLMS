@@ -1,8 +1,8 @@
 import InfoDay from "./InfoDay";
-function DayOfPlan() {
+function DayOfPlan({ name, subjects }) {
   return (
     <div className="w-[100%]">
-      <InfoDay />
+      <InfoDay name={name} subjects={subjects} />
     </div>
   );
 }
